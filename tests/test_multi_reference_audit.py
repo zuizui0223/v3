@@ -94,3 +94,12 @@ def test_reference_overlay_jsonl_requires_scalar_values(tmp_path: Path) -> None:
     bad.write_text(json.dumps({"opportunity_id": "a", "value": [1, 2]}) + "\n")
     with pytest.raises(ValueError, match="scalar"):
         reference_overlay_from_jsonl(bad)
+
+
+def test_reference_overlay_rejects_non_finite_float(tmp_path: Path) -> None:
+    path = tmp_path / "nan.jsonl"
+    # Python's json parser accepts NaN by default even though it is not standard JSON;
+    # the overlay layer rejects it because NaN is not a stable partition key.
+    path.write_text('{"opportunity_id":"a","value":NaN}\n')
+    with pytest.raises(ValueError, match="finite"):
+        reference_overlay_from_jsonl(path)
