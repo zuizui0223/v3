@@ -5,6 +5,7 @@ from pathlib import Path
 
 import pytest
 
+from v3.audit_bundle import records_from_jsonl, summarize_available_audits
 from v3.observation_audit import (
     OpportunityRecord,
     audit_resolution_summary,
@@ -135,3 +136,58 @@ def test_schema_requires_opportunity_identity_and_selection() -> None:
     schema = json.loads(schema_path.read_text())
     assert set(schema["required"]) == {"opportunity_id", "selected"}
     assert schema["additionalProperties"] is False
+
+
+def test_jsonl_bundle_runs_every_available_audit(tmp_path: Path) -> None:
+    path = tmp_path / "opportunities.jsonl"
+    rows = []
+    for record in _records():
+        rows.append(
+            {
+                "opportunity_id": record.opportunity_id,
+                "selected": record.selected,
+                "estimand_value": record.estimand_value,
+                "truth_state": record.truth_state,
+                "primary_key": record.primary_key,
+                "side_key": record.side_key,
+                "audit_key": record.audit_key,
+                "rich_evidence": record.rich_evidence,
+                "coarse_label": record.coarse_label,
+            }
+        )
+    path.write_text("\n".join(json.dumps(row) for row in rows) + "\n")
+
+    records = records_from_jsonl(path)
+    summary = summarize_available_audits(records)
+    assert summary["schema"] == "observation-audit-summary-v1"
+    assert summary["available"] == {
+        "refinement": True,
+        "semantic_coarsening": True,
+        "omitted_support_audit": True,
+    }
+    assert summary["truth_coverage"] == {
+        "n_total": 4,
+        "n_selected_truth": 2,
+        "n_omitted_truth": 2,
+    }
+    assert summary["selection"]["selected_minus_full"] == pytest.approx(0.5)
+    assert summary["refinement"]["strict_fraction"] == pytest.approx(0.5)
+    assert summary["semantic_coarsening"]["strict_fraction"] == pytest.approx(1.0)
+    assert summary["omitted_support_audit"]["homogeneous_group_fraction"] == pytest.approx(1.0)
+
+
+def test_jsonl_bundle_does_not_confuse_missing_optional_surface_with_zero_effect(tmp_path: Path) -> None:
+    path = tmp_path / "minimal.jsonl"
+    path.write_text(
+        json.dumps({"opportunity_id": "a", "selected": True}) + "\n"
+        + json.dumps({"opportunity_id": "b", "selected": False}) + "\n"
+    )
+    summary = summarize_available_audits(records_from_jsonl(path))
+    assert summary["available"] == {
+        "refinement": False,
+        "semantic_coarsening": False,
+        "omitted_support_audit": False,
+    }
+    assert "refinement" not in summary
+    assert "semantic_coarsening" not in summary
+    assert "omitted_support_audit" not in summary
