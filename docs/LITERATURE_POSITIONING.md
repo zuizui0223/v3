@@ -12,10 +12,11 @@ There are strong established neighbours in:
 - deterministic data processing / sufficient representations;
 - coarsened and missing data;
 - partial identification;
+- unified measurement-error / missing-data frameworks;
 - selective labels and decision-dependent missingness;
 - imperfect detection and observation-process decomposition in ecology.
 
-The candidate contribution is instead the **observation-system synthesis**: refinement, support selection, and semantic coarsening are treated as different information operations whose composition and order determine what can still be identified, audited, or safely concluded.
+The candidate contribution is instead the **observation-system synthesis**: refinement, support selection, and semantic coarsening are treated as different information operations whose composition, timing and order determine what can still be identified, audited, or safely concluded.
 
 ## 2. Blackwell informativeness — direct foundation for refinement and decision risk
 
@@ -72,7 +73,25 @@ Implication for this project:
 - set-valued V3/TNOA representations should be positioned as an application of partial-identification logic to observation-system states;
 - the novelty claim is not “we invented unresolved sets,” but that **measurement-side compatible sets, omitted-support compatible completions, and semantic unresolved states can be placed in one retention architecture**.
 
-## 6. Selective labels — a close analogue for decision-dependent truth availability
+## 6. Existing unified measurement-error and missing-data frameworks — a major novelty constraint
+
+There are already explicit frameworks that unify measurement error and missing data, so the present work must not claim novelty simply for placing those two problems under one umbrella.
+
+Relevant references:
+
+- Blackwell, M., Honaker, J. & King, G. (2017). *A Unified Approach to Measurement Error and Missing Data: Overview and Applications*. Sociological Methods & Research 46(3):303–341. DOI: 10.1177/0049124115585360.
+- Blackwell, M., Honaker, J. & King, G. (2017). *A Unified Approach to Measurement Error and Missing Data: Details and Extensions*. Sociological Methods & Research 46(3). DOI: 10.1177/0049124115589052.
+- Edwards, J.K., Cole, S.R. & Westreich, D. (2015). *All your data are always missing: incorporating bias due to measurement error into the potential outcomes framework*. International Journal of Epidemiology 44(4):1452–1459. DOI: 10.1093/ije/dyu272.
+
+These works show that measurement error can be handled jointly with missingness / other bias sources within established inferential frameworks.
+
+Implication for this project:
+
+- **“measurement error + missingness are one problem” is not a defensible novelty claim**;
+- our remaining distinction is that we focus on **what an observation system must acquire and retain before those inferential problems exist as a dataset**, and on how later support selection or semantic collapse can erase previously available audit information;
+- the order-sensitive acquisition claim (T18) and the separation between reversible representation, support deletion and semantic coarsening therefore become more central to the contribution.
+
+## 7. Selective labels — a close analogue for decision-dependent truth availability
 
 The selective-labels literature shows that labels/outcomes can be observed only for cases admitted by a previous decision. In such systems, evaluation on the observed labels can be badly misleading because the observed outcome sample is itself decision-selected.
 
@@ -83,37 +102,48 @@ Reference:
 Implication for this project:
 
 - REC's warning that entered records cannot identify the biological/process composition of non-entered opportunities has a clear conceptual neighbour;
-- T18 order sensitivity strengthens the observation-design consequence: a reference/audit stream acquired only after the same selection cannot resolve the selected-away support.
+- T18 order sensitivity sharpens the observation-design consequence: a reference/audit stream acquired only after the same selection cannot resolve the selected-away support.
 
-## 7. Ecology already recognizes multi-stage detection loss
+## 8. Measurement science — neighbouring emphasis on observation equations and uncertainty
+
+Measurement science already treats observations as outputs of explicit measurement/observation models and emphasizes propagation and reporting of measurement uncertainty.
+
+A relevant entry point is NIST work on measurement uncertainty and observation equations (e.g. Possolo and collaborators).
+
+Implication:
+
+The present framework should not claim novelty for representing measurement uncertainty itself. Its proposed extension is to connect measurement-side uncertainty to **later support retention and semantic retention decisions** and to specify when audit channels must exist relative to those losses.
+
+## 9. Ecology already recognizes multi-stage detection loss
 
 Ecological observation literature already separates detection into component processes and documents that missed events alter downstream inference.
 
 Examples:
 
 - Findlay, M.A., Briers, R.A. & White, P.J.C. (2020). *Component processes of detection probability in camera-trap studies: understanding the occurrence of false-negatives*. Mammal Research 65:167–180. DOI: 10.1007/s13364-020-00478-y. This work separates pass, trigger, registration and image-quality processes and uses independent CCTV reference observations.
-- Dokter et al. (2017). *Analyzing time-ordered event data with missed observations*. Ecology and Evolution 7. DOI: 10.1002/ece3.3281. This work models how missed events distort event-time data.
+- Dokter et al. (2017). *Analyzing time-ordered event data with missed observations*. Ecology and Evolution. DOI: 10.1002/ece3.3281. This work models how missed events distort event-time data.
 - Santoro et al. (2025). *Essential tools but overlooked bias: Artificial intelligence and citizen science classification affect camera trap data*. Methods in Ecology and Evolution. DOI: 10.1111/2041-210X.70132. This shows that classification error can propagate into downstream ecological estimates.
 
 Implication:
 
 The visitation application should not claim novelty for the generic fact that cameras miss events or classifiers bias ecological estimates. Its value is to instantiate the more general information-order requirements in a prospective observation system with explicit pre-selection audit channels, adaptive allocation, reference refinement and unresolved semantic states.
 
-## 8. Where the candidate novelty now sits
+## 10. Where the candidate novelty now sits
 
-The strongest defensible contribution is **not any one theorem**. It is the combination of the following design claims in one compatible-world framework:
+The strongest defensible contribution is **not any one theorem and not the mere unification of measurement error with missing data**. It is the combination of the following design claims in one compatible-world framework:
 
 1. **three operation types are distinguished** — refinement, support selection and semantic coarsening;
 2. **the operations need not form one fixed pipeline** and may recur in different orders;
 3. **order matters** — refinement and selection are not generally commutative when side information is unavailable on omitted support;
 4. **audit information has a timing requirement** — information intended to diagnose a loss must be retained before or independently of that loss;
 5. **representation changes are classified by injectivity/reversibility**, separating harmless computation from irreversible retention loss;
-6. **partial identification is propagated across layers** rather than resolved by forced point corrections or binary labels;
-7. **synthetic and physical failures are used diagnostically** to determine which representation or retention assumption is invalid, rather than merely retuning a final classifier.
+6. **partial identification is propagated across measurement, support and semantics** rather than resolved by forced point corrections or binary labels;
+7. **synthetic and physical failures are used diagnostically** to determine which representation or retention assumption is invalid, rather than merely retuning a final classifier;
+8. the framework is intended to operate **at observation-system design time**, before a final analysis dataset has silently inherited the system's losses.
 
-This is an observation-system methodology claim, not a claim to have replaced Blackwell, missing-data theory, partial identification or ecological detection theory.
+This is an observation-system methodology claim, not a claim to have replaced Blackwell, missing-data theory, partial identification, measurement science or ecological detection theory.
 
-## 9. PolliPi simulation in this positioning
+## 11. PolliPi simulation in this positioning
 
 PolliPi's synthetic programme is useful precisely because it supplied counterexamples that forced the general theory away from a detector-specific architecture:
 
@@ -125,7 +155,7 @@ PolliPi's synthetic programme is useful precisely because it supplied counterexa
 
 These results are therefore best described as **mechanism-discovery and falsification evidence** for the observation-information framework. They remain synthetic-domain results, not field efficacy evidence.
 
-## 10. Current claim language
+## 12. Current claim language
 
 Avoid:
 
@@ -133,10 +163,14 @@ Avoid:
 
 Avoid:
 
+> We unify measurement error and missing data for the first time.
+
+Avoid:
+
 > We prove for the first time that post-processing cannot recover lost information.
 
 Prefer:
 
-> We synthesize established information-order, coarsening and partial-identification principles into an observation-system framework that distinguishes information refinement, support selection and semantic coarsening, derives order-sensitive retention requirements, and connects those requirements to executable sensing-system designs.
+> We synthesize established information-order, coarsening, measurement-error and partial-identification principles into an observation-system framework that distinguishes information refinement, support selection and semantic coarsening, derives order-sensitive acquisition and retention requirements, and connects those requirements to executable sensing-system designs.
 
-A stronger novelty claim should be made only after a broader literature review fails to identify a prior framework making this same cross-layer design synthesis.
+A stronger novelty claim should be made only after a broader systematic search fails to identify a prior framework making this same cross-layer **acquisition-time + retention-time + semantic-time** synthesis.
