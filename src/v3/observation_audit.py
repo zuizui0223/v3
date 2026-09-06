@@ -46,12 +46,16 @@ class SelectionAuditSummary:
     n_omitted: int
     retention_rate: float
     n_truth: int
-    full_mean: float | None
-    selected_mean: float | None
-    omitted_mean: float | None
-    selected_minus_full: float | None
-    covariance_form: float | None
-    omitted_contrast_form: float | None
+    n_selected_truth: int
+    n_omitted_truth: int
+    truth_coverage_fraction: float
+    truth_coverage_complete: bool
+    truth_sample_mean: float | None
+    selected_truth_sample_mean: float | None
+    omitted_truth_sample_mean: float | None
+    truth_sample_selected_minus_mean: float | None
+    covariance_form_truth_sample: float | None
+    omitted_contrast_form_truth_sample: float | None
 
 
 @dataclass(frozen=True)
@@ -79,12 +83,18 @@ def validate_opportunities(records: Sequence[OpportunityRecord]) -> None:
 
 
 def selection_audit_summary(records: Sequence[OpportunityRecord]) -> SelectionAuditSummary:
-    """Summarize selection distortion using opportunities with known estimand truth.
+    """Describe selection and numerical truth available in the audit bundle.
 
-    Selection counts are always computed on the complete opportunity universe.
-    Mean/shift quantities use only opportunities with non-missing ``estimand_value``;
-    they are returned as ``None`` when the corresponding comparison is not
-    identified by the supplied truth sample.
+    Selection counts use the complete opportunity universe. Numerical means use
+    only opportunities with non-missing ``estimand_value`` and are therefore named
+    as *truth-sample* quantities. They equal full-universe quantities only when
+    truth coverage is complete (or under a separately justified sampling/weighting
+    design not implemented by this v1 descriptive function).
+
+    The selection-shift/covariance identity is reported only when truth is present
+    in both selected and omitted support, or when complete truth confirms there is
+    no omitted support. This prevents selected-only truth from masquerading as a
+    zero selection effect.
     """
 
     validate_opportunities(records)
@@ -95,9 +105,14 @@ def selection_audit_summary(records: Sequence[OpportunityRecord]) -> SelectionAu
 
     truth_idx = [i for i, record in enumerate(records) if record.estimand_value is not None]
     n_truth = len(truth_idx)
-    full_mean: float | None = None
-    selected_mean: float | None = None
-    omitted_mean: float | None = None
+    n_selected_truth = sum(records[i].selected for i in truth_idx)
+    n_omitted_truth = n_truth - n_selected_truth
+    truth_coverage_fraction = n_truth / n_total
+    truth_coverage_complete = n_truth == n_total
+
+    truth_sample_mean: float | None = None
+    selected_truth_sample_mean: float | None = None
+    omitted_truth_sample_mean: float | None = None
     shift: float | None = None
     covariance_form: float | None = None
     shadow_form: float | None = None
@@ -105,16 +120,21 @@ def selection_audit_summary(records: Sequence[OpportunityRecord]) -> SelectionAu
     if truth_idx:
         values = np.asarray([float(records[i].estimand_value) for i in truth_idx], dtype=float)
         k = np.asarray([records[i].selected for i in truth_idx], dtype=bool)
-        full_mean = float(np.mean(values))
+        truth_sample_mean = float(np.mean(values))
         if np.any(k):
-            selected_mean = float(np.mean(values[k]))
-            shift = selected_mean - full_mean
+            selected_truth_sample_mean = float(np.mean(values[k]))
+        if np.any(~k):
+            omitted_truth_sample_mean = float(np.mean(values[~k]))
+
+        if np.any(k) and np.any(~k):
+            shift = selected_truth_sample_mean - truth_sample_mean
             p = float(np.mean(k.astype(float)))
             covariance = float(np.mean(k.astype(float) * values) - p * np.mean(values))
             covariance_form = covariance / p
-            if np.any(~k):
-                omitted_mean = float(np.mean(values[~k]))
-                shadow_form = float((1.0 - p) * (selected_mean - omitted_mean))
+            shadow_form = float((1.0 - p) * (selected_truth_sample_mean - omitted_truth_sample_mean))
+        elif truth_coverage_complete and n_omitted == 0:
+            shift = 0.0
+            covariance_form = 0.0
 
     return SelectionAuditSummary(
         n_total=n_total,
@@ -122,26 +142,17 @@ def selection_audit_summary(records: Sequence[OpportunityRecord]) -> SelectionAu
         n_omitted=n_omitted,
         retention_rate=n_selected / n_total,
         n_truth=n_truth,
-        full_mean=full_mean,
-        selected_mean=selected_mean,
-        omitted_mean=omitted_mean,
-        selected_minus_full=shift,
-        covariance_form=covariance_form,
-        omitted_contrast_form=shadow_form,
+        n_selected_truth=n_selected_truth,
+        n_omitted_truth=n_omitted_truth,
+        truth_coverage_fraction=truth_coverage_fraction,
+        truth_coverage_complete=truth_coverage_complete,
+        truth_sample_mean=truth_sample_mean,
+        selected_truth_sample_mean=selected_truth_sample_mean,
+        omitted_truth_sample_mean=omitted_truth_sample_mean,
+        truth_sample_selected_minus_mean=shift,
+        covariance_form_truth_sample=covariance_form,
+        omitted_contrast_form_truth_sample=shadow_form,
     )
-
-
-def _partition_truth_set(records: Sequence[OpportunityRecord], *, key_name: str, index: int) -> frozenset[Hashable]:
-    key = getattr(records[index], key_name)
-    if key is None:
-        raise ValueError(f"{key_name} is missing for scored opportunity {records[index].opportunity_id}")
-    values: set[Hashable] = set()
-    for record in records:
-        if getattr(record, key_name) == key and record.truth_state is not None:
-            values.add(record.truth_state)
-    if not values:
-        raise ValueError(f"no truth_state values available for {key_name} group {key!r}")
-    return frozenset(values)
 
 
 def refinement_summary(records: Sequence[OpportunityRecord]) -> PartitionRefinementSummary:
@@ -149,7 +160,7 @@ def refinement_summary(records: Sequence[OpportunityRecord]) -> PartitionRefinem
 
     For each truth-known opportunity with both primary and side keys, compare the
     truth-state set compatible with ``primary_key`` to the set compatible with
-    ``(primary_key, side_key)``.  A positive cardinality reduction is a strict
+    ``(primary_key, side_key)``. A positive cardinality reduction is a strict
     empirical refinement for that realized opportunity.
     """
 
@@ -192,7 +203,7 @@ def semantic_coarsening_summary(records: Sequence[OpportunityRecord]) -> Partiti
     """Empirical truth-state ambiguity added by semantic coarsening.
 
     ``rich_evidence`` is the finer retained state and ``coarse_label`` its later
-    semantic collapse.  The reported gain is |truth(coarse)| - |truth(rich)|.
+    semantic collapse. The reported gain is |truth(coarse)| - |truth(rich)|.
     """
 
     validate_opportunities(records)
@@ -233,7 +244,7 @@ def semantic_coarsening_summary(records: Sequence[OpportunityRecord]) -> Partiti
 def audit_resolution_summary(records: Sequence[OpportunityRecord]) -> AuditResolutionSummary:
     """Sample-level audit resolution over omitted opportunities with known truth.
 
-    This is not a population proof of audit completeness.  It reports whether the
+    This is not a population proof of audit completeness. It reports whether the
     observed omitted opportunities sharing an ``audit_key`` are truth-homogeneous,
     which is a falsifiable empirical diagnostic for a proposed external audit
     channel.
