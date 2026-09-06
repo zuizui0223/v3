@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/zuizui0223/v3/schemas/opportunity_audit_v1.schema.json",
+  "title": "Generic observation opportunity audit record",
+  "type": "object",
+  "required": ["opportunity_id", "selected"],
+  "additionalProperties": false,
+  "properties": {
+    "opportunity_id": {"type": "string", "minLength": 1},
+    "selected": {"type": "boolean"},
+    "estimand_value": {"type": ["number", "null"]},
+    "truth_state": {"type": ["string", "number", "integer", "boolean", "null"]},
+    "primary_key": {"type": ["string", "number", "integer", "boolean", "null"]},
+    "side_key": {"type": ["string", "number", "integer", "boolean", "null"]},
+    "audit_key": {"type": ["string", "number", "integer", "boolean", "null"]},
+    "rich_evidence": {"type": ["string", "number", "integer", "boolean", "null"]},
+    "coarse_label": {"type": ["string", "number", "integer", "boolean", "null"]}
+  }
+}
