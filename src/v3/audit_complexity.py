@@ -1,8 +1,15 @@
 """Finite-world audit complexity for a fixed scientific estimand.
 
-These functions quantify the minimum *alphabet size* an additional audit channel
-needs, in the worst retained-observation fiber, to make a finite estimand point
-identified when the retained observation is kept alongside the audit channel.
+These functions quantify the minimum *alphabet size* of an **unconstrained ideal
+audit mapping** A: Omega -> A that, when retained alongside observation O, makes a
+finite estimand point-identified. The audit mapping is optimized over arbitrary
+latent-world labelings and may therefore distinguish worlds differently in different
+O-fibers.
+
+This is an observation-design lower-bound / accounting construction. A physical
+audit sensor restricted to another measurement Z, an encoder that cannot condition
+on the information represented by O, noisy acquisition, or communication/coding
+constraints may require a larger alphabet or may fail to attain this bound.
 
 The result is elementary partition theory and is used here as an observation-design
 criterion, not as a claim of newly discovered information theory.
@@ -51,13 +58,22 @@ def audit_complexity(
     observation: Callable[[W], O],
     estimand: Callable[[W], T],
 ) -> AuditComplexity:
-    """Compute the worst-cell minimum audit alphabet needed to identify ``estimand``.
+    """Compute the unconstrained ideal audit alphabet for point identification.
 
     Let I_o be the set of distinct estimand values inside observation fiber o.
     Any audit variable A that makes theta a function of (O,A) must assign different
     audit symbols to different theta values within each fixed O fiber. Therefore its
-    alphabet needs at least max_o |I_o| symbols. This lower bound is achievable by
-    reusing symbol labels across different O fibers, because O itself is retained.
+    alphabet needs at least max_o |I_o| symbols.
+
+    Over the class of **arbitrary deterministic audit mappings on the latent world
+    set**, this lower bound is achievable by assigning symbols separately inside each
+    O fiber and reusing symbol labels across different O fibers, because O itself is
+    retained at the decoder/decision stage.
+
+    The achievability statement is not a physical-sensor guarantee. If A must be
+    generated from a restricted measurement, if its encoder lacks access to the
+    distinctions used by this construction, or if zero-error coding constraints are
+    imposed, the required alphabet can be larger.
     """
 
     identified = identified_values_by_observation(
@@ -82,11 +98,14 @@ def construct_minimal_audit_labels(
     observation: Callable[[W], O],
     estimand: Callable[[W], T],
 ) -> tuple[int, ...]:
-    """Construct one audit labeling that attains the minimum alphabet size.
+    """Construct one unconstrained audit labeling attaining the ideal minimum.
 
     Labels are assigned separately inside each observation fiber according to the
     distinct estimand values in that fiber, and labels are reused across fibers.
-    The returned tuple is aligned to ``worlds``.
+    The returned tuple is aligned to ``worlds``. This witness assumes an arbitrary
+    latent-world audit mapping and should not be read as a realizable physical sensor
+    design unless the required mapping can actually be implemented from available
+    measurements.
     """
 
     if not worlds:
