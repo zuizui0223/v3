@@ -43,6 +43,20 @@ def test_reference_refinement_shrinks_identified_set() -> None:
     assert augmentation_refines(worlds, y, lambda w: w[2], 0)
 
 
+def test_injective_recoding_preserves_identified_set_exactly() -> None:
+    worlds = (
+        ("w0", 0, "a"),
+        ("w1", 0, "b"),
+        ("w2", 1, "c"),
+    )
+    observation = lambda w: w[1]
+    recoded = lambda w: ("encoded", observation(w))
+    estimand = lambda w: w[2]
+    assert identified_set(worlds, observation, 0, estimand) == identified_set(
+        worlds, recoded, ("encoded", 0), estimand
+    )
+
+
 def test_additive_primary_only_decomposition_is_nonidentifiable() -> None:
     signal = np.array([1.0, 2.0, -1.0])
     nuisance = np.array([0.5, -1.0, 3.0])
@@ -115,6 +129,21 @@ def test_reference_retained_only_after_selection_cannot_audit_shadow_reference()
     assert full_reference_ledger(a) != full_reference_ledger(b)
 
 
+def test_refinement_and_selection_are_not_generally_commutative() -> None:
+    a = (
+        Exposure("e1", True, 1, "same-entered-ref"),
+        Exposure("e2", False, 0, "omitted-ref-a"),
+    )
+    b = (
+        Exposure("e1", True, 1, "same-entered-ref"),
+        Exposure("e2", False, 0, "omitted-ref-b"),
+    )
+    # Side information acquired only on selected units sees the worlds as identical.
+    assert selected_reference_log(a) == selected_reference_log(b)
+    # Side information retained before / independently of selection distinguishes them.
+    assert full_reference_ledger(a) != full_reference_ledger(b)
+
+
 def test_downstream_processing_cannot_separate_states_already_collapsed() -> None:
     collapsed_a = ("entered", "binary-positive")
     collapsed_b = ("entered", "binary-positive")
@@ -136,8 +165,8 @@ def test_temporal_subspace_is_reference_only_and_reversible() -> None:
 
 def test_theorem_ledger_is_structural_and_empirical_boundary_is_explicit() -> None:
     payload = json.loads((Path(__file__).resolve().parents[1] / "results" / "theorem_ledger.json").read_text())
-    assert payload["schema"] == "general-observation-information-theorem-ledger-v2"
-    assert len(payload["theorems"]) == 16
+    assert payload["schema"] == "general-observation-information-theorem-ledger-v3"
+    assert len(payload["theorems"]) == 18
     assert payload["field_data_required_for_structural_claims"] is False
     assert all(item["requires_real_data"] is False for item in payload["theorems"])
     assert payload["overall_empirical_boundary"]
