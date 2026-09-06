@@ -1,8 +1,10 @@
 # V3 theory core — reference-guided information refinement
 
-Status: **application-independent mathematical core**.
+Status: **application-independent mathematical core for the refinement branch**.
 
 V3 originated as a target-free temporal nuisance-subspace method, but the strongest formulation is no longer “noise removal.” It is an information-order method: retain an additional reference, use it to restrict measurement-side explanations compatible with the primary observation, and avoid converting that restriction into unsupported target or nuisance truth.
+
+The broader theory now treats V3, REC and TNOA as three recurring information operations rather than as a domain-specific pipeline. See `GENERAL_OBSERVATION_INFORMATION_THEORY.md`.
 
 ## 1. Compatible-world formulation
 
@@ -21,7 +23,7 @@ For estimand `θ`,
 A reference `R` retained together with primary observation `Y` satisfies
 
 \[
-\mathcal C_{(Y,R)}(y,r)\subseteq\mathcal C_Y(y),
+\mathcal C_{(Y,R)}(y,r)\subseteq \mathcal C_Y(y),
 \]
 
 hence
@@ -37,7 +39,7 @@ The reference may fail to add useful information, in which case inclusion is equ
 For a rich record `E` and deterministic coarsening `C=c(E)`,
 
 \[
-\mathcal C_E(e)\subseteq\mathcal C_C(c(e))
+\mathcal C_E(e)\subseteq \mathcal C_C(c(e))
 \]
 
 and therefore
@@ -199,22 +201,34 @@ Observed violations by approximate observers diagnose representation/estimation 
 
 ## 11. Relationship to REC and TNOA
 
-The wider observation chain contains distinct operations:
+V3 is only one operator type in the wider observation theory:
 
 - **V3/reference refinement:** add or preserve information that can contract compatible measurement states;
-- **REC:** row/support selection can remove exposures before a record exists;
-- **TNOA:** preserve process-semantic distinctions and avoid premature coarsening after a record exists.
+- **REC/support selection:** some opportunities or records disappear from the retained support;
+- **TNOA/semantic preservation and coarsening:** rich evidence may be preserved, left unresolved, or collapsed to a simpler label.
 
-A distinction erased upstream cannot be recreated by deterministic downstream processing. A reference intended to audit selection must therefore be retained before or independently of the selection rule it audits.
+These are not required to occur once or in a fixed order. Real systems may contain repeated refinement, selection and coarsening operations.
+
+Two general irreversibility results matter across all three:
+
+1. a distinction erased by deterministic upstream collapse cannot be recreated by downstream deterministic processing of the collapsed object alone;
+2. side information intended to audit a loss must be retained before or independently of the operation that creates that loss.
 
 ## 12. What is solved structurally
 
-The 12 propositions in `results/theorem_ledger.json` do not require field data once their assumptions are accepted. They cover reference refinement, coarsening, additive non-identifiability, projection trade-off, non-harm impossibility, reversible decomposition, decision-risk order, set-valued coverage, diameter equality, general-forward-model contraction, resolvable-coverage monotonicity, and general coverage transfer.
+The current machine-readable ledger contains **16 structural propositions**. The first twelve establish V3/reference-refinement results; the final four extend the same compatible-world logic to support selection and downstream irreversibility:
+
+- support-selection non-identifiability;
+- denominator identification without latent-state identification;
+- retention-before-loss;
+- no-downstream-repair after deterministic collapse.
+
+None of the 16 structural claims requires flower-visitation data once its stated assumptions are accepted.
 
 ## 13. What remains empirical
 
-The theory does not establish that a real reference is informative, that `a_N>a_S` in a domain, that a finite-sample nuisance model is calibrated, that a particular learner exploits the richer information optimally, or that the method transports across applications. Named causal attribution of a disturbance also needs additional structural/interventional assumptions.
+The theory does not establish that a real reference is informative, that `a_N>a_S` in a domain, that a finite-sample nuisance model is calibrated, that a selection mechanism materially changes a domain-specific estimand, that a particular learner exploits richer information optimally, or that the architecture transports across applications. Named causal attribution of a disturbance also needs additional structural/interventional assumptions.
 
 ## Compact rule
 
-> **Decompose without discarding; contract compatible sets with justified information; interpret without forcing.**
+> **Add information when justified; preserve information when loss is avoidable; do not claim distinctions the retained record cannot support.**
