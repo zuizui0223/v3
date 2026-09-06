@@ -72,12 +72,31 @@ def test_selection_summary_matches_covariance_and_omitted_contrast_identity() ->
     assert summary.n_selected == 2
     assert summary.n_omitted == 2
     assert summary.retention_rate == pytest.approx(0.5)
-    assert summary.full_mean == pytest.approx(0.5)
-    assert summary.selected_mean == pytest.approx(1.0)
-    assert summary.omitted_mean == pytest.approx(0.0)
-    assert summary.selected_minus_full == pytest.approx(0.5)
-    assert summary.covariance_form == pytest.approx(0.5)
-    assert summary.omitted_contrast_form == pytest.approx(0.5)
+    assert summary.n_truth == 4
+    assert summary.n_selected_truth == 2
+    assert summary.n_omitted_truth == 2
+    assert summary.truth_coverage_fraction == pytest.approx(1.0)
+    assert summary.truth_coverage_complete is True
+    assert summary.truth_sample_mean == pytest.approx(0.5)
+    assert summary.selected_truth_sample_mean == pytest.approx(1.0)
+    assert summary.omitted_truth_sample_mean == pytest.approx(0.0)
+    assert summary.truth_sample_selected_minus_mean == pytest.approx(0.5)
+    assert summary.covariance_form_truth_sample == pytest.approx(0.5)
+    assert summary.omitted_contrast_form_truth_sample == pytest.approx(0.5)
+
+
+def test_selected_only_truth_is_not_reported_as_zero_selection_effect() -> None:
+    records = (
+        OpportunityRecord("a", True, estimand_value=1.0, truth_state="target"),
+        OpportunityRecord("b", False),
+    )
+    summary = selection_audit_summary(records)
+    assert summary.truth_coverage_complete is False
+    assert summary.n_selected_truth == 1
+    assert summary.n_omitted_truth == 0
+    assert summary.truth_sample_selected_minus_mean is None
+    assert summary.covariance_form_truth_sample is None
+    assert summary.omitted_contrast_form_truth_sample is None
 
 
 def test_reference_side_information_is_strict_for_ambiguous_opportunities() -> None:
@@ -170,7 +189,7 @@ def test_jsonl_bundle_runs_every_available_audit(tmp_path: Path) -> None:
         "n_selected_truth": 2,
         "n_omitted_truth": 2,
     }
-    assert summary["selection"]["selected_minus_full"] == pytest.approx(0.5)
+    assert summary["selection"]["truth_sample_selected_minus_mean"] == pytest.approx(0.5)
     assert summary["refinement"]["strict_fraction"] == pytest.approx(0.5)
     assert summary["semantic_coarsening"]["strict_fraction"] == pytest.approx(1.0)
     assert summary["omitted_support_audit"]["homogeneous_group_fraction"] == pytest.approx(1.0)
@@ -188,6 +207,7 @@ def test_jsonl_bundle_does_not_confuse_missing_optional_surface_with_zero_effect
         "semantic_coarsening": False,
         "omitted_support_audit": False,
     }
+    assert summary["selection"]["truth_sample_selected_minus_mean"] is None
     assert "refinement" not in summary
     assert "semantic_coarsening" not in summary
     assert "omitted_support_audit" not in summary
