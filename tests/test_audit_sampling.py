@@ -100,6 +100,8 @@ def test_probability_audit_recovers_selection_shift_in_balanced_toy_population()
     assert estimate.n_selected == 2
     assert estimate.n_omitted == 2
     assert estimate.n_audited_truth == 2
+    assert estimate.n_audited_selected == 1
+    assert estimate.n_audited_omitted == 1
     assert estimate.estimated_full_mean == pytest.approx(0.5)
     assert estimate.estimated_selected_mean == pytest.approx(1.0)
     assert estimate.estimated_omitted_mean == pytest.approx(0.0)
@@ -111,11 +113,28 @@ def test_complete_audit_reduces_to_unweighted_finite_population_means() -> None:
     opportunities = (("a", True), ("b", False), ("c", True))
     audited = (("a", 1.0, 1.0), ("b", 0.0, 1.0), ("c", 0.5, 1.0))
     estimate = estimate_selection_from_probability_audit(opportunities, audited)
+    assert estimate.n_audited_selected == 2
+    assert estimate.n_audited_omitted == 1
     assert estimate.estimated_full_mean == pytest.approx(0.5)
     assert estimate.estimated_selected_mean == pytest.approx(0.75)
     assert estimate.estimated_omitted_mean == pytest.approx(0.0)
     assert estimate.estimated_selected_minus_full == pytest.approx(0.25)
     assert estimate.estimated_omitted_contrast_form == pytest.approx(0.25)
+
+
+def test_empty_realized_audit_stratum_does_not_become_zero_mean() -> None:
+    opportunities = (("s1", True), ("s2", True), ("o1", False), ("o2", False))
+    # The design probability for omitted opportunities may be positive, yet this
+    # particular realized audit sample contains no omitted truth observations.
+    estimate = estimate_selection_from_probability_audit(
+        opportunities,
+        (("s1", 1.0, 0.5),),
+    )
+    assert estimate.n_audited_selected == 1
+    assert estimate.n_audited_omitted == 0
+    assert estimate.estimated_selected_mean == pytest.approx(1.0)
+    assert estimate.estimated_omitted_mean is None
+    assert estimate.estimated_omitted_contrast_form is None
 
 
 def test_audited_truth_outside_denominator_fails_closed() -> None:
