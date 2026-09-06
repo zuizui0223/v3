@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import math
 from pathlib import Path
 from typing import Hashable
 
@@ -11,7 +12,11 @@ Scalar = str | int | float | bool
 def _validate_scalar(value: object, *, line_number: int) -> Hashable | None:
     if value is None:
         return None
-    if isinstance(value, (str, int, float, bool)):
+    if isinstance(value, float):
+        if not math.isfinite(value):
+            raise ValueError(f"line {line_number}: float reference value must be finite")
+        return value
+    if isinstance(value, (str, int, bool)):
         return value
     raise ValueError(
         f"line {line_number}: reference value must be a JSON scalar or null"
@@ -22,7 +27,8 @@ def reference_overlay_from_jsonl(path: str | Path) -> dict[str, Hashable | None]
     """Load rows shaped as {opportunity_id, value} from JSONL.
 
     Duplicate IDs fail closed. A null value means the reference is missing for that
-    opportunity and is not silently interpreted as a scientific state.
+    opportunity and is not silently interpreted as a scientific state. Non-finite
+    float values are rejected because they do not define stable partition keys.
     """
 
     source = Path(path)
