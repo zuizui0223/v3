@@ -11,7 +11,9 @@ from v3.information_order import (
     augmentation_refines,
     exposure_denominator_ledger,
     full_reference_ledger,
+    postprocessing_can_separate,
     selected_event_log,
+    selected_reference_log,
     shadow_prevalence,
 )
 from v3.partial_decomposition import compatible_signal_set, finite_set_diameter, true_signal_is_covered
@@ -100,6 +102,26 @@ def test_rec_selection_loses_shadow_composition_but_denominator_can_be_retained(
     assert full_reference_ledger(a) != full_reference_ledger(b)
 
 
+def test_reference_retained_only_after_selection_cannot_audit_shadow_reference() -> None:
+    a = (
+        Exposure("e1", True, 1, "entered-ref"),
+        Exposure("e2", False, 0, "shadow-ref-a"),
+    )
+    b = (
+        Exposure("e1", True, 1, "entered-ref"),
+        Exposure("e2", False, 0, "shadow-ref-b"),
+    )
+    assert selected_reference_log(a) == selected_reference_log(b)
+    assert full_reference_ledger(a) != full_reference_ledger(b)
+
+
+def test_downstream_processing_cannot_separate_states_already_collapsed() -> None:
+    collapsed_a = ("entered", "binary-positive")
+    collapsed_b = ("entered", "binary-positive")
+    downstream = lambda value: ("report", value)
+    assert not postprocessing_can_separate(collapsed_a, collapsed_b, downstream)
+
+
 def test_temporal_subspace_is_reference_only_and_reversible() -> None:
     t = np.linspace(0, 2 * np.pi, 9, endpoint=False)
     shared = np.sin(t)[:, None, None]
@@ -114,7 +136,8 @@ def test_temporal_subspace_is_reference_only_and_reversible() -> None:
 
 def test_theorem_ledger_is_structural_and_empirical_boundary_is_explicit() -> None:
     payload = json.loads((Path(__file__).resolve().parents[1] / "results" / "theorem_ledger.json").read_text())
-    assert len(payload["theorems"]) == 12
+    assert payload["schema"] == "general-observation-information-theorem-ledger-v2"
+    assert len(payload["theorems"]) == 16
     assert payload["field_data_required_for_structural_claims"] is False
     assert all(item["requires_real_data"] is False for item in payload["theorems"])
     assert payload["overall_empirical_boundary"]
