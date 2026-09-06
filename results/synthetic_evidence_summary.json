@@ -1,0 +1,79 @@
+{
+  "schema": "v3-synthetic-evidence-summary-v1",
+  "source_repository": "zuizui0223/PolliPi",
+  "source_main_commit": "5fa8fbefb691b62fae804be5bff799eb08064f0d",
+  "generations": {
+    "v3_temporal_subspace": {
+      "status": "promoted_in_simulation_6_of_6",
+      "matched": {
+        "balanced_utility": 0.8327,
+        "mixed_target_frame_recall": 0.6926,
+        "target_only_frame_recall": 0.9667,
+        "nuisance_false_frame_rate": 0.0272,
+        "local_sway_false_frame_rate": 0.109,
+        "target_episode_recall": 1.0
+      },
+      "no_reference": {
+        "balanced_utility": 0.5688,
+        "mixed_target_frame_recall": 0.436,
+        "target_only_frame_recall": 1.0,
+        "nuisance_false_frame_rate": 0.2986,
+        "local_sway_false_frame_rate": 1.0
+      },
+      "time_permuted": {"balanced_utility": 0.7301},
+      "interpretation": "Correct temporal coupling, rather than reference presence alone, carried useful nuisance information in the frozen synthetic world."
+    },
+    "v3_temporal_robustness": {
+      "status": "promoted_in_simulation_10_of_10",
+      "lag1": {
+        "balanced_utility": 0.7842,
+        "nuisance_false_frame_rate": 0.0845,
+        "local_sway_false_frame_rate": 0.2477,
+        "target_only_recall": 0.9958
+      },
+      "partial75": {
+        "balanced_utility": 0.7836,
+        "nuisance_false_frame_rate": 0.0700,
+        "local_sway_false_frame_rate": 0.2662,
+        "target_only_recall": 1.0
+      },
+      "interpretation": "The synthetic gain survived a one-frame lag and partial temporal coupling under frozen criteria."
+    },
+    "v3_tnoa_bridge": {
+      "status": "joint_promotion_failed",
+      "raw_safe_unique_coverage": 0.6000,
+      "matched_safe_unique_coverage": 0.8167,
+      "time_broken_safe_unique_coverage": 0.6667,
+      "matched_minus_raw_paired_ci": [0.2042, 0.2333],
+      "matched_minus_time_broken_paired_ci": [0.1207, 0.1792],
+      "matched_pooled_false_certainty": 0.3194,
+      "frozen_false_certainty_ceiling": 0.10,
+      "interpretation": "Reference information increased usable representation, but information gain did not license safe downstream certainty."
+    },
+    "v3_tnoa_trajectory_bridge": {
+      "status": "joint_promotion_failed",
+      "raw_safe_coverage": 0.7750,
+      "matched_safe_coverage": 0.8542,
+      "matched_minus_raw": 0.0792,
+      "matched_minus_raw_paired_ci": [0.0500, 0.1083],
+      "raw_false_certainty": 0.3125,
+      "matched_false_certainty": 0.2407,
+      "false_certainty_difference_paired_ci": [-0.1042, -0.0394],
+      "raw_overlap_abstention": 0.2969,
+      "matched_overlap_abstention": 0.4635,
+      "raw_target_only_T_rate": 0.8750,
+      "matched_target_only_T_rate": 0.2708,
+      "interpretation": "Multi-frame geometry improved overlap preservation but unconditional short-window projection could remove target geometry."
+    }
+  },
+  "current_boundary": {
+    "supported": "correctly coupled reference information can refine the observation in controlled synthetic worlds",
+    "not_supported": [
+      "universal real-domain benefit",
+      "named physical nuisance identification",
+      "unconditional nuisance subtraction",
+      "field readiness",
+      "semantic certainty from representation improvement alone"
+    ]
+  }
+}
