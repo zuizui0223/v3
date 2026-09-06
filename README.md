@@ -34,9 +34,9 @@ V3, REC and TNOA should not be read as a flower-visitation-specific three-stage 
 
 A system may contain several refinements, several selections and several coarsenings, in different orders or repeated at multiple stages.
 
-The common rule is:
+The current general design rule is:
 
-> **Add information when justified. Preserve information when loss is avoidable. Do not claim distinctions the retained record cannot support.**
+> **Refine before loss. Preserve through reversible transforms. Audit selection from outside the selection. Coarsen only at the decision boundary.**
 
 ## Core V3 design principle
 
@@ -50,6 +50,21 @@ For a linear projector `P`, the pair
 
 is exactly reversible because the components sum to `Y`. The destructive operation is replacing the observation by only one component. For target-to-nuisance energy ratio, projection improves the ratio exactly when nuisance capture exceeds target capture.
 
+## Theory-to-empirical bridge
+
+The structural theory gives weak information-order statements. Real systems must test whether those effects are **strictly active** for a chosen estimand.
+
+The application-independent empirical contract is in [`docs/GENERIC_EMPIRICAL_AUDIT_PROTOCOL.md`](docs/GENERIC_EMPIRICAL_AUDIT_PROTOCOL.md), with machine-readable row schema [`schemas/opportunity_audit_v1.schema.json`](schemas/opportunity_audit_v1.schema.json).
+
+The empirical unit is an observation **opportunity**, created independently of whether a policy later retains a scientific row. The generic audit can quantify:
+
+- strict truth-partition contraction from side/reference information;
+- selection shift and its decomposition into omission amount × omitted-support contrast;
+- truth-state ambiguity introduced by semantic coarsening;
+- resolution supplied by an audit channel retained independently of selection.
+
+Executable summaries live in `src/v3/observation_audit.py`.
+
 ## PolliPi / InsePi are empirical systems, not definitions of the theory
 
 - **PolliPi** remains a practical observation-allocation and adaptive-capture testbed. Its simulation history is scientifically useful because it exposed failure mechanisms, ruled out brittle architectures and motivated the current V3 formulation.
@@ -57,16 +72,21 @@ is exactly reversible because the components sum to `Y`. The destructive operati
 
 The general theory is broader than either platform.
 
-Flower visitation is treated only as one application. See [`docs/APPLICATION_TO_VISITATION_OBSERVATION.md`](docs/APPLICATION_TO_VISITATION_OBSERVATION.md).
+Flower visitation is treated only as one application. See:
+
+- [`docs/APPLICATION_TO_VISITATION_OBSERVATION.md`](docs/APPLICATION_TO_VISITATION_OBSERVATION.md);
+- [`docs/VISITATION_DESIGN_REQUIREMENTS.md`](docs/VISITATION_DESIGN_REQUIREMENTS.md);
+- [`docs/VISITATION_EMPIRICAL_MAPPING.md`](docs/VISITATION_EMPIRICAL_MAPPING.md).
 
 ## Repository layout
 
 - `docs/GENERAL_OBSERVATION_INFORMATION_THEORY.md` — application-independent umbrella theory;
 - `docs/THEORY_CORE.md` — V3 refinement theory;
+- `docs/GENERIC_EMPIRICAL_AUDIT_PROTOCOL.md` — general empirical contract derived from the theory;
 - `docs/APPLICATION_TO_VISITATION_OBSERVATION.md` — one ecological application, explicitly separated from the theory definition;
-- `docs/` — method scope, empirical boundaries, and historical simulation protocols/results;
-- `src/v3/` — standalone executable theory witnesses and generic utilities;
-- `tests/` — regression tests for structural propositions;
+- `schemas/` — machine-readable empirical data contracts;
+- `src/v3/` — standalone executable theory witnesses, strictness criteria, and audit utilities;
+- `tests/` — regression tests for structural and empirical-contract propositions;
 - `results/` — machine-readable theorem/evidence ledgers and frozen summaries;
 - `manuscript/` — theory-paper drafts;
 - `archive/pollipi/` — provenance map for PolliPi-specific historical implementations that are not part of the generic API.
@@ -81,13 +101,13 @@ PolliPi remains a validation/acquisition implementation and historical simulatio
 
 ## Current structural evidence boundary
 
-The theorem ledger currently contains **16 structural propositions**. They cover:
+The theorem ledger currently contains **18 structural propositions**. They include:
 
 - retained-reference refinement;
 - semantic coarsening;
 - additive decomposition non-identifiability;
 - exact projection trade-offs and overprojection impossibility;
-- reversible decomposition;
+- reversible decomposition and injective-recoding invariance;
 - decision-risk ordering;
 - set-valued partial decomposition and coverage transfer;
 - general-forward-model compatible-set contraction;
@@ -95,8 +115,11 @@ The theorem ledger currently contains **16 structural propositions**. They cover
 - support-selection non-identifiability;
 - denominator-versus-latent-state separation;
 - retention-before-loss;
-- no-downstream-repair after deterministic collapse.
+- no-downstream-repair after deterministic collapse;
+- refinement/selection order sensitivity.
 
-These are structural results under stated assumptions and do not require flower-visitation data.
+These are an auditable structural scaffold under stated assumptions, **not 18 claims of newly discovered mathematics**. Prior foundations include Blackwell informativeness, data processing/sufficiency, coarsened and missing-data theory, partial identification, selective-label problems, measurement-error/missing-data frameworks, and ecological imperfect-detection work.
 
-Still empirical are whether a physical reference is informative, whether selection materially changes an application-specific estimand, whether an approximate observer uses rich information correctly, and whether the architecture transports across domains.
+The candidate contribution is the observation-system design synthesis: make acquisition timing, retention order, reversibility, support audit, and delayed semantic collapse explicit before the final analysis dataset exists.
+
+Still empirical are whether a physical reference is informative, whether selection materially changes an application-specific estimand, whether an audit channel resolves omitted support, whether semantic collapse removes decision-relevant distinctions, whether an approximate observer uses rich information correctly, and whether the architecture transports across domains.
