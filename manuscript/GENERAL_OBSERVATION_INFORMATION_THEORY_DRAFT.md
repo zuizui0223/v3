@@ -2,7 +2,11 @@
 
 ## Abstract
 
-Scientific records are not direct copies of the world. Information can be added through reference measurements, removed when observation opportunities fail to enter a record, and collapsed when rich evidence is converted into simple semantic labels. These operations are usually treated as separate engineering or inferential problems. Here we formulate them in a common compatible-world framework. An observation induces a set of latent worlds consistent with the retained record. We show structurally that non-destructive side-information refinement can only contract compatible and identified sets, whereas deterministic coarsening can only expand them. Support selection is a many-to-one operation on the observation universe and cannot, from the selected record alone, identify the latent composition of omitted opportunities. A denominator ledger can identify omitted support without identifying its latent state. Side information intended to audit selection must therefore be retained before or independently of the selection it audits. More generally, injective deterministic recodings preserve compatible-world geometry exactly, while non-injective collapse can irreversibly erase distinctions. Refinement and support selection do not generally commute: side information retained before selection can distinguish worlds that the same side-information mechanism, restricted to selected units, cannot. No deterministic downstream transformation can recover a distinction already collapsed upstream unless new independent information is acquired. For reference-guided measurement decomposition, we additionally show that additive target/nuisance separation is non-identifiable without restrictions, that orthogonal projection improves target-to-nuisance energy ratio exactly when nuisance capture exceeds target capture, that nonzero projection cannot universally preserve an unrestricted target class, and that retaining complementary decomposition channels avoids representation-level information loss. The resulting framework treats uncertainty preservation and information order as observation-system design problems rather than only classifier properties. We discuss empirical systems as tests of these structural implications rather than as definitions of the theory.
+Scientific records are not direct copies of the world. Information can be added through reference measurements, removed when observation opportunities fail to enter a record, and collapsed when rich evidence is converted into simple semantic labels. Established theories already address important parts of this problem, including comparison of statistical experiments, data processing and sufficiency, coarsened and missing data, measurement error, and partial identification. We do not propose replacements for those theories. Instead, we synthesize their implications at the **observation-system design** level, before a final analysis dataset has silently inherited the losses of the sensing process.
+
+Using a compatible-world formulation, we distinguish three generic operations: information refinement, support selection, and semantic coarsening. Non-destructive side-information refinement can only contract compatible and identified sets, whereas deterministic coarsening can only expand them. Support selection is a many-to-one operation on the observation universe and cannot, from the selected record alone, identify the latent composition of omitted opportunities. A denominator ledger can identify omitted support without identifying its latent state. Side information intended to audit selection must therefore be retained before or independently of the selection it audits. Injective deterministic recodings preserve compatible-world geometry exactly, whereas non-injective collapse can irreversibly erase distinctions. Refinement and support selection do not generally commute: side information retained before selection can distinguish worlds that the same side-information mechanism, restricted to selected units, cannot.
+
+For reference-guided measurement decomposition, we additionally derive the exact target–nuisance energy trade-off for orthogonal projection, show why universal non-harm is impossible for an unrestricted target class, and show how complementary decomposition channels preserve the original observation. The contribution is therefore not a new theory of information ordering or missing data in isolation, but an order-sensitive framework for deciding **what a scientific observation system must acquire, retain, and postpone collapsing** if later audit and partial identification are to remain possible. We use flower-visitation sensing as one empirical application rather than as the ontology of the framework.
 
 ## 1. Introduction
 
@@ -10,11 +14,27 @@ Scientific observation is often described as a pipeline from world to measuremen
 
 Some operations **refine** an observation by adding retained side information. Others **select** which opportunities or records survive. Others **coarsen** a rich retained state into a simpler semantic label. These operations may occur multiple times, in different orders, and in very different scientific domains.
 
-The central proposal of this paper is that these problems can be compared through the geometry of compatible latent worlds. The goal is not to prescribe one domain-specific sensing pipeline. It is to ask a more general question:
+The mathematical ingredients needed to reason about these operations are not new in isolation. Blackwell's comparison of experiments formalizes when one experiment is more informative than another for decision problems (Blackwell 1951, 1953). Data-processing and sufficiency principles formalize limits and invariances of downstream transformations. Coarsened-data and missing-data theory formalize the role of observation mechanisms in producing incomplete records (Heitjan & Rubin 1991). Partial-identification theory asks what can be learned without assumptions strong enough to force point identification (Manski 2005). Existing frameworks already unify measurement error with missing data or other bias processes (Blackwell, Honaker & King 2017; Edwards, Cole & Westreich 2015), and selective-label work studies outcome information observed only after prior selection (Lakkaraju et al. 2017).
 
-> What distinctions remain supported by the information actually retained at each stage of an observation system?
+Our question is therefore narrower and more operational than introducing a new general information order:
 
-This framing separates structural claims from empirical claims. Set inclusion, non-identifiability, reversibility, order sensitivity and irreversibility can be established under explicit assumptions. Whether a real reference is informative, whether a selection mechanism materially changes a scientific estimand, or whether an approximate observer exploits rich information correctly remains empirical.
+> **What must a scientific observation system acquire and retain, and when must it retain it, so that later analysis can still audit selection, preserve unresolved alternatives, and distinguish reversible representation changes from irreversible information loss?**
+
+We address this question by placing three recurring operations in one compatible-world representation:
+
+1. **refinement** — adding retained information that can exclude otherwise compatible latent worlds;
+2. **support selection** — removing observational opportunities or records from the retained support;
+3. **semantic coarsening** — mapping a rich retained state to a coarser semantic object.
+
+The proposed contribution is the **observation-design synthesis and its order constraints**, not the individual set-inclusion facts themselves. In particular, we make explicit that a channel intended to audit a loss must be acquired no later than the loss it is meant to audit; that reversible/injective representations should be distinguished from destructive replacements; and that useful upstream refinement can be wasted by later selection or semantic collapse.
+
+The resulting framework separates structural claims from empirical claims. Set inclusion, non-identifiability, reversibility, order sensitivity and irreversibility can be established under explicit assumptions. Whether a real reference is informative, whether a selection mechanism materially changes a scientific estimand, or whether an approximate observer exploits rich information correctly remains empirical.
+
+### 1.1 Relation to existing unified bias frameworks
+
+A particularly important boundary is that measurement error and missingness have already been treated jointly in established inferential frameworks. Blackwell, Honaker and King (2017) explicitly develop a unified approach to measurement error and missing data; Edwards, Cole and Westreich (2015) similarly frame measurement error as latent missing information within a broader bias framework. We therefore do **not** claim novelty for saying that measurement error and missingness can be analyzed together.
+
+Our focus lies one step earlier in the scientific workflow: **before the final dataset exists**. We ask when a sensor or observation protocol must retain an auxiliary channel, an opportunity identifier, a reversible representation, or an unresolved semantic distinction so that later inferential methods still have access to the information those methods require. This shifts the emphasis from correcting a completed dataset to designing an auditable observation process.
 
 ## 2. Compatible worlds and identified sets
 
@@ -32,7 +52,7 @@ For an estimand `theta`, define
 
 An observation is more informative for the estimand when it excludes latent worlds or estimand values that remain compatible under a poorer record.
 
-This language accommodates images, acoustic streams, exposure ledgers, event tables, quality-control logs, clinical records and other scientific data products without requiring a common physical sensor model.
+This language accommodates images, acoustic streams, exposure ledgers, event tables, quality-control logs, clinical records and other scientific data products without requiring a common physical sensor model. It is deliberately a bookkeeping language for retained distinctions, not a proposed replacement for Blackwell ordering, likelihood theory, missing-data models or partial-identification analysis.
 
 ## 3. Operation I: information refinement
 
@@ -54,7 +74,7 @@ Hence
 \mathcal I_{Y,R}(y,r)\subseteq\mathcal I_Y(y).
 \]
 
-The inclusion can be equality. A useless reference adds no strict information. The result therefore does not say that adding any sensor improves performance; it says that retaining a channel does not intrinsically enlarge the compatible set.
+The inclusion can be equality. A useless reference adds no strict information. This proposition is a compatible-set expression of a classical value-of-information intuition; its role here is to establish the direction of an observation-design operation, not to claim a new comparison-of-experiments theorem.
 
 ### 3.1 Measurement-side refinement
 
@@ -82,7 +102,7 @@ then
 \mathcal S_F(y,R_2)\subseteq\mathcal S_F(y,R_1).
 \]
 
-This result does not depend on additivity, Gaussian noise, linear motion models or any particular estimator.
+This result does not depend on additivity, Gaussian noise, linear motion models or any particular estimator. The empirical burden is to justify and calibrate the physical restriction `M(R)`.
 
 ## 4. Operation II: support selection
 
@@ -92,7 +112,7 @@ A scientific record often retains only part of a richer observation universe. Le
 S_K(L).
 \]
 
-If omitted units leave no row, distinct full worlds can generate the same selected record. The selected record alone therefore cannot generally identify properties of the omitted support.
+If omitted units leave no row, distinct full worlds can generate the same selected record. The selected record alone therefore cannot generally identify properties of the omitted support. This is closely related to missing/coarsened-data and selective-label problems; here we use it to derive requirements on what must exist **outside the selection rule being audited**.
 
 ### 4.1 Denominator is not latent-state identification
 
@@ -127,7 +147,7 @@ so
 
 A binary label can be operationally useful, but it cannot distinguish latent states that the rich record kept separate and the binary mapping merges.
 
-When the retained information does not point-identify the requested statement, an unresolved or set-valued output is therefore not merely a classifier convenience. It is the correct representation of the identified set.
+When the retained information does not point-identify the requested statement, an unresolved or set-valued output is therefore not merely a classifier convenience. It is one way to preserve a non-singleton identified set rather than hiding it behind a forced semantic label.
 
 ## 6. No-downstream-repair theorem
 
@@ -149,9 +169,9 @@ Then for every deterministic downstream function `g`,
 g(T(X(\omega_1)))=g(T(X(\omega_2))).
 \]
 
-No post-processing of the already-collapsed object can recreate the lost distinction. Recovery requires additional information that was not contained in that object.
+No post-processing of the already-collapsed object can recreate the lost distinction. This is a direct function-composition consequence consistent with data-processing principles, not a novelty claim by itself. Its observation-design consequence is that downstream sophistication cannot compensate for upstream information that was never retained. Recovery requires genuinely new independent information.
 
-This theorem applies to omitted rows, semantic label collapse and irreversible representation replacement.
+This result applies to omitted rows, semantic label collapse and irreversible representation replacement.
 
 ## 7. Reversible computation and order sensitivity
 
@@ -161,7 +181,7 @@ Not every transformation is destructive. If a deterministic recoding `g` is inje
 \mathcal C_{g(X)}(g(x))=\mathcal C_X(x)
 \]
 
-and all identified sets are preserved exactly.
+and all identified sets are preserved exactly. Again, injectivity preserving information is elementary; the design point is to use it as a criterion for distinguishing harmless computation from scientifically consequential retention loss.
 
 For a linear decomposition
 
@@ -196,6 +216,8 @@ This yields a general observation-design rule:
 > **Side information must be acquired no later than the earliest information loss it is intended to audit.**
 
 It also means that useful information can be acquired and then wasted: a later non-injective selection or coarsening can erase the strict refinement introduced upstream.
+
+We view this order-sensitive retention consequence—not the elementary set inclusion alone—as one of the central contributions of the framework.
 
 ## 8. Reference-guided decomposition as a special refinement problem
 
@@ -239,11 +261,11 @@ These results motivate non-destructive or set-valued refinement rather than unco
 
 ## 9. Decision-risk ordering
 
-For a fixed decision problem and loss, a richer retained observation weakly dominates a deterministic coarsening in the information-theoretic sense: a decision maker can always ignore the extra information and reproduce any coarser rule.
+For a fixed decision problem and loss, a richer retained observation weakly dominates a deterministic coarsening in the information-theoretic sense: a decision maker can always ignore the extra information and reproduce any coarser rule. This is squarely in the Blackwell/value-of-information tradition.
 
 This does not imply every implementation using more information performs better. Approximate observers can be misspecified, overfit or poorly calibrated. Such failures are empirical/algorithmic defects rather than violations of the information order.
 
-## 10. A unified design principle
+## 10. A unified observation-design principle
 
 The three operation types suggest three corresponding defaults:
 
@@ -259,6 +281,8 @@ The common principle is:
 
 > **Refine before loss. Preserve through reversible transforms. Audit selection from outside the selection. Coarsen only at the decision boundary.**
 
+This principle is intended as a design synthesis across established literatures, not as a replacement for their inferential machinery.
+
 ## 11. Relation to V3, REC and TNOA
 
 V3, REC and TNOA are concrete research lines that instantiate the three operation types.
@@ -273,21 +297,21 @@ They are not defined by flower visitation and are not required to form one liter
 
 Empirical systems are needed to test strict informativeness, estimator quality and transport.
 
-PolliPi provides an observation-allocation system in which fixed and adaptive acquisition policies, shadow logs and synthetic nuisance tests can expose consequences of selection and representation design.
+PolliPi provides an observation-allocation system in which fixed and adaptive acquisition policies, shadow logs and synthetic nuisance tests can expose consequences of selection and representation design. Its simulation sequence is treated as substantive **mechanism-discovery and falsification evidence**: ideal matched references, spatial-mismatch failures, temporal-subspace gains, bridge false-certainty failures and overprojection counterexamples changed the architecture itself. These results remain synthetic-domain evidence rather than field efficacy claims.
 
 InsePi provides controlled intervention experiments for diagnosing why an observation system fails under event-side, nuisance/observability-side or shared-optical perturbations.
 
-These systems can test consequences of the theory without defining its scope.
+These systems can test consequences of the framework without defining its scope.
 
 ## 13. Flower visitation as one application
 
-Flower visitation is a useful application because local rare events coexist with nuisance motion, adaptive recording is attractive, and manual truth is costly. The general theory implies design requirements such as policy-independent opportunity logging, pre-selection audit retention, independent audit truth, retained side-information channels when justified, reversible representation changes, explicit unresolved states, and controlled diagnosis of observer failures.
+Flower visitation is a useful application because local rare events coexist with nuisance motion, adaptive recording is attractive, and manual truth is costly. The general framework implies design requirements such as policy-independent opportunity logging, pre-selection audit retention, independent audit truth, retained side-information channels when justified, reversible representation changes, explicit unresolved states, and controlled diagnosis of observer failures.
 
 Those implications are developed separately in `docs/APPLICATION_TO_VISITATION_OBSERVATION.md` and `docs/VISITATION_DESIGN_REQUIREMENTS.md` so that the biological application does not become the definition of the theory.
 
 ## 14. Claim boundary
 
-The current theorem ledger contains 18 structural propositions. These propositions do not require field data once their assumptions are accepted.
+The current theorem ledger contains 18 structural propositions. We use them as an auditable scaffold for the framework; **we do not claim that all 18 are novel mathematical theorems**. Several are direct manifestations of established information-order, missing-data, partial-identification or injectivity principles.
 
 Empirical evidence is still required to establish:
 
@@ -298,6 +322,31 @@ Empirical evidence is still required to establish:
 - value of retaining a particular pre-selection audit channel;
 - transport across scientific domains.
 
-## 15. Conclusion
+A stronger novelty claim for the cross-layer synthesis itself requires continuing literature review for prior frameworks that explicitly combine acquisition-time refinement, support-selection audit, semantic coarsening and order-sensitive retention.
 
-Scientific observation systems should be evaluated not only by final predictive accuracy but by the information transformations they perform before the final decision. Refinement, selection and coarsening have different effects on compatible-world geometry, and their order can determine whether a later audit is possible at all. Once distinctions are irreversibly discarded, downstream confidence cannot recreate them. Observation-system design should therefore make information acquisition timing, retention, reversibility and uncertainty preservation explicit scientific objects.
+## 15. Contribution relative to prior work
+
+The intended contribution is threefold.
+
+First, we provide a **common observation-system vocabulary** for refinement, support selection and semantic coarsening while keeping their inferential consequences distinct.
+
+Second, we make **retention order** a first-class design object: audit information intended to diagnose a loss must be acquired before or independently of that loss, and useful refinement can be destroyed by later non-injective retention.
+
+Third, we connect these structural statements to **executable sensing-system development**. Synthetic counterexamples and controlled interventions are used not merely to optimize accuracy but to reveal which information assumption—reference relevance, support retention, representation injectivity, or semantic entitlement—failed.
+
+This is narrower than claiming a new general theory of information, but more operational than treating measurement error, missingness and classification uncertainty as unrelated post hoc corrections after a dataset has already been produced.
+
+## 16. References currently anchoring the framework
+
+- Blackwell, D. (1951). *Comparison of Experiments*. Proceedings of the Second Berkeley Symposium on Mathematical Statistics and Probability, 93–102.
+- Blackwell, D. (1953). *Equivalent Comparisons of Experiments*. Annals of Mathematical Statistics 24(2):265–272.
+- Heitjan, D.F. & Rubin, D.B. (1991). *Ignorability and Coarse Data*. Annals of Statistics 19(4):2244–2253.
+- Manski, C.F. (2005). *Partial identification with missing data: concepts and findings*. International Journal of Approximate Reasoning 39:151–165.
+- Edwards, J.K., Cole, S.R. & Westreich, D. (2015). *All your data are always missing: incorporating bias due to measurement error into the potential outcomes framework*. International Journal of Epidemiology 44(4):1452–1459.
+- Blackwell, M., Honaker, J. & King, G. (2017). *A Unified Approach to Measurement Error and Missing Data: Overview and Applications*. Sociological Methods & Research 46(3):303–341.
+- Lakkaraju, H., Kleinberg, J., Leskovec, J., Ludwig, J. & Mullainathan, S. (2017). *The Selective Labels Problem: Evaluating Algorithmic Predictions in the Presence of Unobservables*. KDD 2017:275–284.
+- Findlay, M.A., Briers, R.A. & White, P.J.C. (2020). *Component processes of detection probability in camera-trap studies: understanding the occurrence of false-negatives*. Mammal Research 65:167–180.
+
+## 17. Conclusion
+
+Scientific observation systems should be evaluated not only by final predictive accuracy but by the information transformations they perform before the final decision. Refinement, selection and coarsening have different effects on compatible-world geometry, and their order can determine whether a later audit is possible at all. Once distinctions are irreversibly discarded, downstream confidence cannot recreate them. The practical methodological contribution is therefore to make **information acquisition timing, retention, reversibility and uncertainty preservation** explicit scientific design objects before the final dataset exists.
