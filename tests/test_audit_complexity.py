@@ -90,3 +90,39 @@ def test_semantic_coarsening_can_increase_required_audit_alphabet() -> None:
     coarse = audit_complexity(worlds, observation=lambda w: w[2], estimand=estimand)
     assert rich.minimum_audit_alphabet_size == 1
     assert coarse.minimum_audit_alphabet_size == 3
+
+
+def test_ideal_minimum_need_not_be_attainable_by_a_restricted_physical_proxy() -> None:
+    # O has two fibers, each containing two different theta values, so the ideal
+    # unconstrained audit alphabet has size two. The constructed labels attain it.
+    # But the proposed physical proxy Z is constant within every O fiber and hence
+    # cannot resolve theta at all, regardless of how its observed states are renamed.
+    worlds = (
+        ("w0", "o0", "z0", 0),
+        ("w1", "o0", "z0", 1),
+        ("w2", "o1", "z1", 0),
+        ("w3", "o1", "z1", 1),
+    )
+    observation = lambda w: w[1]
+    proxy = lambda w: w[2]
+    estimand = lambda w: w[3]
+
+    complexity = audit_complexity(worlds, observation=observation, estimand=estimand)
+    assert complexity.minimum_audit_alphabet_size == 2
+    ideal_labels = construct_minimal_audit_labels(
+        worlds, observation=observation, estimand=estimand
+    )
+    assert combined_audit_identifies_estimand(
+        worlds,
+        observation=observation,
+        audit_labels=ideal_labels,
+        estimand=estimand,
+    )
+
+    proxy_labels = tuple(proxy(world) for world in worlds)
+    assert not combined_audit_identifies_estimand(
+        worlds,
+        observation=observation,
+        audit_labels=proxy_labels,
+        estimand=estimand,
+    )
