@@ -1,7 +1,7 @@
 """Deterministic probability sampling for audit windows.
 
 Audit inclusion is a separate retention mechanism from the scientific/operational
-selection being audited.  The deterministic hash draw makes a frozen seed and
+selection being audited. The deterministic hash draw makes a frozen seed and
 sampling rates sufficient to reproduce inclusion decisions without storing a
 private random stream.
 """
@@ -30,6 +30,8 @@ class WeightedSelectionEstimate:
     n_selected: int
     n_omitted: int
     n_audited_truth: int
+    n_audited_selected: int
+    n_audited_omitted: int
     estimated_full_mean: float
     estimated_selected_mean: float | None
     estimated_omitted_mean: float | None
@@ -67,7 +69,7 @@ def audit_draw(
     """Make one reproducible audit-inclusion decision.
 
     Different rates by ``selected`` are allowed only because both rates remain
-    strictly positive and are recorded.  Setting them equal yields a sample whose
+    strictly positive and are recorded. Setting them equal yields a sample whose
     inclusion probability is independent of the audited selection state.
     """
 
@@ -121,7 +123,10 @@ def estimate_selection_from_probability_audit(
 
     Because selected/omitted denominator counts are known from the complete
     opportunity ledger, HT totals are divided by their known finite-population
-    counts.  The estimate is design-unbiased under the declared probability audit.
+    counts. The full mean remains a standard HT estimate. Stratum-specific means
+    are withheld when the realized audit sample contains zero truth observations
+    from that stratum, preventing a zero sampled total from being misread as a
+    scientifically observed zero mean.
     """
 
     if not opportunities:
@@ -149,6 +154,8 @@ def estimate_selection_from_probability_audit(
     n_total = len(selection_by_id)
     n_selected = sum(selection_by_id.values())
     n_omitted = n_total - n_selected
+    n_audited_selected = sum(selection_by_id[opportunity_id] for opportunity_id in audited)
+    n_audited_omitted = len(audited) - n_audited_selected
 
     total_hat = 0.0
     selected_total_hat = 0.0
@@ -162,8 +169,16 @@ def estimate_selection_from_probability_audit(
             omitted_total_hat += contribution
 
     full_mean = total_hat / n_total
-    selected_mean = selected_total_hat / n_selected if n_selected else None
-    omitted_mean = omitted_total_hat / n_omitted if n_omitted else None
+    selected_mean = (
+        selected_total_hat / n_selected
+        if n_selected and n_audited_selected
+        else None
+    )
+    omitted_mean = (
+        omitted_total_hat / n_omitted
+        if n_omitted and n_audited_omitted
+        else None
+    )
     shift = selected_mean - full_mean if selected_mean is not None else None
     omitted_form = (
         (n_omitted / n_total) * (selected_mean - omitted_mean)
@@ -175,6 +190,8 @@ def estimate_selection_from_probability_audit(
         n_selected=n_selected,
         n_omitted=n_omitted,
         n_audited_truth=len(audited),
+        n_audited_selected=n_audited_selected,
+        n_audited_omitted=n_audited_omitted,
         estimated_full_mean=full_mean,
         estimated_selected_mean=selected_mean,
         estimated_omitted_mean=omitted_mean,
