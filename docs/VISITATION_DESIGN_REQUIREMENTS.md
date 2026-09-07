@@ -91,7 +91,91 @@ InsePi supplies a complementary empirical strategy: intervene separately on even
 
 This tests the mechanism that produced a failure rather than merely finding another parameterization that fits the same data.
 
-## 8. PolliPi simulation as substantive evidence
+## 8. Requirement G — distinguish ideal information need from physical reference capability
+
+The compatible-world analysis can state how many distinctions are missing from a frozen primary representation, but that does not prove that a proposed camera ROI, light sensor, IMU, or other physical reference actually carries those distinctions.
+
+For visit-relevant truth `theta` and frozen primary representation `O`, the ideal audit benchmark is
+
+\[
+m^*(O,\theta)=\max_o|\mathcal I_O(o)|.
+\]
+
+This is an unconstrained latent-world benchmark. A real reference is an obtainable proxy `Z`.
+
+A candidate physical reference should therefore pass a second audit:
+
+1. group audited opportunities by `(O,Z)`;
+2. if the same `(O,Z)` state already contains two different independently established truth states, that proxy is structurally insufficient for point identification of that truth distinction;
+3. do not attempt to rescue such a conflict by threshold tuning or classifier complexity alone;
+4. when complete truth is available, compare the proxy's confusability-graph requirement with the ideal benchmark.
+
+This gives a visitation-specific reading of the general separation:
+
+\[
+\boxed{
+\text{ideal distinction needed}
+\ne
+\text{reference sensor can realize it}
+\ne
+\text{algorithm successfully uses it}.
+}
+\]
+
+A field reference should not be promoted merely because it correlates with motion or improves one classifier metric.
+
+## 9. Requirement H — evaluate reference portfolios, not only isolated channels
+
+A target-free image region is one possible reference, not a privileged definition of V3.
+
+Candidate visitation references may include, for example:
+
+- one or more target-free image regions;
+- camera-motion/inertial measurements;
+- illumination or exposure measurements;
+- other independently retained environmental or hardware states.
+
+Do not rank them only by isolated predictive gain. Under the finite compatible-world burden objective, two channels can be individually weak but jointly complementary, while two individually useful channels can be redundant.
+
+For two references report at least:
+
+\[
+B(O),\;B(O,R_1),\;B(O,R_2),\;B(O,R_1,R_2)
+\]
+
+and conditional relief such as
+
+\[
+B(O,R_1)-B(O,R_1,R_2).
+\]
+
+For a small candidate set, exact subset comparison is preferable to greedy one-channel-at-a-time selection because the burden-relief objective is not generally submodular.
+
+This is an audit-design rule, not a demand to add more hardware. A simpler reference set remains preferable when it removes the same relevant ambiguity.
+
+## 10. Requirement I — use partial-truth bounds instead of treating unlabelled epochs as negative
+
+Manual biological truth will usually cover only part of the opportunity universe.
+
+If an observation cell contains `l_o` distinct labelled truth states and `u_o` unlabelled opportunities, then the number of latent truth states in that cell satisfies
+
+\[
+\max(1,l_o)\le q_o\le l_o+u_o,
+\]
+
+optionally capped only by a truth-alphabet size fixed independently of the audit result.
+
+Consequences for visitation validation:
+
+- an unlabelled probe is not a no-visit probe;
+- incomplete truth generally yields bounds rather than an exact audit burden;
+- a reference pair may still be certified complementary or redundant if the entire interaction interval has one sign;
+- if the interval crosses zero, retain the relation as unresolved;
+- missing reference measurements are a different problem and are not repaired by truth bounds.
+
+This permits informative use of costly audit truth without manufacturing certainty from incomplete annotation.
+
+## 11. PolliPi simulation as substantive evidence
 
 The PolliPi simulation programme already contributed substantive method evidence:
 
@@ -104,24 +188,32 @@ The PolliPi simulation programme already contributed substantive method evidence
 
 These are not field-efficacy results, but they are more than engineering preliminaries: they are falsification results that changed the general theory and the design of the empirical system.
 
-## 9. Minimal prospective visitation architecture
+## 12. Minimal prospective visitation architecture
 
 A theory-compatible visitation study can use one observation universe with multiple retained channels:
 
 ```text
 predeclared opportunity i
   -> low-cost primary probe Y_i
-  -> optional target-free/reference information R_i
+  -> pre-selection reference candidates R_i
   -> shadow adaptive decision K_i
-  -> policy-independent audit / truth sample
-  -> if K_i=1, high-information record
+  -> independent probability-audit inclusion A_i
+  -> audit truth on sampled selected and omitted opportunities
+  -> if K_i=1, high-information scientific record
   -> rich semantic evidence T/N/O/U
   -> optional final visit/not-visit decision
 ```
 
-Crucially, `Y_i`, `R_i`, or another audit channel must exist for enough `K_i=0` opportunities to evaluate selection. Otherwise REC-type questions remain unidentifiable from the entered records alone.
+Crucially:
 
-## 10. What should be compared empirically
+- the opportunity identifier exists before `K_i`;
+- at least some audit inclusion occurs when `K_i=0`;
+- reference channels intended to audit or refine selection are available before or independently of `K_i`;
+- truth is generated independently of the PolliPi/V3/TNOA decision itself.
+
+This does not require indefinitely saving every low-resolution frame. A frozen probability-sampled audit-window design can concentrate higher-information storage on an independently selected subset while preserving known inclusion probabilities.
+
+## 13. What should be compared empirically
 
 The first field comparison should not be framed as one global leaderboard. It should decompose the observation process.
 
@@ -129,13 +221,21 @@ The first field comparison should not be framed as one global leaderboard. It sh
 
 Compare fixed timelapse, any-motion adaptive, and nuisance-filtered adaptive policies under a common opportunity universe and explicit observation cost.
 
-### Reference value
+### Ideal reference value
 
-Compare no-reference, valid-reference, and deliberately broken/mismatched-reference representations while retaining raw information.
+Using independently audited truth, quantify whether retained reference information contracts the truth-compatible partition relative to the frozen primary representation.
+
+### Physical reference realizability
+
+For each candidate proxy, ask whether identical `(primary, proxy)` states still contain conflicting truth. With complete truth, estimate the proxy-specific realizability gap relative to the ideal benchmark.
+
+### Reference portfolio value
+
+Compare isolated, conditional and joint reference relief; do not infer the best portfolio from isolated ranking alone.
 
 ### Selection consequence
 
-Estimate how adaptive entry changes the target/process composition of retained records relative to the audit universe.
+Estimate how adaptive entry changes the target/process composition of retained records relative to the audit universe. For mean/composition quantities, use the known probability-audit design rather than complete-case convenience samples.
 
 ### Semantic consequence
 
@@ -145,20 +245,31 @@ At fixed false-certainty tolerance, compare safely resolvable coverage of rich p
 
 Use controlled InsePi-style interventions on cases where the observer behaves unexpectedly.
 
-## 11. Promotion logic
+## 14. Promotion logic
 
 A possible development sequence is:
 
 1. structural theory and executable witnesses;
 2. synthetic falsification of candidate representations and acquisition policies;
-3. blinded controlled physical intervention;
+3. controlled physical proxy/observer tests with independent truth;
 4. prospective field shadow evaluation with a policy-independent audit channel;
-5. only then live adaptive promotion for scientific acquisition.
+5. reference portfolio selection only from the development split;
+6. freeze representation, truth rules, audit sampling, and semantic thresholds;
+7. held-out field evaluation without post-hoc rescue;
+8. only then live adaptive promotion for scientific acquisition.
 
-This preserves the distinction between mathematical results, synthetic mechanism evidence, physical mechanism validation, and ecological transport.
+This preserves the distinction between mathematical results, synthetic mechanism evidence, physical proxy capability, algorithm performance, ecological transport and final operational promotion.
 
-## 12. Compact implication
+## 15. Compact implication
 
-The general theory does not tell flower-visitation researchers to build a particular camera.
+The general theory does not tell flower-visitation researchers to build a particular camera or install a particular reference sensor.
 
-It tells them to build an observation process in which useful information is acquired before it can be lost, loss is auditable from outside the mechanism that caused it, representation changes remain reversible when feasible, and unresolved meaning is not forced into biological absence.
+It tells them to build an observation process in which:
+
+- useful information is acquired before it can be lost;
+- selection is auditable from outside the mechanism that caused it;
+- representation changes remain reversible when feasible;
+- proposed physical references are tested for the distinctions they can actually realize;
+- complementary reference channels are evaluated jointly rather than by isolated accuracy alone;
+- incomplete biological truth produces bounds rather than invented negatives;
+- unresolved meaning is not forced into biological absence.
