@@ -8,7 +8,7 @@ The central problem is not pollination, insect detection, or any particular clas
 
 The application-independent umbrella theory is in [`docs/GENERAL_OBSERVATION_INFORMATION_THEORY.md`](docs/GENERAL_OBSERVATION_INFORMATION_THEORY.md). The integrated paper draft is [`manuscript/THEORY_DRAFT.md`](manuscript/THEORY_DRAFT.md).
 
-The current cross-repository recovery ledger linking V3 with REC, TNOA, Boundary, MROD, PolliPi and InsePi is in [`docs/CLOSED_LOOP_CLAIM_RECOVERY_2026-09-07.md`](docs/CLOSED_LOOP_CLAIM_RECOVERY_2026-09-07.md).
+The closed-loop structural synthesis linking V3 with REC, TNOA, Boundary and MROD is in [`docs/CLOSED_LOOP_THEORY.md`](docs/CLOSED_LOOP_THEORY.md). The current cross-repository empirical recovery ledger linking V3 with REC, TNOA, Boundary, MROD, PolliPi and InsePi is in [`docs/CLOSED_LOOP_CLAIM_RECOVERY_2026-09-07.md`](docs/CLOSED_LOOP_CLAIM_RECOVERY_2026-09-07.md).
 
 V3 itself focuses on one operator type: **refinement by retained side information**.
 
@@ -40,6 +40,17 @@ The current general design rule is:
 
 > **Refine before loss. Preserve through reversible transforms. Audit selection from outside the selection. Coarsen only at the decision boundary.**
 
+## Closed-loop structural status
+
+The structural theory layer is now **closed at 23 propositions under the stated assumptions**.
+
+- **T1–T18** are the base scaffold: reference refinement, selection loss, semantic coarsening, reversible versus irreversible transforms, partial identification and retention order.
+- **T19–T23** close the interfaces to Boundary and MROD: a realized future observation is ordinary refinement; non-destructive sequential acquisition yields nested compatible-world sets; conditional mutual information is expected residual-entropy reduction; V3 and MROD act on the same Boundary partition; and distinctions lost by deterministic collapse require independently retained or newly acquired information for recovery.
+
+The canonical closure state is [`results/theory_closure_manifest.json`](results/theory_closure_manifest.json), which binds the base ledger [`results/theorem_ledger.json`](results/theorem_ledger.json) and the closed-loop extension [`results/closed_loop_theorem_ledger.json`](results/closed_loop_theorem_ledger.json). Regression tests verify that all 23 theorem IDs are present without duplication and that every declared cross-project structural interface is closed.
+
+The remaining open questions are therefore empirical rather than missing structural interfaces: whether a refinement is strict in a physical system, whether reference/intervention channels are physically valid, whether a held-out physical Boundary actually contracts, and how the architecture transports across natural systems.
+
 ## Core V3 design principle
 
 > **Decompose without discarding; contract compatible sets with justified information; interpret without forcing.**
@@ -54,7 +65,7 @@ is exactly reversible because the components sum to `Y`. The destructive operati
 
 ## Derived design results
 
-The 18 structural propositions remain the core scaffold. Additional merged results provide design diagnostics layered on top of that scaffold.
+The 23 structural propositions form the canonical scaffold. Additional merged results provide design diagnostics layered on top of that scaffold rather than inflating the theorem count further.
 
 ### Ideal audit burden
 
@@ -147,8 +158,9 @@ Flower visitation is treated only as one application. See:
 ## Repository layout
 
 - `docs/GENERAL_OBSERVATION_INFORMATION_THEORY.md` — application-independent umbrella theory;
+- `docs/CLOSED_LOOP_THEORY.md` — structural synthesis of V3 / REC / TNOA / Boundary / MROD;
 - `manuscript/THEORY_DRAFT.md` — integrated theory-paper draft;
-- `docs/CLOSED_LOOP_CLAIM_RECOVERY_2026-09-07.md` — cross-repository recovered/open claim ledger;
+- `docs/CLOSED_LOOP_CLAIM_RECOVERY_2026-09-07.md` — cross-repository recovered/open empirical claim ledger;
 - `docs/THEORY_CORE.md` — V3 refinement theory;
 - `docs/AUDIT_BURDEN_SCALE.md` — ideal finite-world audit-burden accounting;
 - `docs/CONSTRAINED_AUDIT_PROXY.md` — restricted physical-proxy realizability;
@@ -158,6 +170,7 @@ Flower visitation is treated only as one application. See:
 - `schemas/` — machine-readable empirical data contracts;
 - `src/v3/` — standalone executable theory witnesses, strictness criteria, and audit utilities;
 - `tests/` — regression tests for structural and empirical-contract propositions;
+- `results/theory_closure_manifest.json` — canonical 23-proposition structural closure state;
 - `results/` — machine-readable theorem/evidence ledgers and frozen summaries;
 - `archive/pollipi/` — provenance map for PolliPi-specific historical implementations that are not part of the generic API.
 
@@ -171,25 +184,8 @@ PolliPi remains a validation/acquisition implementation and historical simulatio
 
 ## Current structural evidence boundary
 
-The theorem ledger currently contains **18 structural propositions**. They include:
+The canonical structural closure contains **23 propositions**. These are an auditable scaffold under stated assumptions, **not 23 claims of newly discovered mathematics**. The audit-burden, proxy-realizability, partial-truth and portfolio results are derived design results rather than an inflated theorem count. Prior foundations include Blackwell informativeness, data processing/sufficiency, coarsened and missing-data theory, partial identification, selective-label problems, measurement-error/missing-data frameworks, zero-error side information, functional compression, standard conditional mutual-information identities and ecological imperfect-detection work.
 
-- retained-reference refinement;
-- semantic coarsening;
-- additive decomposition non-identifiability;
-- exact projection trade-offs and overprojection impossibility;
-- reversible decomposition and injective-recoding invariance;
-- decision-risk ordering;
-- set-valued partial decomposition and coverage transfer;
-- general-forward-model compatible-set contraction;
-- ideal resolvable-coverage monotonicity;
-- support-selection non-identifiability;
-- denominator-versus-latent-state separation;
-- retention-before-loss;
-- no-downstream-repair after deterministic collapse;
-- refinement/selection order sensitivity.
+The candidate contribution is the observation-system design synthesis: make acquisition timing, retention order, reversibility, support audit, physical proxy realizability, delayed semantic collapse, current identification boundaries and prospective observation choice explicit before the final analysis dataset exists.
 
-These are an auditable structural scaffold under stated assumptions, **not 18 claims of newly discovered mathematics**. The audit-burden, proxy-realizability, partial-truth and portfolio results are derived design results rather than an inflated theorem count. Prior foundations include Blackwell informativeness, data processing/sufficiency, coarsened and missing-data theory, partial identification, selective-label problems, measurement-error/missing-data frameworks, zero-error side information, functional compression and ecological imperfect-detection work.
-
-The candidate contribution is the observation-system design synthesis: make acquisition timing, retention order, reversibility, support audit, physical proxy realizability and delayed semantic collapse explicit before the final analysis dataset exists.
-
-Still empirical are whether a physical reference is informative, whether selection materially changes an application-specific estimand, whether an audit channel resolves omitted support, whether semantic collapse removes decision-relevant distinctions, whether an approximate observer uses rich information correctly, and whether the architecture transports across domains. Some of these questions already have controlled or external-data evidence in sister repositories; the unresolved umbrella target is a single blinded physical loop that demonstrates refinement and boundary reduction on the same held-out observation system.
+Still empirical are whether a physical reference is informative, whether selection materially changes an application-specific estimand, whether an audit channel resolves omitted support, whether semantic collapse removes decision-relevant distinctions, whether an approximate observer uses rich information correctly, whether a selected physical observation strictly contracts the held-out Boundary, and whether the architecture transports across domains. Some of these questions already have controlled or external-data evidence in sister repositories; the unresolved umbrella target is a single blinded physical loop that demonstrates refinement and boundary reduction on the same held-out observation system.
