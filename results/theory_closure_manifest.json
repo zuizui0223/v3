@@ -1,0 +1,51 @@
+{
+  "schema": "general-observation-information-theory-closure-v1",
+  "status": "structural-theory-closed",
+  "canonical_object": "compatible-world partition and identified-set geometry",
+  "base_ledger": "results/theorem_ledger.json",
+  "base_theorem_ids": [
+    "T1_reference_refinement",
+    "T2_semantic_coarsening",
+    "T3_additive_nonidentifiability",
+    "T4_projection_energy_tradeoff",
+    "T5_universal_nonharm_impossibility",
+    "T6_reversible_decomposition",
+    "T7_decision_risk_order",
+    "T8_partial_decomposition_coverage",
+    "T9_additive_diameter_equality",
+    "T10_general_forward_model_contraction",
+    "T11_resolvable_coverage_monotonicity",
+    "T12_general_forward_model_coverage_transfer",
+    "T13_support_selection_nonidentifiability",
+    "T14_denominator_not_biology",
+    "T15_retention_before_loss",
+    "T16_no_downstream_repair",
+    "T17_injective_recoding_preserves_information",
+    "T18_refinement_selection_noncommutativity"
+  ],
+  "closed_loop_ledger": "results/closed_loop_theorem_ledger.json",
+  "closed_loop_theorem_ids": [
+    "T19_realized_future_observation_refinement",
+    "T20_sequential_refinement_chain",
+    "T21_expected_entropy_refinement",
+    "T22_boundary_shared_state",
+    "T23_loss_recovery_dichotomy"
+  ],
+  "total_structural_theorem_count": 23,
+  "interfaces_closed": {
+    "v3_retrospective_refinement": true,
+    "rec_selection_loss": true,
+    "tnoa_semantic_coarsening": true,
+    "boundary_current_equivalence": true,
+    "mrod_prospective_expected_refinement": true,
+    "mrod_realized_refinement": true,
+    "sequential_closed_loop_nesting": true,
+    "new_information_after_loss": true
+  },
+  "remaining_questions_are_empirical": [
+    "strict physical-domain refinement",
+    "physical validity of reference and intervention channels",
+    "held-out physical boundary contraction",
+    "transport across natural systems"
+  ]
+}
