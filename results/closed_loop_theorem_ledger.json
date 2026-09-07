@@ -1,0 +1,86 @@
+{
+  "schema": "general-observation-information-closed-loop-theorem-ledger-v1",
+  "extends": "results/theorem_ledger.json",
+  "base_theorem_count": 18,
+  "closed_loop_theorem_count": 5,
+  "theorems": [
+    {
+      "id": "T19_realized_future_observation_refinement",
+      "claim": "After a future observation Q is realized and retained in addition to current evidence E, the compatible-world and identified sets under (E,Q) are subsets of those under E alone.",
+      "assumptions": [
+        "Q is retained as an additional channel rather than replacing E",
+        "the realized pair (e,q) is compatible with at least one world"
+      ],
+      "proof_type": "set inclusion",
+      "requires_real_data": false,
+      "cross_project_role": "V3-MROD bridge",
+      "empirical_boundary": "Whether the realized physical observation produces strict rather than weak contraction for the target estimand is empirical."
+    },
+    {
+      "id": "T20_sequential_refinement_chain",
+      "claim": "A sequence of non-destructive retained augmentations produces a nested non-expanding chain of compatible-world and identified sets along the realized observation history.",
+      "assumptions": [
+        "each new channel is retained in addition to the previous record",
+        "no intervening non-injective replacement discards prior evidence"
+      ],
+      "proof_type": "induction over repeated set inclusion",
+      "requires_real_data": false,
+      "cross_project_role": "closed-loop invariant",
+      "empirical_boundary": "Strict contraction at any particular step depends on the information carried by that step for the declared estimand."
+    },
+    {
+      "id": "T21_expected_entropy_refinement",
+      "claim": "Under a coherent predictive joint law, conditional mutual information I(S;Q|E) equals the expected reduction in residual mechanism entropy and is nonnegative; it is positive exactly when expected entropy decreases strictly.",
+      "assumptions": [
+        "S, Q and E admit the declared probability law",
+        "the entropies and conditional mutual information are well-defined"
+      ],
+      "proof_type": "conditional mutual-information identity",
+      "requires_real_data": false,
+      "cross_project_role": "MROD prospective refinement",
+      "empirical_boundary": "The predictive law and candidate-outcome model must be scientifically validated; positive expected gain does not imply equal pointwise shrinkage for every outcome."
+    },
+    {
+      "id": "T22_boundary_shared_state",
+      "claim": "V3 refinement and realized MROD acquisition both act by refining the observational-equivalence partition characterized by Boundary; they differ in timing and selection rule rather than in post-realization compatible-set algebra.",
+      "assumptions": [
+        "Boundary is defined by the equivalence relation induced by the retained observation map",
+        "V3 and realized MROD channels are added non-destructively"
+      ],
+      "proof_type": "operator composition over common equivalence partition",
+      "requires_real_data": false,
+      "cross_project_role": "Boundary-V3-MROD interface",
+      "empirical_boundary": "Rank, entropy and identified-set width are model-specific summaries and are not asserted to be numerically interchangeable."
+    },
+    {
+      "id": "T23_loss_recovery_dichotomy",
+      "claim": "A deterministic information-losing transformation cannot be undone by deterministic downstream processing of the collapsed state alone, but an independently retained or newly acquired channel can restore a lost scientific distinction if the joint record separates the previously equivalent worlds.",
+      "assumptions": [
+        "the loss transformation maps at least two scientifically distinct rich states to the same retained state",
+        "downstream repair without new information receives only that collapsed state"
+      ],
+      "proof_type": "function-composition impossibility plus constructive separating-channel condition",
+      "requires_real_data": false,
+      "cross_project_role": "REC-TNOA-V3-MROD recovery interface",
+      "empirical_boundary": "Availability, validity and strict informativeness of the independent/new channel are empirical."
+    }
+  ],
+  "structural_closure": {
+    "compatible_world_object": true,
+    "retrospective_refinement": true,
+    "selection_loss": true,
+    "semantic_coarsening": true,
+    "current_identification_boundary": true,
+    "prospective_expected_refinement": true,
+    "realized_future_refinement": true,
+    "sequential_loop_nesting": true,
+    "loss_vs_new_information_recovery": true
+  },
+  "not_claimed": [
+    "strict physical refinement without empirical validation",
+    "universal optimality of MROD",
+    "equivalence of rank, entropy and identified-set width",
+    "natural biological causal identification from observation geometry alone",
+    "universal transport across systems"
+  ]
+}
