@@ -3,8 +3,8 @@
 The validator intentionally covers cross-field scientific invariants that ordinary
 JSON schema syntax does not express cleanly: odd temporal windows, source
 independence, positive audit probability on omitted opportunities, reference
-retention before selection, fixed-vs-adaptive policy coverage, and disjoint
-development/held-out groups.
+retention before selection, fixed-vs-adaptive policy coverage, optional controlled
+failure diagnosis, and disjoint development/held-out groups.
 """
 from __future__ import annotations
 
@@ -78,11 +78,29 @@ def validate_visitation_benchmark_manifest(payload: Mapping[str, Any]) -> None:
     biological = _nonempty_string(
         payload.get("biological_truth_source_id"), "biological_truth_source_id"
     )
-    physical = _nonempty_string(
-        payload.get("physical_truth_source_id"), "physical_truth_source_id"
-    )
-    if len({primary, biological, physical}) != 3:
-        raise ValueError("primary, biological truth, and physical truth sources must be distinct")
+    if primary == biological:
+        raise ValueError("primary and biological truth sources must be distinct")
+
+    failure = payload.get("failure_diagnosis")
+    if not isinstance(failure, Mapping):
+        raise ValueError("failure_diagnosis must be an object")
+    enabled = failure.get("enabled")
+    if not isinstance(enabled, bool):
+        raise ValueError("failure_diagnosis.enabled must be boolean")
+    physical_raw = failure.get("physical_truth_source_id")
+    physical: str | None = None
+    if enabled:
+        physical = _nonempty_string(
+            physical_raw, "failure_diagnosis.physical_truth_source_id"
+        )
+        if physical in {primary, biological}:
+            raise ValueError(
+                "physical truth source must be distinct from primary and biological truth"
+            )
+    elif physical_raw not in (None, ""):
+        raise ValueError(
+            "physical_truth_source_id must be null/absent when failure diagnosis is disabled"
+        )
 
     references = payload.get("reference_candidates")
     if not isinstance(references, list) or not references:
@@ -92,8 +110,12 @@ def validate_visitation_benchmark_manifest(payload: Mapping[str, Any]) -> None:
     for index, row in enumerate(references):
         if not isinstance(row, Mapping):
             raise ValueError(f"reference_candidates[{index}] must be an object")
-        reference_id = _nonempty_string(row.get("reference_id"), f"reference_candidates[{index}].reference_id")
-        source_id = _nonempty_string(row.get("source_id"), f"reference_candidates[{index}].source_id")
+        reference_id = _nonempty_string(
+            row.get("reference_id"), f"reference_candidates[{index}].reference_id"
+        )
+        source_id = _nonempty_string(
+            row.get("source_id"), f"reference_candidates[{index}].source_id"
+        )
         if reference_id in reference_ids:
             raise ValueError(f"duplicate reference_id: {reference_id}")
         if source_id in reference_sources:
@@ -104,7 +126,10 @@ def validate_visitation_benchmark_manifest(payload: Mapping[str, Any]) -> None:
             raise ValueError(f"reference_candidates[{index}].reference_type is invalid")
         if row.get("acquired_before_selection") is not True:
             raise ValueError("every reference candidate must be acquired before selection")
-    if {primary, biological, physical} & reference_sources:
+    reserved_sources = {primary, biological}
+    if physical is not None:
+        reserved_sources.add(physical)
+    if reserved_sources & reference_sources:
         raise ValueError("reference sources must be distinct from primary and truth sources")
 
     policies = payload.get("selection_policies")
@@ -115,7 +140,9 @@ def validate_visitation_benchmark_manifest(payload: Mapping[str, Any]) -> None:
     for index, row in enumerate(policies):
         if not isinstance(row, Mapping):
             raise ValueError(f"selection_policies[{index}] must be an object")
-        policy_id = _nonempty_string(row.get("policy_id"), f"selection_policies[{index}].policy_id")
+        policy_id = _nonempty_string(
+            row.get("policy_id"), f"selection_policies[{index}].policy_id"
+        )
         if policy_id in policy_ids:
             raise ValueError(f"duplicate policy_id: {policy_id}")
         policy_ids.add(policy_id)
