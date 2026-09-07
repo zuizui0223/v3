@@ -8,6 +8,8 @@ The central problem is not pollination, insect detection, or any particular clas
 
 The application-independent umbrella theory is in [`docs/GENERAL_OBSERVATION_INFORMATION_THEORY.md`](docs/GENERAL_OBSERVATION_INFORMATION_THEORY.md).
 
+The current cross-repository recovery ledger linking V3 with REC, TNOA, Boundary, MROD, PolliPi and InsePi is in [`docs/CLOSED_LOOP_CLAIM_RECOVERY_2026-09-07.md`](docs/CLOSED_LOOP_CLAIM_RECOVERY_2026-09-07.md).
+
 V3 itself focuses on one operator type: **refinement by retained side information**.
 
 For a general forward model
@@ -65,6 +67,8 @@ The empirical unit is an observation **opportunity**, created independently of w
 
 Executable summaries live in `src/v3/observation_audit.py`.
 
+The frozen synthetic evidence ledger already supports one strict application-level statement: correctly time-coupled reference information improved the controlled synthetic observation relative to no-reference and time-broken controls. In the temporal-subspace benchmark, balanced utility was `0.8327` with the matched reference versus `0.5688` without reference, while nuisance false-frame rate fell from `0.2986` to `0.0272`. This does **not** establish physical-domain or universal reference benefit.
+
 ## PolliPi / InsePi are empirical systems, not definitions of the theory
 
 - **PolliPi** remains a practical observation-allocation and adaptive-capture testbed. Its simulation history is scientifically useful because it exposed failure mechanisms, ruled out brittle architectures and motivated the current V3 formulation.
@@ -81,6 +85,7 @@ Flower visitation is treated only as one application. See:
 ## Repository layout
 
 - `docs/GENERAL_OBSERVATION_INFORMATION_THEORY.md` — application-independent umbrella theory;
+- `docs/CLOSED_LOOP_CLAIM_RECOVERY_2026-09-07.md` — cross-repository recovered/open claim ledger;
 - `docs/THEORY_CORE.md` — V3 refinement theory;
 - `docs/GENERIC_EMPIRICAL_AUDIT_PROTOCOL.md` — general empirical contract derived from the theory;
 - `docs/APPLICATION_TO_VISITATION_OBSERVATION.md` — one ecological application, explicitly separated from the theory definition;
@@ -122,4 +127,4 @@ These are an auditable structural scaffold under stated assumptions, **not 18 cl
 
 The candidate contribution is the observation-system design synthesis: make acquisition timing, retention order, reversibility, support audit, and delayed semantic collapse explicit before the final analysis dataset exists.
 
-Still empirical are whether a physical reference is informative, whether selection materially changes an application-specific estimand, whether an audit channel resolves omitted support, whether semantic collapse removes decision-relevant distinctions, whether an approximate observer uses rich information correctly, and whether the architecture transports across domains.
+Still empirical are whether a physical reference is informative, whether selection materially changes an application-specific estimand, whether an audit channel resolves omitted support, whether semantic collapse removes decision-relevant distinctions, whether an approximate observer uses rich information correctly, and whether the architecture transports across domains. Some of these questions already have controlled or external-data evidence in sister repositories; the unresolved umbrella target is a single blinded physical loop that demonstrates refinement and boundary reduction on the same held-out observation system.
