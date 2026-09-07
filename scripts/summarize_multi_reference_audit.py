@@ -17,6 +17,14 @@ def main() -> int:
     parser.add_argument("--opportunities", required=True, type=Path)
     parser.add_argument("--reference1", required=True, type=Path)
     parser.add_argument("--reference2", required=True, type=Path)
+    parser.add_argument(
+        "--truth-alphabet-size",
+        type=int,
+        help=(
+            "Optional pre-justified finite upper bound on the number of possible truth states. "
+            "When omitted, partial-truth bounds add no global alphabet assumption."
+        ),
+    )
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
 
@@ -24,9 +32,10 @@ def main() -> int:
         records_from_jsonl(args.opportunities),
         reference1_by_id=reference_overlay_from_jsonl(args.reference1),
         reference2_by_id=reference_overlay_from_jsonl(args.reference2),
+        truth_alphabet_size=args.truth_alphabet_size,
     )
     payload = {
-        "schema": "multi-reference-audit-summary-v1",
+        "schema": "multi-reference-audit-summary-v2",
         **summary.to_dict(),
     }
     text = json.dumps(payload, indent=2, sort_keys=True) + "\n"

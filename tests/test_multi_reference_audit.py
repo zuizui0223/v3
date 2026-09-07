@@ -21,17 +21,26 @@ def _xor_records() -> tuple[OpportunityRecord, ...]:
     )
 
 
+def _xor_refs() -> tuple[dict[str, int], dict[str, int]]:
+    return (
+        {"o00": 0, "o01": 0, "o10": 1, "o11": 1},
+        {"o00": 0, "o01": 1, "o10": 0, "o11": 1},
+    )
+
+
 def test_complete_xor_reference_pair_is_complementary() -> None:
     records = _xor_records()
-    r1 = {"o00": 0, "o01": 0, "o10": 1, "o11": 1}
-    r2 = {"o00": 0, "o01": 1, "o10": 0, "o11": 1}
+    r1, r2 = _xor_refs()
     summary = multi_reference_audit_summary(records, reference1_by_id=r1, reference2_by_id=r2)
     assert summary.joint_complete_coverage is True
+    assert summary.partial_truth_bounds_available is True
     assert summary.base_burden_bits == pytest.approx(1.0)
     assert summary.reference1_burden_bits == pytest.approx(1.0)
     assert summary.reference2_burden_bits == pytest.approx(1.0)
     assert summary.joint_burden_bits == pytest.approx(0.0)
     assert summary.sample_interaction_bits == pytest.approx(1.0)
+    assert summary.interaction_lower_bits == pytest.approx(1.0)
+    assert summary.interaction_upper_bits == pytest.approx(1.0)
     assert summary.relation == "complementary"
 
 
@@ -51,33 +60,67 @@ def test_duplicate_reference_pair_is_redundant() -> None:
     assert summary.relation == "redundant"
 
 
-def test_partial_truth_withholds_reference_relation() -> None:
+def test_partial_truth_can_certify_xor_complementarity() -> None:
     records = list(_xor_records())
     records[-1] = OpportunityRecord("o11", False, truth_state=None, primary_key="same")
-    r1 = {"o00": 0, "o01": 0, "o10": 1, "o11": 1}
-    r2 = {"o00": 0, "o01": 1, "o10": 0, "o11": 1}
+    r1, r2 = _xor_refs()
     summary = multi_reference_audit_summary(
         tuple(records), reference1_by_id=r1, reference2_by_id=r2
     )
     assert summary.truth_coverage_complete is False
     assert summary.joint_complete_coverage is False
-    assert summary.burden_scope == "complete_case_lower_bound_components"
-    assert summary.relation == "undetermined_partial_coverage"
+    assert summary.partial_truth_bounds_available is True
+    assert summary.burden_scope == "partial_truth_bounded"
+    assert summary.interaction_lower_bits is not None
+    assert summary.interaction_lower_bits > 0.0
+    assert summary.relation == "complementary_certified_partial_truth"
 
 
-def test_missing_reference_withholds_relation() -> None:
+def test_known_truth_alphabet_tightens_partial_xor_interaction() -> None:
+    records = list(_xor_records())
+    records[-1] = OpportunityRecord("o11", False, truth_state=None, primary_key="same")
+    r1, r2 = _xor_refs()
+    summary = multi_reference_audit_summary(
+        tuple(records),
+        reference1_by_id=r1,
+        reference2_by_id=r2,
+        truth_alphabet_size=2,
+    )
+    assert summary.interaction_lower_bits == pytest.approx(1.0)
+    assert summary.interaction_upper_bits == pytest.approx(1.0)
+    assert summary.relation == "complementary_certified_partial_truth"
+
+
+def test_missing_reference_still_withholds_relation() -> None:
     records = _xor_records()
-    r1 = {"o00": 0, "o01": 0, "o10": 1, "o11": 1}
-    r2 = {"o00": 0, "o01": 1, "o10": 0, "o11": None}
+    r1, r2 = _xor_refs()
+    r2 = dict(r2)
+    r2["o11"] = None
     summary = multi_reference_audit_summary(records, reference1_by_id=r1, reference2_by_id=r2)
     assert summary.reference2_coverage_complete is False
+    assert summary.partial_truth_bounds_available is False
+    assert summary.interaction_lower_bits is None
     assert summary.relation == "undetermined_partial_coverage"
+
+
+def test_no_truth_labels_returns_bounds_not_fake_sample_effect() -> None:
+    records = tuple(
+        OpportunityRecord(record.opportunity_id, record.selected, truth_state=None, primary_key="same")
+        for record in _xor_records()
+    )
+    r1, r2 = _xor_refs()
+    summary = multi_reference_audit_summary(records, reference1_by_id=r1, reference2_by_id=r2)
+    assert summary.n_truth == 0
+    assert summary.n_joint_complete == 0
+    assert summary.sample_interaction_bits is None
+    assert summary.partial_truth_bounds_available is True
+    assert summary.relation == "undetermined_partial_truth_bounds"
 
 
 def test_orphan_reference_overlay_fails_closed() -> None:
     records = _xor_records()
-    r1 = {"o00": 0, "o01": 0, "o10": 1, "o11": 1, "orphan": 3}
-    r2 = {"o00": 0, "o01": 1, "o10": 0, "o11": 1}
+    r1, r2 = _xor_refs()
+    r1 = {**r1, "orphan": 3}
     with pytest.raises(ValueError, match="orphan"):
         multi_reference_audit_summary(records, reference1_by_id=r1, reference2_by_id=r2)
 
