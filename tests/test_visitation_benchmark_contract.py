@@ -20,7 +20,7 @@ def _valid_manifest() -> dict[str, object]:
         },
         "primary_source_id": "primary-probe-stream-v1",
         "biological_truth_source_id": "independent-truth-video-v1",
-        "physical_truth_source_id": "intervention-log-v1",
+        "failure_diagnosis": {"enabled": False},
         "reference_candidates": [
             {
                 "reference_id": "target-free-roi",
@@ -69,8 +69,44 @@ def _valid_manifest() -> dict[str, object]:
     }
 
 
-def test_valid_manifest_passes() -> None:
+def test_valid_manifest_without_failure_diagnosis_passes() -> None:
     validate_visitation_benchmark_manifest(_valid_manifest())
+
+
+def test_failure_diagnosis_can_be_enabled_with_independent_physical_truth() -> None:
+    manifest = _valid_manifest()
+    manifest["failure_diagnosis"] = {
+        "enabled": True,
+        "physical_truth_source_id": "intervention-log-v1",
+    }
+    validate_visitation_benchmark_manifest(manifest)
+
+
+def test_enabled_failure_diagnosis_requires_physical_truth_source() -> None:
+    manifest = _valid_manifest()
+    manifest["failure_diagnosis"] = {"enabled": True}
+    with pytest.raises(ValueError, match="physical_truth_source_id"):
+        validate_visitation_benchmark_manifest(manifest)
+
+
+def test_disabled_failure_diagnosis_rejects_hidden_physical_source() -> None:
+    manifest = _valid_manifest()
+    manifest["failure_diagnosis"] = {
+        "enabled": False,
+        "physical_truth_source_id": "intervention-log-v1",
+    }
+    with pytest.raises(ValueError, match="null/absent"):
+        validate_visitation_benchmark_manifest(manifest)
+
+
+def test_physical_truth_must_be_independent_when_enabled() -> None:
+    manifest = _valid_manifest()
+    manifest["failure_diagnosis"] = {
+        "enabled": True,
+        "physical_truth_source_id": manifest["biological_truth_source_id"],
+    }
+    with pytest.raises(ValueError, match="physical truth source"):
+        validate_visitation_benchmark_manifest(manifest)
 
 
 def test_omitted_audit_probability_cannot_be_zero() -> None:
