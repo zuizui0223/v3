@@ -1,7 +1,13 @@
 """Worst-case audit-burden comparisons built on finite-world audit complexity.
 
-The burden B_theta(O)=log2 m*(O,theta) is a worst-case fixed-alphabet quantity.
-It is not Shannon entropy and does not describe average communication cost.
+The burden ``B_theta(O)=log2 m*(O,theta)`` is a worst-case fixed-alphabet
+**ideal benchmark**.  ``m*`` is the exact minimum only when the additional audit
+mapping may be designed without physical/proxy constraints on the supplied
+latent-world set and is retained jointly with ``O``.  A restricted physical proxy
+may require a larger alphabet or may fail to identify the estimand at all.
+
+The burden is not Shannon entropy, average communication cost, sensor bandwidth,
+or a realizability guarantee for a proposed audit sensor.
 """
 from __future__ import annotations
 
@@ -54,11 +60,11 @@ def compare_audit_burden(
     after: Callable[[W], Hashable],
     estimand: Callable[[W], T],
 ) -> AuditBurdenComparison:
-    """Compare worst-case audit burden before and after any observation change.
+    """Compare ideal worst-case audit burden before and after an observation change.
 
-    Positive ``signed_relief_bits`` means less external audit state is required
-    after the change. Negative values mean the retained representation created
-    additional worst-case audit burden.
+    Positive ``signed_relief_bits`` means the second retained representation has a
+    smaller unconstrained latent-world audit benchmark.  It does **not** guarantee
+    that a proposed physical audit proxy can attain either benchmark.
     """
     before_c = audit_complexity(worlds, observation=before, estimand=estimand)
     after_c = audit_complexity(worlds, observation=after, estimand=estimand)
@@ -78,10 +84,11 @@ def refinement_relief(
     fine: Callable[[W], Hashable],
     estimand: Callable[[W], T],
 ) -> AuditBurdenComparison:
-    """Audit burden relief under a validated finite-world refinement.
+    """Ideal audit-burden relief under a validated finite-world refinement.
 
     Raises when ``fine`` is not actually a refinement of ``coarse`` on the supplied
-    finite world set. Under a valid refinement the signed relief is non-negative.
+    finite world set. Under a valid refinement the signed ideal relief is
+    non-negative.
     """
     if not _refines(worlds, coarse=coarse, fine=fine):
         raise ValueError("fine observation is not a refinement of coarse observation")
@@ -98,11 +105,11 @@ def coarsening_burden(
     coarse: Callable[[W], Hashable],
     estimand: Callable[[W], T],
 ) -> AuditBurdenComparison:
-    """Audit burden change after deterministic/information-valid coarsening.
+    """Ideal audit-burden change after deterministic/information-valid coarsening.
 
     ``coarse`` must be constant within each ``rich`` cell. The returned
     ``signed_relief_bits`` is therefore non-positive; its negation is the added
-    worst-case audit burden.
+    ideal worst-case audit burden.
     """
     if not _refines(worlds, coarse=coarse, fine=rich):
         raise ValueError("coarse observation is not a coarsening of rich observation")
@@ -116,11 +123,11 @@ def sampled_audit_burden_lower_bound(
     observations: Sequence[Hashable],
     estimands: Sequence[Hashable],
 ) -> float:
-    """Observed-sample lower bound on log2 audit burden.
+    """Observed-sample lower bound on the ideal log2 audit-burden benchmark.
 
     With incomplete truth sampling, unseen estimand values can exist inside an
     observation cell. Therefore the observed maximum identified-cardinality can
-    only certify a lower bound on the finite population's worst-case burden.
+    only certify a lower bound on the finite population's ideal worst-case burden.
     """
     if len(observations) != len(estimands) or not observations:
         raise ValueError("observations and estimands must be non-empty and aligned")

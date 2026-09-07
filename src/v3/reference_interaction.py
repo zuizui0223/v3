@@ -1,7 +1,12 @@
 """Worst-case audit-burden interactions between retained side-information channels.
 
-This module uses the finite-world audit-burden scale. The interaction term is a
-set-cardinality design diagnostic, not Shannon interaction information.
+This module uses the finite-world **ideal** audit-burden benchmark.  Its values are
+exact for unconstrained latent-world audit mappings retained jointly with the
+observation.  They are lower-bound/accounting quantities for restricted physical
+reference proxies, whose realizability must be checked separately.
+
+The interaction term is a set-cardinality design diagnostic, not Shannon
+interaction information, PID synergy, or a causal interaction measure.
 """
 from __future__ import annotations
 
@@ -53,17 +58,21 @@ def reference_interaction(
     reference2: Callable[[W], Hashable],
     estimand: Callable[[W], T],
 ) -> ReferenceInteraction:
-    """Compare isolated and joint audit-burden relief from two retained references.
+    """Compare isolated and joint ideal audit-burden relief from two references.
 
-    Let B0=B(O), B1=B(O,R1), B2=B(O,R2), B12=B(O,R1,R2).
+    Let B0=B(O), B1=B(O,R1), B2=B(O,R2), B12=B(O,R1,R2).  Here each B is the
+    unconstrained finite-world audit-mapping benchmark, not a guarantee that a
+    physical proxy can attain the corresponding alphabet size.
+
     The interaction is
 
         I = (B0-B12) - (B0-B1) - (B0-B2)
           = B1 + B2 - B0 - B12.
 
-    Positive I means the pair removes more worst-case burden jointly than the sum
-    of their isolated reliefs (complementarity under this metric). Negative I means
-    isolated relief overlaps (redundancy). Zero means additive relief.
+    Positive I means the pair removes more ideal worst-case burden jointly than
+    the sum of their isolated reliefs (complementarity under this metric).
+    Negative I means isolated relief overlaps (redundancy). Zero means additive
+    relief on this accounting scale.
     """
     if not worlds:
         raise ValueError("worlds must be non-empty")
