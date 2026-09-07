@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import math
 from dataclasses import asdict
 from pathlib import Path
 from typing import Any, Iterable, Mapping
@@ -27,6 +28,26 @@ _ALLOWED_FIELDS = {
     "rich_evidence",
     "coarse_label",
 }
+_PARTITION_FIELDS = {
+    "truth_state",
+    "primary_key",
+    "side_key",
+    "audit_key",
+    "rich_evidence",
+    "coarse_label",
+}
+
+
+def _validate_partition_scalar(name: str, value: Any) -> None:
+    if value is None:
+        return
+    if isinstance(value, float):
+        if not math.isfinite(value):
+            raise ValueError(f"{name} float value must be finite")
+        return
+    if isinstance(value, (str, int, bool)):
+        return
+    raise ValueError(f"{name} must be a JSON scalar or null")
 
 
 def record_from_mapping(payload: Mapping[str, Any]) -> OpportunityRecord:
@@ -36,8 +57,21 @@ def record_from_mapping(payload: Mapping[str, Any]) -> OpportunityRecord:
     missing = {"opportunity_id", "selected"} - set(payload)
     if missing:
         raise ValueError(f"missing required opportunity fields: {sorted(missing)}")
+    if not isinstance(payload["opportunity_id"], str) or not payload["opportunity_id"]:
+        raise ValueError("opportunity_id must be a non-empty JSON string")
     if not isinstance(payload["selected"], bool):
         raise ValueError("selected must be a JSON boolean")
+
+    estimand_value = payload.get("estimand_value")
+    if estimand_value is not None:
+        if isinstance(estimand_value, bool) or not isinstance(estimand_value, (int, float)):
+            raise ValueError("estimand_value must be a JSON number or null")
+        if not math.isfinite(float(estimand_value)):
+            raise ValueError("estimand_value must be finite")
+
+    for field in _PARTITION_FIELDS:
+        _validate_partition_scalar(field, payload.get(field))
+
     return OpportunityRecord(**dict(payload))
 
 
@@ -55,7 +89,7 @@ def records_from_jsonl(path: str | Path) -> tuple[OpportunityRecord, ...]:
             raise ValueError(f"line {line_number} must contain a JSON object")
         try:
             rows.append(record_from_mapping(payload))
-        except ValueError as exc:
+        except (TypeError, ValueError) as exc:
             raise ValueError(f"line {line_number}: {exc}") from exc
     validate_opportunities(rows)
     return tuple(rows)
