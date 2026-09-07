@@ -6,7 +6,7 @@ The central problem is not pollination, insect detection, or any particular clas
 
 > **When an observed signal mixes a focal process with measurement-side uncertainty, what can additional retained information legitimately refine, what information is later lost by selection or semantic collapse, and what must remain unresolved?**
 
-The application-independent umbrella theory is in [`docs/GENERAL_OBSERVATION_INFORMATION_THEORY.md`](docs/GENERAL_OBSERVATION_INFORMATION_THEORY.md).
+The application-independent umbrella theory is in [`docs/GENERAL_OBSERVATION_INFORMATION_THEORY.md`](docs/GENERAL_OBSERVATION_INFORMATION_THEORY.md). The integrated paper draft is [`manuscript/THEORY_DRAFT.md`](manuscript/THEORY_DRAFT.md).
 
 The current cross-repository recovery ledger linking V3 with REC, TNOA, Boundary, MROD, PolliPi and InsePi is in [`docs/CLOSED_LOOP_CLAIM_RECOVERY_2026-09-07.md`](docs/CLOSED_LOOP_CLAIM_RECOVERY_2026-09-07.md).
 
@@ -52,6 +52,68 @@ For a linear projector `P`, the pair
 
 is exactly reversible because the components sum to `Y`. The destructive operation is replacing the observation by only one component. For target-to-nuisance energy ratio, projection improves the ratio exactly when nuisance capture exceeds target capture.
 
+## Derived design results
+
+The 18 structural propositions remain the core scaffold. Additional merged results provide design diagnostics layered on top of that scaffold.
+
+### Ideal audit burden
+
+For retained observation `O` and estimand `theta`,
+
+\[
+m^*(O,\theta)=\max_o|\mathcal I_O(o)|
+\]
+
+is the exact minimum audit alphabet only for an **unconstrained deterministic latent-world audit mapping** retained jointly with `O`. Define the ideal worst-case burden
+
+\[
+B_\theta(O)=\log_2 m^*(O,\theta).
+\]
+
+This is a compatible-world accounting benchmark, not Shannon entropy or a claim about physical sensor bandwidth.
+
+### Physical proxy realizability
+
+A real reference is restricted to an obtainable proxy `Z`. If the same `(O,Z)` cell contains multiple truth values, no deterministic post-processing of `Z` can resolve the estimand. Otherwise the proxy confusability graph gives the minimum finite noiseless recoding alphabet via its chromatic number `chi(G_Z)`.
+
+A feasible proxy therefore has realizability gap
+
+\[
+\Gamma_Z=\log_2\chi(G_Z)-\log_2m^*\ge0.
+\]
+
+This separates:
+
+\[
+\boxed{\text{ideal missing distinction}\ne\text{physical proxy capability}\ne\text{implemented observer performance}.}
+\]
+
+See [`docs/CONSTRAINED_AUDIT_PROXY.md`](docs/CONSTRAINED_AUDIT_PROXY.md) and [`docs/EMPIRICAL_CONSTRAINED_PROXY_AUDIT.md`](docs/EMPIRICAL_CONSTRAINED_PROXY_AUDIT.md).
+
+### Multiple references and portfolios
+
+For two references,
+
+\[
+I_B=B(O,R_1)+B(O,R_2)-B(O)-B(O,R_1,R_2)
+\]
+
+tracks complementary or redundant ideal burden relief under this finite worst-case metric. Reference relief is monotone with added retained channels but is not generally submodular; a constructive example shows that greedy isolated-channel ranking can miss the optimal reference pair.
+
+See [`docs/REFERENCE_CHANNEL_INTERACTIONS.md`](docs/REFERENCE_CHANNEL_INTERACTIONS.md) and [`docs/REFERENCE_PORTFOLIO_DESIGN.md`](docs/REFERENCE_PORTFOLIO_DESIGN.md).
+
+### Partial truth
+
+Missing truth is not converted to a negative label. If `l_o` distinct truth states are observed and `u_o` truth labels are missing in a retained-observation cell,
+
+\[
+\max(1,l_o)\le q_o\le l_o+u_o,
+\]
+
+optionally capped by an independently justified finite truth alphabet. These bounds can sometimes certify the sign of a multi-reference interaction before exhaustive truth is available.
+
+See [`docs/PARTIAL_TRUTH_BURDEN_BOUNDS.md`](docs/PARTIAL_TRUTH_BURDEN_BOUNDS.md) and [`docs/MULTI_REFERENCE_EMPIRICAL_AUDIT.md`](docs/MULTI_REFERENCE_EMPIRICAL_AUDIT.md).
+
 ## Theory-to-empirical bridge
 
 The structural theory gives weak information-order statements. Real systems must test whether those effects are **strictly active** for a chosen estimand.
@@ -63,9 +125,9 @@ The empirical unit is an observation **opportunity**, created independently of w
 - strict truth-partition contraction from side/reference information;
 - selection shift and its decomposition into omission amount × omitted-support contrast;
 - truth-state ambiguity introduced by semantic coarsening;
-- resolution supplied by an audit channel retained independently of selection.
-
-Executable summaries live in `src/v3/observation_audit.py`.
+- resolution supplied by an audit channel retained independently of selection;
+- partial-truth bounds on unresolved support cardinality;
+- exact or one-sided evidence about whether an observed physical proxy can realize the required distinctions.
 
 The frozen synthetic evidence ledger already supports one strict application-level statement: correctly time-coupled reference information improved the controlled synthetic observation relative to no-reference and time-broken controls. In the temporal-subspace benchmark, balanced utility was `0.8327` with the matched reference versus `0.5688` without reference, while nuisance false-frame rate fell from `0.2986` to `0.0272`. This does **not** establish physical-domain or universal reference benefit.
 
@@ -85,15 +147,18 @@ Flower visitation is treated only as one application. See:
 ## Repository layout
 
 - `docs/GENERAL_OBSERVATION_INFORMATION_THEORY.md` — application-independent umbrella theory;
+- `manuscript/THEORY_DRAFT.md` — integrated theory-paper draft;
 - `docs/CLOSED_LOOP_CLAIM_RECOVERY_2026-09-07.md` — cross-repository recovered/open claim ledger;
 - `docs/THEORY_CORE.md` — V3 refinement theory;
+- `docs/AUDIT_BURDEN_SCALE.md` — ideal finite-world audit-burden accounting;
+- `docs/CONSTRAINED_AUDIT_PROXY.md` — restricted physical-proxy realizability;
 - `docs/GENERIC_EMPIRICAL_AUDIT_PROTOCOL.md` — general empirical contract derived from the theory;
+- `docs/EMPIRICAL_CONSTRAINED_PROXY_AUDIT.md` — opportunity-level physical-proxy audit;
 - `docs/APPLICATION_TO_VISITATION_OBSERVATION.md` — one ecological application, explicitly separated from the theory definition;
 - `schemas/` — machine-readable empirical data contracts;
 - `src/v3/` — standalone executable theory witnesses, strictness criteria, and audit utilities;
 - `tests/` — regression tests for structural and empirical-contract propositions;
 - `results/` — machine-readable theorem/evidence ledgers and frozen summaries;
-- `manuscript/` — theory-paper drafts;
 - `archive/pollipi/` — provenance map for PolliPi-specific historical implementations that are not part of the generic API.
 
 ## Provenance
@@ -123,8 +188,8 @@ The theorem ledger currently contains **18 structural propositions**. They inclu
 - no-downstream-repair after deterministic collapse;
 - refinement/selection order sensitivity.
 
-These are an auditable structural scaffold under stated assumptions, **not 18 claims of newly discovered mathematics**. Prior foundations include Blackwell informativeness, data processing/sufficiency, coarsened and missing-data theory, partial identification, selective-label problems, measurement-error/missing-data frameworks, and ecological imperfect-detection work.
+These are an auditable structural scaffold under stated assumptions, **not 18 claims of newly discovered mathematics**. The audit-burden, proxy-realizability, partial-truth and portfolio results are derived design results rather than an inflated theorem count. Prior foundations include Blackwell informativeness, data processing/sufficiency, coarsened and missing-data theory, partial identification, selective-label problems, measurement-error/missing-data frameworks, zero-error side information, functional compression and ecological imperfect-detection work.
 
-The candidate contribution is the observation-system design synthesis: make acquisition timing, retention order, reversibility, support audit, and delayed semantic collapse explicit before the final analysis dataset exists.
+The candidate contribution is the observation-system design synthesis: make acquisition timing, retention order, reversibility, support audit, physical proxy realizability and delayed semantic collapse explicit before the final analysis dataset exists.
 
 Still empirical are whether a physical reference is informative, whether selection materially changes an application-specific estimand, whether an audit channel resolves omitted support, whether semantic collapse removes decision-relevant distinctions, whether an approximate observer uses rich information correctly, and whether the architecture transports across domains. Some of these questions already have controlled or external-data evidence in sister repositories; the unresolved umbrella target is a single blinded physical loop that demonstrates refinement and boundary reduction on the same held-out observation system.
