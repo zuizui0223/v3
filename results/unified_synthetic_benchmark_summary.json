@@ -1,0 +1,58 @@
+{
+  "schema": "v3-unified-synthetic-benchmark-v1",
+  "status": "finite-world-exact-expected-results",
+  "U1_reference_refinement": {
+    "primary_compatible_size": 2,
+    "matched_compatible_sizes": [1, 1],
+    "constant_reference_compatible_sizes": [2, 2],
+    "strict_refinement": true
+  },
+  "U2_selection_nonidentifiability": {
+    "selected_prevalence": 0.6666666666666666,
+    "full_prevalence_identified_set_selected_only": [0.5, 0.75],
+    "selected_only_width": 0.25,
+    "denominator_only_width": 0.25,
+    "audited_width": 0.0
+  },
+  "U3_semantic_coarsening": {
+    "rich_compatible_sizes": [1, 1],
+    "coarse_compatible_sizes": [2, 2],
+    "rich_truth_width": 0.0,
+    "coarse_truth_width": 1.0
+  },
+  "U4_prospective_information": {
+    "current_entropy_bits": 2.0,
+    "candidate_information_bits": {
+      "Q_balanced": 1.0,
+      "Q_skew": 0.8112781244591328,
+      "Q_null": 0.0
+    },
+    "selected_candidate": "Q_balanced",
+    "uniform_random_mean_information_bits": 0.6037593748197109,
+    "planned_entropy_path_bits": [2.0, 1.0, 0.0]
+  },
+  "U5_intervention_identification": {
+    "baseline_compatible_size": 4,
+    "event_intervention_group_sizes": [2, 2],
+    "observability_intervention_group_sizes": [2, 2],
+    "joint_intervention_group_sizes": [1, 1, 1, 1],
+    "entropy_path_bits": [2.0, 1.0, 0.0],
+    "joint_point_identification": true
+  },
+  "claim_boundary": {
+    "supported": [
+      "strict finite-world refinement from discriminating retained side information",
+      "selected-table non-identifiability of omitted truth without independent information",
+      "strict information loss under deterministic semantic coarsening",
+      "prospective observations can differ in expected information and support an information-guided choice",
+      "designed interventions can add identification directions and point-identify a finite mechanism set"
+    ],
+    "not_supported": [
+      "physical or ecological effect sizes",
+      "field prevalence or visit-rate validity",
+      "universal optimality of information-guided design",
+      "universal physical reference benefit",
+      "physical causal identification"
+    ]
+  }
+}
