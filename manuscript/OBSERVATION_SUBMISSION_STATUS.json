@@ -1,0 +1,44 @@
+{
+  "schema": "observation-submission-status-v1",
+  "status": "active-integrated-drafting",
+  "paper": "OBSERVATION",
+  "submission_home": "zuizui0223/v3",
+  "active_manuscript": "manuscript/OBSERVATION_DRAFT_V1.md",
+  "integration_contract": "manuscript/OBSERVATION_INTEGRATION_PLAN.md",
+  "claim_manifest": "manuscript/OBSERVATION_CLAIM_MANIFEST.json",
+  "overlap_firewall": "manuscript/OBSERVATION_OVERLAP_FIREWALL.md",
+  "figure_plan": "manuscript/OBSERVATION_FIGURE_PLAN.md",
+  "source_repositories": [
+    "zuizui0223/v3",
+    "zuizui0223/rec",
+    "zuizui0223/tnoa"
+  ],
+  "completed": [
+    "two-paper architecture fixed in theouni",
+    "Observation scientific question fixed",
+    "U1-U3 retained as exact common geometry",
+    "U4-U5 removed from Observation headline novelty",
+    "V3 synthetic strict-refinement block integrated",
+    "REC external empirical selection block integrated",
+    "REC irreversibility and transport-adverse result integrated",
+    "TNOA semantic-coarsening block integrated",
+    "claim ownership and numerical anchors pinned at manuscript level",
+    "cross-manuscript overlap firewall written",
+    "Figure 1-5 architecture fixed"
+  ],
+  "remaining_before_submission_package": [
+    "merge and deduplicate bibliographies from V3 REC and TNOA",
+    "pin exact source commit/result hashes for every imported numerical panel",
+    "build machine-readable quantitative figure data and validators",
+    "assemble Figure 1-5",
+    "run source-text overlap audit against archived standalone drafts",
+    "select journal and apply journal-specific structure/word-count rules",
+    "build anonymous reviewer archive from pinned source snapshots"
+  ],
+  "superseded_as_independent_submission_targets": [
+    "standalone V3 manuscript",
+    "REC H1-H5 standalone manuscript",
+    "TNOA standalone MEE manuscript"
+  ],
+  "next_mainline": "quantitative figure-data integration and bibliography merge"
+}
