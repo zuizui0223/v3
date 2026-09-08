@@ -1,0 +1,128 @@
+{
+  "schema": "observation-paper-claim-manifest-v1",
+  "paper": "OBSERVATION",
+  "submission_home": "zuizui0223/v3",
+  "canonical_draft": "manuscript/OBSERVATION_DRAFT_V1.md",
+  "source_repositories": {
+    "v3": "zuizui0223/v3",
+    "rec": "zuizui0223/rec",
+    "tnoa": "zuizui0223/tnoa"
+  },
+  "headline_claims": [
+    {
+      "id": "O1_refinement",
+      "owner": "v3",
+      "claim": "Retaining an additional non-destructive channel weakly refines compatible-world and identified sets; strict benefit is channel- and estimand-dependent.",
+      "primary_evidence": [
+        "results/theorem_ledger.json",
+        "results/synthetic_evidence_summary.json"
+      ],
+      "numerical_anchors": {
+        "matched_balanced_utility": 0.8327,
+        "no_reference_balanced_utility": 0.5688,
+        "time_permuted_balanced_utility": 0.7301,
+        "matched_nuisance_false_frame_rate": 0.0272,
+        "no_reference_nuisance_false_frame_rate": 0.2986
+      },
+      "claim_ceiling": "controlled synthetic strict refinement; no universal physical benefit or unconditional nuisance subtraction"
+    },
+    {
+      "id": "O2_selection",
+      "owner": "rec",
+      "claim": "Record-entry selection can alter an ecological estimand before downstream classification, and the selected event table alone cannot identify omitted-support biology.",
+      "primary_evidence": [
+        "MANUSCRIPT_READINESS_H1_H5.md",
+        "MANUSCRIPT_DRAFT_H1_H5.md"
+      ],
+      "numerical_anchors": {
+        "fox_badger_reference_passes": 881,
+        "badger_true_pass_proportion": 0.359818,
+        "badger_trigger_proportion": 0.439252,
+        "badger_capture_proportion": 0.482759,
+        "trigger_equal_position_shift": 0.062413,
+        "trigger_reference_weighted_shift": 0.053498,
+        "capture_equal_position_shift": 0.149843,
+        "capture_reference_weighted_shift": 0.139894
+      },
+      "claim_ceiling": "external-data estimand distortion within observation strata; not population-level independent-animal inference"
+    },
+    {
+      "id": "O3_irreversibility",
+      "owner": "rec",
+      "claim": "Perfect downstream semantic processing among retained rows cannot reconstruct truth-positive rows omitted upstream.",
+      "primary_evidence": [
+        "MANUSCRIPT_READINESS_H1_H5.md",
+        "MANUSCRIPT_DRAFT_H1_H5.md"
+      ],
+      "numerical_anchors": {
+        "birdvox_true_late_minus_early": 0.130820,
+        "birdvox_oracle_true_entry_only": -0.000025
+      },
+      "claim_ceiling": "protected algorithmic irreversibility stress test; not representative detector performance"
+    },
+    {
+      "id": "O4_recovery_transport",
+      "owner": "rec",
+      "claim": "Entry provenance can support partial recovery, but correction has an observation-context transport domain and can fail under broader shift.",
+      "primary_evidence": [
+        "MANUSCRIPT_READINESS_H1_H5.md",
+        "MANUSCRIPT_DRAFT_H1_H5.md"
+      ],
+      "numerical_anchors": {
+        "otter_matched_raw_mae": 0.115982,
+        "otter_matched_corrected_mae": 0.059258,
+        "otter_matched_relative_change": -0.4891,
+        "fox_badger_trigger_raw_mae": 0.123093,
+        "fox_badger_trigger_corrected_mae": 0.090510,
+        "fox_badger_capture_raw_mae": 0.210807,
+        "fox_badger_capture_corrected_mae": 0.167972,
+        "otter_double_holdout_raw_mae": 0.068216,
+        "otter_double_holdout_corrected_mae": 0.081237,
+        "otter_double_holdout_relative_change": 0.1909
+      },
+      "claim_ceiling": "retrospective partial recovery with explicit adverse transport; no universal correction transport"
+    },
+    {
+      "id": "O5_coarsening",
+      "owner": "tnoa",
+      "claim": "Deterministic semantic coarsening can materially widen the compatible target-prevalence identified set relative to a richer process-preserving observation record.",
+      "primary_evidence": [
+        "manuscript/TNOA_MEE_DRAFT.md",
+        "submission/MEE_SUBMISSION_CHECKLIST.md"
+      ],
+      "numerical_anchors": {
+        "rich_median_target_width": 0.030,
+        "binary_median_target_width": 0.266,
+        "median_relative_width_reduction_percent": 84.45,
+        "naive_binary_negative_bias_fraction": 0.9963,
+        "naive_binary_median_bias": -0.238
+      },
+      "claim_ceiling": "closed-world known-truth identification loss; no unique optimality of the B/T/N/U semantics or frozen U reasons"
+    }
+  ],
+  "exact_geometry": {
+    "owner": "v3",
+    "included": ["U1_refinement", "U2_selection", "U3_coarsening"],
+    "excluded_to_evidence": ["U4_future_observation_design", "U5_intervention_diagnosis"]
+  },
+  "paper_firewall": {
+    "observation_owns": [
+      "information addition by retained side channels",
+      "support deletion before row entry",
+      "semantic coarsening after retention",
+      "irreversibility without independent new information",
+      "calibration/transport domain of record-entry correction"
+    ],
+    "evidence_owns": [
+      "current mechanism identification boundary",
+      "next-observation optimization",
+      "target-safe quotient and reportability",
+      "false-resolution risk/cost stopping"
+    ]
+  },
+  "active_submission_targets_superseded": [
+    "standalone V3 paper",
+    "standalone REC H1-H5 paper",
+    "standalone TNOA MEE paper"
+  ]
+}
