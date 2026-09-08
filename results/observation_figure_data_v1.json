@@ -1,0 +1,122 @@
+{
+  "schema": "observation-integrated-figure-data-v1",
+  "paper": "OBSERVATION",
+  "source_snapshots": {
+    "v3_synthetic": {
+      "repository": "zuizui0223/v3",
+      "path": "results/synthetic_evidence_summary.json",
+      "git_blob_sha1": "5d54b3fe29715d313dfba2644fd8509b9b9b6780",
+      "upstream_pollipi_commit": "5fa8fbefb691b62fae804be5bff799eb08064f0d"
+    },
+    "rec_readiness": {
+      "repository": "zuizui0223/rec",
+      "path": "MANUSCRIPT_READINESS_H1_H5.md",
+      "git_blob_sha1": "30cc86e460285e4267221b4accfd51e56a2fb07d"
+    },
+    "tnoa_manuscript": {
+      "repository": "zuizui0223/tnoa",
+      "path": "manuscript/TNOA_MEE_DRAFT.md",
+      "git_blob_sha1": "f862a7769537d11762409e3b6edd0413e09ddfb6"
+    }
+  },
+  "fig2_v3_strict_refinement": {
+    "balanced_utility": {
+      "matched_reference": 0.8327,
+      "no_reference": 0.5688,
+      "time_permuted_reference": 0.7301,
+      "lag1": 0.7842,
+      "partial75": 0.7836
+    },
+    "nuisance_false_frame_rate": {
+      "matched_reference": 0.0272,
+      "no_reference": 0.2986,
+      "lag1": 0.0845,
+      "partial75": 0.07
+    },
+    "local_sway_false_frame_rate": {
+      "matched_reference": 0.109,
+      "no_reference": 1.0,
+      "lag1": 0.2477,
+      "partial75": 0.2662
+    },
+    "target_episode_recall": {
+      "matched_reference": 1.0
+    },
+    "claim_boundary": "controlled synthetic strict refinement only"
+  },
+  "fig3_rec_record_entry_selection": {
+    "reference_pass_count": 881,
+    "no_trigger_probability": 0.514188,
+    "no_confirmed_capture_probability_bounds": [0.800227, 0.802497],
+    "badger_proportion": {
+      "true_pass": 0.359818,
+      "confirmed_trigger": 0.439252,
+      "confirmed_capture": 0.482759
+    },
+    "position_standardized_badger_shift": {
+      "trigger_equal_position": 0.062413,
+      "trigger_reference_pass_weighted": 0.053498,
+      "capture_equal_position": 0.149843,
+      "capture_reference_pass_weighted": 0.139894
+    },
+    "positive_direction_positions": {
+      "trigger": "3/4",
+      "capture": "3/4",
+      "adverse_position": "SF"
+    },
+    "claim_boundary": "external-data estimand distortion within observation strata"
+  },
+  "fig4_rec_irreversibility_and_recovery": {
+    "birdvox": {
+      "true_late_minus_early_event_window_prevalence": 0.13082,
+      "oracle_true_entry_only_contrast": -0.000025
+    },
+    "recovery_transport_ladder": {
+      "otter_matched_camera_holdout": {
+        "raw_mae": 0.115982,
+        "corrected_mae": 0.059258,
+        "relative_change": -0.4891,
+        "units_improved": "3/3"
+      },
+      "otter_within_camera_position_holdout": {
+        "raw_mae": 0.068216,
+        "corrected_mae": 0.06425,
+        "relative_change": -0.0581,
+        "units_improved": "6/12"
+      },
+      "otter_camera_position_double_holdout": {
+        "raw_mae": 0.068216,
+        "corrected_mae": 0.081237,
+        "sham_mae": 0.153652,
+        "relative_change": 0.1909,
+        "units_improved": "6/12"
+      },
+      "fox_badger_trigger_position_holdout": {
+        "raw_mae": 0.123093,
+        "corrected_mae": 0.09051,
+        "sham_mae": 0.150218,
+        "relative_change": -0.2647,
+        "units_improved": "3/4"
+      },
+      "fox_badger_capture_position_holdout": {
+        "raw_mae": 0.210807,
+        "corrected_mae": 0.167972,
+        "sham_mae": 0.260198,
+        "relative_change": -0.2032,
+        "units_improved": "3/4"
+      }
+    },
+    "claim_boundary": "partial retrospective recovery with explicit adverse transport"
+  },
+  "fig5_tnoa_semantic_coarsening": {
+    "simplex_composition_count": 3003,
+    "median_identification_width": {
+      "rich_BTNU": 0.03,
+      "binary_target_not_target": 0.266
+    },
+    "median_relative_width_reduction_percent_nonzero_binary": 84.45,
+    "naive_binary_negative_bias_fraction": 0.9963,
+    "naive_binary_median_bias": -0.238,
+    "claim_boundary": "closed-world known-truth identification loss; no unique semantic optimality"
+  }
+}
