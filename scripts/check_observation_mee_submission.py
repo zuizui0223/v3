@@ -10,8 +10,12 @@ import json
 import re
 from pathlib import Path
 
-from build_observation_mee_source import build
-from audit_observation_text_overlap import audit as overlap_audit
+try:
+    from scripts.build_observation_mee_source import build
+    from scripts.audit_observation_text_overlap import audit as overlap_audit
+except ModuleNotFoundError:  # direct execution via `python scripts/...`
+    from build_observation_mee_source import build
+    from audit_observation_text_overlap import audit as overlap_audit
 
 ROOT = Path(__file__).resolve().parents[1]
 FRONT = ROOT / "submission" / "MEE_FRONT_MATTER.md"
