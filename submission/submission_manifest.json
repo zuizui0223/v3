@@ -1,0 +1,56 @@
+{
+  "schema": "observation-mee-submission-manifest-v1",
+  "paper": "OBSERVATION",
+  "journal": "Methods in Ecology and Evolution",
+  "article_type": "Standard Research Article",
+  "active_manuscript": "manuscript/OBSERVATION_DRAFT_V1.md",
+  "front_matter": "submission/MEE_FRONT_MATTER.md",
+  "title_page_template": "submission/TITLE_PAGE_TEMPLATE.md",
+  "bibliography": "manuscript/observation_references.bib",
+  "theory_closure": "results/theory_closure_manifest.json",
+  "claim_manifest": "manuscript/OBSERVATION_CLAIM_MANIFEST.json",
+  "submission_status": "manuscript/OBSERVATION_SUBMISSION_STATUS.json",
+  "overlap_audit_script": "scripts/audit_observation_text_overlap.py",
+  "journal_requirements_checked": "2026-09-09",
+  "journal_requirements": {
+    "numbered_abstract_1_to_4": true,
+    "abstract_target_max_words": 350,
+    "keywords_max": 8,
+    "keywords_alphabetical": true,
+    "standard_article_total_word_ceiling": "7000-8000 including references captions and statements",
+    "double_anonymous": true,
+    "single_column_initial_submission": true,
+    "double_line_spacing": true,
+    "continuous_line_numbers": true,
+    "page_numbers": true,
+    "separate_title_page": true,
+    "code_data_anonymized_for_peer_review": true,
+    "fully_open_source_code_license_required": true,
+    "llm_methods_disclosure_required_when_used": true
+  },
+  "machine_closed": [
+    "structural theory closure",
+    "claim ownership",
+    "quantitative source pinning",
+    "figure data validation",
+    "deterministic Figure 2-5 generators",
+    "source abstract overlap guard",
+    "core bibliography merge"
+  ],
+  "author_blockers": [
+    "choose and add fully open-source software LICENSE",
+    "final author names and affiliations",
+    "corresponding author details",
+    "author contributions",
+    "acknowledgements funding and conflict-of-interest wording",
+    "confirm final AI/LLM disclosure and responsible author"
+  ],
+  "production_blockers": [
+    "render final anonymous manuscript with double spacing continuous line/page numbering",
+    "final Figure 1-5 assembly",
+    "final citation insertion and reference-scope audit",
+    "final total word count",
+    "build and recursively anonymize reviewer archive",
+    "verify third-party data reuse wording"
+  ]
+}
