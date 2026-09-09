@@ -1,8 +1,8 @@
 """Machine-check the Observation MEE initial-submission package.
 
-Author-governance items (license choice, identities, author approval) are reported as
-blockers but do not make repository CI fail. Machine-verifiable structural violations
-do fail closed.
+Author-governance items (license choice, identities, author approval) and external
+permission items are reported as blockers but do not make repository CI fail.
+Machine-verifiable structural violations do fail closed.
 """
 from __future__ import annotations
 
@@ -23,9 +23,12 @@ TITLE = ROOT / "submission" / "TITLE_PAGE_TEMPLATE.md"
 MANIFEST = ROOT / "submission" / "submission_manifest.json"
 THEORY = ROOT / "results" / "theory_closure_manifest.json"
 BIB = ROOT / "manuscript" / "observation_references.bib"
+DATA_BIB = ROOT / "manuscript" / "observation_data_references.bib"
+DATA_RIGHTS = ROOT / "submission" / "THIRD_PARTY_DATA_RIGHTS.md"
 OUT = ROOT / "submission" / "generated" / "initial_submission_readiness.json"
 WORD_RE = re.compile(r"\b[\w'-]+\b", re.UNICODE)
 BIBKEY_RE = re.compile(r"^\s*@\w+\s*\{\s*([^,\s]+)\s*,", re.M)
+CITE_RE = re.compile(r"@([A-Za-z0-9_:\-.]+)")
 
 
 def section(text: str, start: str, end: str | None = None) -> str:
@@ -44,6 +47,7 @@ def words(text: str) -> int:
 def check() -> dict[str, object]:
     failures: list[str] = []
     author_blockers: list[str] = []
+    external_blockers: list[str] = []
     production_blockers: list[str] = []
 
     front = FRONT.read_text(encoding="utf-8")
@@ -87,11 +91,20 @@ def check() -> dict[str, object]:
             failures.append(f"12-word overlap above limit for {name}")
 
     bib_text = BIB.read_text(encoding="utf-8")
+    data_bib_text = DATA_BIB.read_text(encoding="utf-8")
     bibkeys = BIBKEY_RE.findall(bib_text)
-    if len(bibkeys) != len(set(bibkeys)):
-        failures.append("duplicate BibTeX keys in Observation bibliography")
+    data_bibkeys = BIBKEY_RE.findall(data_bib_text)
+    all_bibkeys = bibkeys + data_bibkeys
+    if len(all_bibkeys) != len(set(all_bibkeys)):
+        failures.append("duplicate BibTeX keys across Observation bibliographies")
     if len(bibkeys) < 20:
         failures.append("Observation core bibliography unexpectedly small")
+    citation_keys = sorted(set(CITE_RE.findall(source)))
+    missing_citations = [key for key in citation_keys if key not in set(all_bibkeys)]
+    if missing_citations:
+        failures.append(f"citation keys missing from bibliography: {missing_citations}")
+    if len(citation_keys) < 10:
+        failures.append("integrated Observation source has unexpectedly few active citations")
 
     license_candidates = [ROOT / "LICENSE", ROOT / "LICENSE.txt", ROOT / "LICENSE.md"]
     license_present = any(path.exists() for path in license_candidates)
@@ -103,28 +116,37 @@ def check() -> dict[str, object]:
         author_blockers.append("final author/title-page identity metadata not yet supplied")
     author_blockers.append("final AI/LLM disclosure and responsible-author approval required")
 
+    rights_text = DATA_RIGHTS.read_text(encoding="utf-8").lower()
+    if "written clarification recommended / not yet recorded" in rights_text:
+        external_blockers.append(
+            "Findlay linked-data reuse confirmation/licence clarification not yet archived"
+        )
+
     production_blockers.extend(
         [
             "render final double-spaced manuscript with continuous line/page numbering",
-            "insert final citations and run reference-scope audit",
+            "run final rendered reference-scope audit",
             "assemble final Figure 1-5 journal layout",
             "build and recursively anonymize reviewer archive",
             "verify final total word count including rendered references/captions/statements",
-            "verify third-party data reuse wording",
         ]
     )
 
     report = {
-        "schema": "observation-mee-readiness-v1",
+        "schema": "observation-mee-readiness-v2",
         "machine_status": "pass" if not failures else "fail",
-        "ready_for_upload": not failures and not author_blockers and not production_blockers,
+        "ready_for_upload": (
+            not failures and not author_blockers and not external_blockers and not production_blockers
+        ),
         "abstract_words": abstract_words,
         "keyword_count": len(keywords),
-        "bibliography_entries": len(bibkeys),
+        "bibliography_entries": len(all_bibkeys),
+        "active_citation_keys": len(citation_keys),
         "anonymous_source_words_without_rendered_bibliography": words(source),
         "license_present": license_present,
         "machine_failures": failures,
         "author_blockers": author_blockers,
+        "external_blockers": external_blockers,
         "production_blockers": production_blockers,
         "overlap_summary": {
             name: {
