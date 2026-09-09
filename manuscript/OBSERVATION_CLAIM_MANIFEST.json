@@ -14,7 +14,7 @@
       "owner": "v3",
       "claim": "Retaining an additional non-destructive channel weakly refines compatible-world and identified sets; strict benefit is channel- and estimand-dependent.",
       "primary_evidence": [
-        {"repository":"zuizui0223/v3","source_file":"results/theorem_ledger.json","source_blob_sha1":"893e23f84e86fc71322801466e427f599b040c12"},
+        {"repository":"zuizui0223/v3","source_file":"results/theorem_ledger.json","source_blob_sha1":"38215537bb16a3109bad9e2818f849da2cb08518"},
         {"repository":"zuizui0223/v3","source_file":"results/synthetic_evidence_summary.json","source_blob_sha1":"5d54b3fe29715d313dfba2644fd8509b9b9b6780"}
       ],
       "numerical_anchors": {
@@ -150,7 +150,8 @@
   },
   "paper_firewall_registry": {
     "repository":"zuizui0223/theouni",
-    "path":"universe/TWO_PAPER_FIREWALL.json"
+    "path":"universe/TWO_PAPER_FIREWALL.json",
+    "source_blob_sha1":"ea78c0db140c08dd109404ed8a9460dd68036d6e"
   },
   "active_submission_targets_superseded": [
     "standalone V3 paper",
