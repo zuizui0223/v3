@@ -1,11 +1,12 @@
 {
   "schema": "observation-submission-status-v1",
-  "status": "active-integrated-drafting",
+  "status": "theory-closed-production-active",
   "paper": "OBSERVATION",
   "submission_home": "zuizui0223/v3",
   "active_manuscript": "manuscript/OBSERVATION_DRAFT_V1.md",
   "integration_contract": "manuscript/OBSERVATION_INTEGRATION_PLAN.md",
   "claim_manifest": "manuscript/OBSERVATION_CLAIM_MANIFEST.json",
+  "theory_closure": "results/theory_closure_manifest.json",
   "overlap_firewall": "manuscript/OBSERVATION_OVERLAP_FIREWALL.md",
   "figure_plan": "manuscript/OBSERVATION_FIGURE_PLAN.md",
   "source_repositories": [
@@ -16,6 +17,7 @@
   "completed": [
     "two-paper architecture fixed in theouni",
     "Observation scientific question fixed",
+    "structural theory closed at T1-T23 under declared assumptions",
     "U1-U3 retained as exact common geometry",
     "U4-U5 removed from Observation headline novelty",
     "V3 synthetic strict-refinement block integrated",
@@ -24,21 +26,29 @@
     "TNOA semantic-coarsening block integrated",
     "claim ownership and numerical anchors pinned at manuscript level",
     "cross-manuscript overlap firewall written",
-    "Figure 1-5 architecture fixed"
+    "Figure 1-5 architecture fixed",
+    "imported quantitative panel values pinned to source blobs",
+    "machine-readable figure data and regression validators added",
+    "deterministic Figure 2-5 SVG/CSV generators added",
+    "v3-ci passed on commit 31dc26fda6fa32aeb116f1eaec322527b16ba748, run 34235609625"
   ],
   "remaining_before_submission_package": [
     "merge and deduplicate bibliographies from V3 REC and TNOA",
-    "pin exact source commit/result hashes for every imported numerical panel",
-    "build machine-readable quantitative figure data and validators",
-    "assemble Figure 1-5",
     "run source-text overlap audit against archived standalone drafts",
+    "assemble final Figure 1 plus generated Figure 2-5 into journal layout",
     "select journal and apply journal-specific structure/word-count rules",
     "build anonymous reviewer archive from pinned source snapshots"
+  ],
+  "remaining_scientific_questions": [
+    "strict physical-domain refinement",
+    "physical validity of reference and intervention channels",
+    "held-out physical boundary contraction",
+    "transport across natural systems"
   ],
   "superseded_as_independent_submission_targets": [
     "standalone V3 manuscript",
     "REC H1-H5 standalone manuscript",
     "TNOA standalone MEE manuscript"
   ],
-  "next_mainline": "quantitative figure-data integration and bibliography merge"
+  "next_mainline": "Observation bibliography merge, source-text overlap audit, and journal package"
 }
