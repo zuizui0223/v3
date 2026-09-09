@@ -22,3 +22,19 @@ jobs:
         run: python -m compileall -q src
       - name: Test
         run: python -m pytest -q
+      - name: Build anonymous MEE source
+        if: matrix.python-version == '3.11'
+        run: python scripts/build_observation_mee_source.py
+      - name: Check MEE readiness
+        if: matrix.python-version == '3.11'
+        run: python scripts/check_observation_mee_submission.py
+      - name: Upload anonymous MEE production artifacts
+        if: matrix.python-version == '3.11'
+        uses: actions/upload-artifact@v4
+        with:
+          name: observation-mee-review-source
+          path: |
+            submission/generated/MEE_INITIAL_SUBMISSION_SOURCE.md
+            submission/generated/initial_submission_readiness.json
+            manuscript/observation_references.bib
+          retention-days: 14
