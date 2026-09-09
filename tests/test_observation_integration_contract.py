@@ -46,10 +46,10 @@ def test_observation_headline_claims_have_unique_source_owners_and_handoffs() ->
     handoff = manifest["exact_geometry"]["handoff_to_evidence"]
     assert "E4_mechanism_learning" in handoff["U4_future_observation_design"]
     assert "Evidence" in handoff["U5_intervention_diagnosis"]
-    assert manifest["paper_firewall_registry"] == {
-        "repository": "zuizui0223/theouni",
-        "path": "universe/TWO_PAPER_FIREWALL.json",
-    }
+    registry = manifest["paper_firewall_registry"]
+    assert registry["repository"] == "zuizui0223/theouni"
+    assert registry["path"] == "universe/TWO_PAPER_FIREWALL.json"
+    assert registry["source_blob_sha1"] == "ea78c0db140c08dd109404ed8a9460dd68036d6e"
 
 
 def test_each_observation_anchor_has_machine_readable_source_and_blob_pin() -> None:
