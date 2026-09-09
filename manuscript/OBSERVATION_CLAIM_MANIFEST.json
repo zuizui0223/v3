@@ -1,5 +1,5 @@
 {
-  "schema": "observation-paper-claim-manifest-v1",
+  "schema": "observation-paper-claim-manifest-v2",
   "paper": "OBSERVATION",
   "submission_home": "zuizui0223/v3",
   "canonical_draft": "manuscript/OBSERVATION_DRAFT_V1.md",
@@ -14,8 +14,8 @@
       "owner": "v3",
       "claim": "Retaining an additional non-destructive channel weakly refines compatible-world and identified sets; strict benefit is channel- and estimand-dependent.",
       "primary_evidence": [
-        "results/theorem_ledger.json",
-        "results/synthetic_evidence_summary.json"
+        {"repository":"zuizui0223/v3","source_file":"results/theorem_ledger.json","source_blob_sha1":"893e23f84e86fc71322801466e427f599b040c12"},
+        {"repository":"zuizui0223/v3","source_file":"results/synthetic_evidence_summary.json","source_blob_sha1":"5d54b3fe29715d313dfba2644fd8509b9b9b6780"}
       ],
       "numerical_anchors": {
         "matched_balanced_utility": 0.8327,
@@ -24,6 +24,13 @@
         "matched_nuisance_false_frame_rate": 0.0272,
         "no_reference_nuisance_false_frame_rate": 0.2986
       },
+      "anchor_sources": {
+        "matched_balanced_utility":{"source_file":"results/synthetic_evidence_summary.json","source_blob_sha1":"5d54b3fe29715d313dfba2644fd8509b9b9b6780","json_path":"generations.v3_temporal_subspace.matched.balanced_utility"},
+        "no_reference_balanced_utility":{"source_file":"results/synthetic_evidence_summary.json","source_blob_sha1":"5d54b3fe29715d313dfba2644fd8509b9b9b6780","json_path":"generations.v3_temporal_subspace.no_reference.balanced_utility"},
+        "time_permuted_balanced_utility":{"source_file":"results/synthetic_evidence_summary.json","source_blob_sha1":"5d54b3fe29715d313dfba2644fd8509b9b9b6780","json_path":"generations.v3_temporal_subspace.time_permuted.balanced_utility"},
+        "matched_nuisance_false_frame_rate":{"source_file":"results/synthetic_evidence_summary.json","source_blob_sha1":"5d54b3fe29715d313dfba2644fd8509b9b9b6780","json_path":"generations.v3_temporal_subspace.matched.nuisance_false_frame_rate"},
+        "no_reference_nuisance_false_frame_rate":{"source_file":"results/synthetic_evidence_summary.json","source_blob_sha1":"5d54b3fe29715d313dfba2644fd8509b9b9b6780","json_path":"generations.v3_temporal_subspace.no_reference.nuisance_false_frame_rate"}
+      },
       "claim_ceiling": "controlled synthetic strict refinement; no universal physical benefit or unconditional nuisance subtraction"
     },
     {
@@ -31,8 +38,8 @@
       "owner": "rec",
       "claim": "Record-entry selection can alter an ecological estimand before downstream classification, and the selected event table alone cannot identify omitted-support biology.",
       "primary_evidence": [
-        "MANUSCRIPT_READINESS_H1_H5.md",
-        "MANUSCRIPT_DRAFT_H1_H5.md"
+        {"repository":"zuizui0223/rec","source_file":"results/findlay_camera_trap_real_data_v1.json","source_blob_sha1":"ddde84feaa92fdb9fcc2dd6cf2acaef7c12dbf18"},
+        {"repository":"zuizui0223/rec","source_file":"results/findlay_position_standardized_distortion_summary_v1.json","source_blob_sha1":"37a450a653f183e11836ead975ec44ddbc27a2f0"}
       ],
       "numerical_anchors": {
         "fox_badger_reference_passes": 881,
@@ -44,6 +51,17 @@
         "capture_equal_position_shift": 0.149843,
         "capture_reference_weighted_shift": 0.139894
       },
+      "anchor_sources": {
+        "fox_badger_reference_passes":{"source_file":"results/findlay_camera_trap_real_data_v1.json","source_blob_sha1":"ddde84feaa92fdb9fcc2dd6cf2acaef7c12dbf18","json_path":"fox_badger_registration.overall.pass_count"},
+        "badger_true_pass_proportion":{"source_file":"results/findlay_camera_trap_real_data_v1.json","source_blob_sha1":"ddde84feaa92fdb9fcc2dd6cf2acaef7c12dbf18","json_path":"fox_badger_registration.composition_distortion.species.truth_badger"},
+        "badger_trigger_proportion":{"source_file":"results/findlay_camera_trap_real_data_v1.json","source_blob_sha1":"ddde84feaa92fdb9fcc2dd6cf2acaef7c12dbf18","json_path":"fox_badger_registration.composition_distortion.species.confirmed_trigger_badger"},
+        "badger_capture_proportion":{"source_file":"results/findlay_camera_trap_real_data_v1.json","source_blob_sha1":"ddde84feaa92fdb9fcc2dd6cf2acaef7c12dbf18","json_path":"fox_badger_registration.composition_distortion.species.confirmed_capture_badger"},
+        "trigger_equal_position_shift":{"source_file":"results/findlay_position_standardized_distortion_summary_v1.json","source_blob_sha1":"37a450a653f183e11836ead975ec44ddbc27a2f0","json_path":"fox_badger.trigger.equal_position_weighting.shift_recorded_minus_truth"},
+        "trigger_reference_weighted_shift":{"source_file":"results/findlay_position_standardized_distortion_summary_v1.json","source_blob_sha1":"37a450a653f183e11836ead975ec44ddbc27a2f0","json_path":"fox_badger.trigger.reference_pass_weighting.shift_recorded_minus_truth"},
+        "capture_equal_position_shift":{"source_file":"results/findlay_position_standardized_distortion_summary_v1.json","source_blob_sha1":"37a450a653f183e11836ead975ec44ddbc27a2f0","json_path":"fox_badger.capture.equal_position_weighting.shift_recorded_minus_truth"},
+        "capture_reference_weighted_shift":{"source_file":"results/findlay_position_standardized_distortion_summary_v1.json","source_blob_sha1":"37a450a653f183e11836ead975ec44ddbc27a2f0","json_path":"fox_badger.capture.reference_pass_weighting.shift_recorded_minus_truth"}
+      },
+      "promotion_note": "The position-standardized artifact deliberately records all_frozen_criteria_met=false because the otter all-camera criterion failed; the fox/badger trigger/capture criterion itself passed under both weighting schemes. The adverse component is retained, not retuned away.",
       "claim_ceiling": "external-data estimand distortion within observation strata; not population-level independent-animal inference"
     },
     {
@@ -51,12 +69,15 @@
       "owner": "rec",
       "claim": "Perfect downstream semantic processing among retained rows cannot reconstruct truth-positive rows omitted upstream.",
       "primary_evidence": [
-        "MANUSCRIPT_READINESS_H1_H5.md",
-        "MANUSCRIPT_DRAFT_H1_H5.md"
+        {"repository":"zuizui0223/rec","source_file":"results/birdvox_protected_02_05_real_data_v1.json","source_blob_sha1":"9ebd90fd2416644693483eec5a7578eb4d614ffc"}
       ],
       "numerical_anchors": {
         "birdvox_true_late_minus_early": 0.130820,
         "birdvox_oracle_true_entry_only": -0.000025
+      },
+      "anchor_sources": {
+        "birdvox_true_late_minus_early":{"source_file":"results/birdvox_protected_02_05_real_data_v1.json","source_blob_sha1":"9ebd90fd2416644693483eec5a7578eb4d614ffc","json_path":"protected_pooled.2.truth_late_minus_early"},
+        "birdvox_oracle_true_entry_only":{"source_file":"results/birdvox_protected_02_05_real_data_v1.json","source_blob_sha1":"9ebd90fd2416644693483eec5a7578eb4d614ffc","json_path":"protected_pooled.2.oracle_downstream_true_entry_late_minus_early"}
       },
       "claim_ceiling": "protected algorithmic irreversibility stress test; not representative detector performance"
     },
@@ -65,8 +86,9 @@
       "owner": "rec",
       "claim": "Entry provenance can support partial recovery, but correction has an observation-context transport domain and can fail under broader shift.",
       "primary_evidence": [
-        "MANUSCRIPT_READINESS_H1_H5.md",
-        "MANUSCRIPT_DRAFT_H1_H5.md"
+        {"repository":"zuizui0223/rec","source_file":"results/findlay_h5_correction_v1.json","source_blob_sha1":"ef8cd124ac3d9fbd3c43cb61c93b91358b3627ac"},
+        {"repository":"zuizui0223/rec","source_file":"results/findlay_h5_transport_boundary_v1.json","source_blob_sha1":"fa61bf60c2d6a7c67314ba6917a6b0c42e0b6954"},
+        {"repository":"zuizui0223/rec","source_file":"results/findlay_species_position_recovery_summary_v1.json","source_blob_sha1":"8b274bb19fe35abc74ba6510f4ae0b9ce274789f"}
       ],
       "numerical_anchors": {
         "otter_matched_raw_mae": 0.115982,
@@ -80,6 +102,18 @@
         "otter_double_holdout_corrected_mae": 0.081237,
         "otter_double_holdout_relative_change": 0.1909
       },
+      "anchor_sources": {
+        "otter_matched_raw_mae":{"source_file":"results/findlay_h5_correction_v1.json","source_blob_sha1":"ef8cd124ac3d9fbd3c43cb61c93b91358b3627ac","json_path":"aggregate.mean_absolute_error_raw_trigger_world"},
+        "otter_matched_corrected_mae":{"source_file":"results/findlay_h5_correction_v1.json","source_blob_sha1":"ef8cd124ac3d9fbd3c43cb61c93b91358b3627ac","json_path":"aggregate.mean_absolute_error_cross_camera_ipw"},
+        "otter_matched_relative_change":{"source_file":"results/findlay_h5_correction_v1.json","source_blob_sha1":"ef8cd124ac3d9fbd3c43cb61c93b91358b3627ac","json_path":"aggregate.relative_mean_absolute_error_reduction","derivation":"reported as negative change in error: -relative_mean_absolute_error_reduction"},
+        "fox_badger_trigger_raw_mae":{"source_file":"results/findlay_species_position_recovery_summary_v1.json","source_blob_sha1":"8b274bb19fe35abc74ba6510f4ae0b9ce274789f","json_path":"trigger.mean_absolute_error_raw"},
+        "fox_badger_trigger_corrected_mae":{"source_file":"results/findlay_species_position_recovery_summary_v1.json","source_blob_sha1":"8b274bb19fe35abc74ba6510f4ae0b9ce274789f","json_path":"trigger.mean_absolute_error_correct"},
+        "fox_badger_capture_raw_mae":{"source_file":"results/findlay_species_position_recovery_summary_v1.json","source_blob_sha1":"8b274bb19fe35abc74ba6510f4ae0b9ce274789f","json_path":"capture.mean_absolute_error_raw"},
+        "fox_badger_capture_corrected_mae":{"source_file":"results/findlay_species_position_recovery_summary_v1.json","source_blob_sha1":"8b274bb19fe35abc74ba6510f4ae0b9ce274789f","json_path":"capture.mean_absolute_error_correct"},
+        "otter_double_holdout_raw_mae":{"source_file":"results/findlay_h5_transport_boundary_v1.json","source_blob_sha1":"fa61bf60c2d6a7c67314ba6917a6b0c42e0b6954","json_path":"double_holdout_camera_and_position.mean_absolute_error_raw"},
+        "otter_double_holdout_corrected_mae":{"source_file":"results/findlay_h5_transport_boundary_v1.json","source_blob_sha1":"fa61bf60c2d6a7c67314ba6917a6b0c42e0b6954","json_path":"double_holdout_camera_and_position.mean_absolute_error_correct"},
+        "otter_double_holdout_relative_change":{"source_file":"results/findlay_h5_transport_boundary_v1.json","source_blob_sha1":"fa61bf60c2d6a7c67314ba6917a6b0c42e0b6954","json_path":"double_holdout_camera_and_position.relative_error_change_correct_vs_raw"}
+      },
       "claim_ceiling": "retrospective partial recovery with explicit adverse transport; no universal correction transport"
     },
     {
@@ -87,8 +121,7 @@
       "owner": "tnoa",
       "claim": "Deterministic semantic coarsening can materially widen the compatible target-prevalence identified set relative to a richer process-preserving observation record.",
       "primary_evidence": [
-        "manuscript/TNOA_MEE_DRAFT.md",
-        "submission/MEE_SUBMISSION_CHECKLIST.md"
+        {"repository":"zuizui0223/tnoa","source_file":"derived/mee_synthetic_consequences.json","source_blob_sha1":"ec53d35b05c4b37310bb684081742c0ac99f4dbe"}
       ],
       "numerical_anchors": {
         "rich_median_target_width": 0.030,
@@ -97,28 +130,27 @@
         "naive_binary_negative_bias_fraction": 0.9963,
         "naive_binary_median_bias": -0.238
       },
+      "anchor_sources": {
+        "rich_median_target_width":{"source_file":"derived/mee_synthetic_consequences.json","source_blob_sha1":"ec53d35b05c4b37310bb684081742c0ac99f4dbe","json_path":"estimand.global.tnoa_partial_identification_width.median"},
+        "binary_median_target_width":{"source_file":"derived/mee_synthetic_consequences.json","source_blob_sha1":"ec53d35b05c4b37310bb684081742c0ac99f4dbe","json_path":"estimand.global.binary_partial_identification_width.median"},
+        "median_relative_width_reduction_percent":{"source_file":"derived/mee_synthetic_consequences.json","source_blob_sha1":"ec53d35b05c4b37310bb684081742c0ac99f4dbe","json_path":"estimand.global.relative_width_reduction_nonzero_binary.median","derivation":"multiply by 100 and round to two decimals"},
+        "naive_binary_negative_bias_fraction":{"source_file":"derived/mee_synthetic_consequences.json","source_blob_sha1":"ec53d35b05c4b37310bb684081742c0ac99f4dbe","json_path":"estimand.global.naive_binary_negative_bias_fraction"},
+        "naive_binary_median_bias":{"source_file":"derived/mee_synthetic_consequences.json","source_blob_sha1":"ec53d35b05c4b37310bb684081742c0ac99f4dbe","json_path":"estimand.global.naive_binary_bias.median"}
+      },
       "claim_ceiling": "closed-world known-truth identification loss; no unique optimality of the B/T/N/U semantics or frozen U reasons"
     }
   ],
   "exact_geometry": {
     "owner": "v3",
     "included": ["U1_refinement", "U2_selection", "U3_coarsening"],
-    "excluded_to_evidence": ["U4_future_observation_design", "U5_intervention_diagnosis"]
+    "handoff_to_evidence": {
+      "U4_future_observation_design":"E4_mechanism_learning/E6_adaptive_reporting",
+      "U5_intervention_diagnosis":"Evidence non-headline active-identification extension; intervention changes the observation map to create a separating direction; physical validation remains outside current Evidence claims"
+    }
   },
-  "paper_firewall": {
-    "observation_owns": [
-      "information addition by retained side channels",
-      "support deletion before row entry",
-      "semantic coarsening after retention",
-      "irreversibility without independent new information",
-      "calibration/transport domain of record-entry correction"
-    ],
-    "evidence_owns": [
-      "current mechanism identification boundary",
-      "next-observation optimization",
-      "target-safe quotient and reportability",
-      "false-resolution risk/cost stopping"
-    ]
+  "paper_firewall_registry": {
+    "repository":"zuizui0223/theouni",
+    "path":"universe/TWO_PAPER_FIREWALL.json"
   },
   "active_submission_targets_superseded": [
     "standalone V3 paper",
