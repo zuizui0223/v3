@@ -28,6 +28,27 @@ jobs:
       - name: Check MEE readiness
         if: matrix.python-version == '3.11'
         run: python scripts/check_observation_mee_submission.py
+      - name: Install manuscript renderer
+        if: matrix.python-version == '3.11'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pandoc texlive-latex-base texlive-latex-extra texlive-fonts-recommended
+      - name: Render anonymous MEE manuscript
+        if: matrix.python-version == '3.11'
+        run: |
+          pandoc submission/generated/MEE_INITIAL_SUBMISSION_SOURCE.md \
+            --standalone \
+            --citeproc \
+            --bibliography=manuscript/observation_references.bib \
+            --include-in-header=submission/mee_header.tex \
+            --metadata title="Refine before loss: an information-order theory for ecological observation" \
+            -o submission/generated/OBSERVATION_MEE_ANONYMOUS.tex
+          pdflatex -interaction=nonstopmode -halt-on-error \
+            -output-directory=submission/generated \
+            submission/generated/OBSERVATION_MEE_ANONYMOUS.tex
+          pdflatex -interaction=nonstopmode -halt-on-error \
+            -output-directory=submission/generated \
+            submission/generated/OBSERVATION_MEE_ANONYMOUS.tex
       - name: Upload anonymous MEE production artifacts
         if: matrix.python-version == '3.11'
         uses: actions/upload-artifact@v4
@@ -35,6 +56,8 @@ jobs:
           name: observation-mee-review-source
           path: |
             submission/generated/MEE_INITIAL_SUBMISSION_SOURCE.md
+            submission/generated/OBSERVATION_MEE_ANONYMOUS.tex
+            submission/generated/OBSERVATION_MEE_ANONYMOUS.pdf
             submission/generated/initial_submission_readiness.json
             manuscript/observation_references.bib
           retention-days: 14
