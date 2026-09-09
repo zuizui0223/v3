@@ -37,9 +37,11 @@ jobs:
         if: matrix.python-version == '3.11'
         run: |
           pandoc submission/generated/MEE_INITIAL_SUBMISSION_SOURCE.md \
+            --from=markdown+tex_math_single_backslash \
             --standalone \
             --citeproc \
             --bibliography=manuscript/observation_references.bib \
+            --bibliography=manuscript/observation_data_references.bib \
             --include-in-header=submission/mee_header.tex \
             --metadata title="Refine before loss: an information-order theory for ecological observation" \
             -o submission/generated/OBSERVATION_MEE_ANONYMOUS.tex
@@ -60,4 +62,5 @@ jobs:
             submission/generated/OBSERVATION_MEE_ANONYMOUS.pdf
             submission/generated/initial_submission_readiness.json
             manuscript/observation_references.bib
+            manuscript/observation_data_references.bib
           retention-days: 14
