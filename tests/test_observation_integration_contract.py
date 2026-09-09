@@ -30,7 +30,7 @@ def test_active_observation_submission_is_integrated_three_repo_paper() -> None:
     }
 
 
-def test_observation_headline_claims_have_unique_source_owners() -> None:
+def test_observation_headline_claims_have_unique_source_owners_and_handoffs() -> None:
     manifest = _load(CLAIMS)
     claims = {row["id"]: row for row in manifest["headline_claims"]}
     assert claims["O1_refinement"]["owner"] == "v3"
@@ -43,10 +43,36 @@ def test_observation_headline_claims_have_unique_source_owners() -> None:
         "U2_selection",
         "U3_coarsening",
     ]
-    assert manifest["exact_geometry"]["excluded_to_evidence"] == [
-        "U4_future_observation_design",
-        "U5_intervention_diagnosis",
-    ]
+    handoff = manifest["exact_geometry"]["handoff_to_evidence"]
+    assert "E4_mechanism_learning" in handoff["U4_future_observation_design"]
+    assert "Evidence" in handoff["U5_intervention_diagnosis"]
+    assert manifest["paper_firewall_registry"] == {
+        "repository": "zuizui0223/theouni",
+        "path": "universe/TWO_PAPER_FIREWALL.json",
+    }
+
+
+def test_each_observation_anchor_has_machine_readable_source_and_blob_pin() -> None:
+    manifest = _load(CLAIMS)
+    for claim in manifest["headline_claims"]:
+        anchors = claim.get("numerical_anchors", {})
+        sources = claim.get("anchor_sources", {})
+        assert set(sources) == set(anchors)
+        for source in sources.values():
+            assert source["source_file"].endswith(".json")
+            assert len(source["source_blob_sha1"]) == 40
+            assert source["json_path"]
+
+
+def test_primary_evidence_is_blob_pinned() -> None:
+    manifest = _load(CLAIMS)
+    for claim in manifest["headline_claims"]:
+        evidence = claim["primary_evidence"]
+        assert evidence
+        for item in evidence:
+            assert item["repository"].startswith("zuizui0223/")
+            assert item["source_file"]
+            assert len(item["source_blob_sha1"]) == 40
 
 
 def test_figure_data_match_claim_manifest_v3() -> None:
@@ -64,7 +90,6 @@ def test_figure_data_match_claim_manifest_v3() -> None:
 def test_figure_data_match_claim_manifest_rec() -> None:
     claims = {row["id"]: row for row in _load(CLAIMS)["headline_claims"]}
     figures = _load(FIGURES)
-
     selection = claims["O2_selection"]["numerical_anchors"]
     fig3 = figures["fig3_rec_record_entry_selection"]
     assert fig3["reference_pass_count"] == selection["fox_badger_reference_passes"]
@@ -94,9 +119,19 @@ def test_figure_data_match_claim_manifest_tnoa() -> None:
     assert fig["naive_binary_median_bias"] == anchors["naive_binary_median_bias"]
 
 
-def test_source_blob_snapshots_are_pinned() -> None:
-    figures = _load(FIGURES)
-    snapshots = figures["source_snapshots"]
-    assert snapshots["v3_synthetic"]["git_blob_sha1"] == "5d54b3fe29715d313dfba2644fd8509b9b9b6780"
-    assert snapshots["rec_readiness"]["git_blob_sha1"] == "30cc86e460285e4267221b4accfd51e56a2fb07d"
-    assert snapshots["tnoa_manuscript"]["git_blob_sha1"] == "f862a7769537d11762409e3b6edd0413e09ddfb6"
+def test_source_blob_snapshots_are_machine_readable_and_pinned() -> None:
+    snapshots = _load(FIGURES)["source_snapshots"]
+    expected = {
+        "v3_synthetic": "5d54b3fe29715d313dfba2644fd8509b9b9b6780",
+        "rec_findlay_pooled": "ddde84feaa92fdb9fcc2dd6cf2acaef7c12dbf18",
+        "rec_findlay_position_standardized": "37a450a653f183e11836ead975ec44ddbc27a2f0",
+        "rec_birdvox_protected": "9ebd90fd2416644693483eec5a7578eb4d614ffc",
+        "rec_h5_correction": "ef8cd124ac3d9fbd3c43cb61c93b91358b3627ac",
+        "rec_h5_transport": "fa61bf60c2d6a7c67314ba6917a6b0c42e0b6954",
+        "rec_species_recovery": "8b274bb19fe35abc74ba6510f4ae0b9ce274789f",
+        "tnoa_synthetic_consequences": "ec53d35b05c4b37310bb684081742c0ac99f4dbe",
+    }
+    assert set(snapshots) == set(expected)
+    for key, sha in expected.items():
+        assert snapshots[key]["git_blob_sha1"] == sha
+        assert snapshots[key]["path"].endswith(".json")
