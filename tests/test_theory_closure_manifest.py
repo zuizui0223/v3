@@ -22,6 +22,8 @@ def test_theory_closure_manifest_covers_all_23_structural_theorems() -> None:
     assert len(set(base_ids + loop_ids)) == 23
     assert manifest["total_structural_theorem_count"] == 23
     assert manifest["status"] == "structural-theory-closed"
+    assert all(row.get("verified_by") for row in base["theorems"])
+    assert all(row.get("verified_by") for row in loop["theorems"])
 
 
 def test_remaining_questions_are_empirical_not_missing_theory_interfaces() -> None:
