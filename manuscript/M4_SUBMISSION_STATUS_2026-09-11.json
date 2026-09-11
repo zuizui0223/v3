@@ -1,7 +1,7 @@
 {
   "schema": "m4-v3-rec-submission-status-v1",
   "date": "2026-09-11",
-  "status": "journal-production-active",
+  "status": "journal-production-validated",
   "paper": "M4_V3_REC",
   "target_journal": "Ecological Informatics",
   "canonical_manuscript": "manuscript/M4_V3_REC_DRAFT_V1.md",
@@ -12,6 +12,20 @@
     "zuizui0223/rec"
   ],
   "excluded_source_repository": "zuizui0223/tnoa",
+  "validated_production": {
+    "validated_source_sha": "bb6aa2589d73dedea980fe5f8fbdbd46ead84808",
+    "workflow": "v3-ci",
+    "workflow_run_id": 34575119019,
+    "python_3_10": "success",
+    "python_3_11": "success",
+    "figure_generation": "success",
+    "artifact_upload": "success",
+    "artifact_id": 10189408057,
+    "artifact_name": "m4-v3-rec-quantitative-figures",
+    "artifact_digest": "sha256:52998fa71ab5ee46631cab7d187911675530cbb84784cfa86b43d3a577fff1f4",
+    "artifact_retention_expires": "2026-09-25T07:39:35Z",
+    "metadata_note": "This status update records the validated production receipt and does not alter the validated scientific source or numerical claims."
+  },
   "completed": [
     "V3+REC-only manuscript identity fixed",
     "TNOA restored to independent M1 and excluded from M4",
@@ -21,9 +35,14 @@
     "five candidate Highlights created within 85-character guard",
     "cover-letter draft created",
     "data/code availability draft created",
-    "fail-closed reviewer-package policy created",
+    "title-page template created",
+    "fail-closed reviewer-package policy and machine-readable reviewer manifest created",
     "Findlay rights audit narrowed from scientific blocker to raw-source redistribution governance",
-    "publication contract tests added"
+    "Figure 1-5 architecture fixed without TNOA",
+    "deterministic M4 Figure 2-5 generator implemented from the claim manifest",
+    "figure CLI and exact numerical regression tests passed",
+    "v3 production workflow switched from superseded Observation MEE artifacts to M4 figures",
+    "validated M4 figure artifact uploaded by CI"
   ],
   "third_party_rights": {
     "birdvox": "clear CC BY 4.0 reuse with attribution",
@@ -34,19 +53,19 @@
     "current_safe_policy": "do not redistribute original Findlay CSVs; retrieve from source repository using pinned commit/blob identities and distribute derived summaries/code only"
   },
   "remaining_before_submission": [
-    "obtain or archive Findlay repository-level reuse clarification if possible",
+    "obtain or archive Findlay repository-level reuse clarification if possible before any original-source redistribution",
     "recheck live Ecological Informatics Guide for Authors immediately before upload",
-    "confirm article type, abstract, keywords, Highlights and graphical-abstract rules",
-    "assemble final M4 figure set from pinned quantitative sources",
-    "build M4-specific review package under the fail-closed third-party-data policy",
+    "confirm final article type, abstract, keywords, Highlights and graphical-abstract rules",
+    "perform final human visual assembly/inspection of M4 Figure 1-5",
+    "build the final M4 review package under the validated fail-closed third-party-data manifest",
     "complete author/affiliation/CRediT/funding/acknowledgement/competing-interest metadata",
     "run final source-text overlap audit against historical Observation/V3/REC drafts",
-    "freeze final submitted source and archive receipt"
+    "freeze final submitted source and permanent archive receipt"
   ],
   "open_scientific_extensions_not_submission_blockers": [
     "prospective same-system physical validation in InsePi/PolliPi",
     "natural-system transport beyond the audited external datasets"
   ],
   "science_blocker": false,
-  "next_mainline": "assemble final M4 figure inventory and safe reviewer-package manifest"
+  "next_mainline": "human visual Figure 1-5 assembly and final safe reviewer-package build; no new scientific analysis"
 }
