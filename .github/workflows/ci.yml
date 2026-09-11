@@ -22,45 +22,18 @@ jobs:
         run: python -m compileall -q src
       - name: Test
         run: python -m pytest -q
-      - name: Build anonymous MEE source
+      - name: Generate M4 quantitative figures
         if: matrix.python-version == '3.11'
-        run: python scripts/build_observation_mee_source.py
-      - name: Check MEE readiness
-        if: matrix.python-version == '3.11'
-        run: python scripts/check_observation_mee_submission.py
-      - name: Install manuscript renderer
-        if: matrix.python-version == '3.11'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y pandoc texlive-latex-base texlive-latex-extra texlive-fonts-recommended
-      - name: Render anonymous MEE manuscript
-        if: matrix.python-version == '3.11'
-        run: |
-          pandoc submission/generated/MEE_INITIAL_SUBMISSION_SOURCE.md \
-            --from=markdown+tex_math_single_backslash \
-            --standalone \
-            --citeproc \
-            --bibliography=manuscript/observation_references.bib \
-            --bibliography=manuscript/observation_data_references.bib \
-            --include-in-header=submission/mee_header.tex \
-            --metadata title="Refine before loss: an information-order theory for ecological observation" \
-            -o submission/generated/OBSERVATION_MEE_ANONYMOUS.tex
-          pdflatex -interaction=nonstopmode -halt-on-error \
-            -output-directory=submission/generated \
-            submission/generated/OBSERVATION_MEE_ANONYMOUS.tex
-          pdflatex -interaction=nonstopmode -halt-on-error \
-            -output-directory=submission/generated \
-            submission/generated/OBSERVATION_MEE_ANONYMOUS.tex
-      - name: Upload anonymous MEE production artifacts
+        run: python scripts/make_m4_quantitative_figures.py
+      - name: Upload M4 production artifacts
         if: matrix.python-version == '3.11'
         uses: actions/upload-artifact@v4
         with:
-          name: observation-mee-review-source
+          name: m4-v3-rec-quantitative-figures
           path: |
-            submission/generated/MEE_INITIAL_SUBMISSION_SOURCE.md
-            submission/generated/OBSERVATION_MEE_ANONYMOUS.tex
-            submission/generated/OBSERVATION_MEE_ANONYMOUS.pdf
-            submission/generated/initial_submission_readiness.json
-            manuscript/observation_references.bib
-            manuscript/observation_data_references.bib
+            manuscript/generated_m4/*.svg
+            manuscript/generated_m4/*.csv
+            manuscript/M4_V3_REC_CLAIM_MANIFEST.json
+            manuscript/M4_FIGURE_PLAN.md
+            submission/M4_REVIEWER_PACKAGE_MANIFEST.json
           retention-days: 14
