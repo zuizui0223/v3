@@ -1,0 +1,115 @@
+{
+  "schema": "m4-v3-rec-claim-manifest-v1",
+  "paper": "M4_V3_REC",
+  "target": "Ecological Informatics",
+  "canonical_draft": "manuscript/M4_V3_REC_DRAFT_V1.md",
+  "source_repositories": ["zuizui0223/v3", "zuizui0223/rec"],
+  "excluded_repository": "zuizui0223/tnoa",
+  "headline_claims": [
+    {
+      "id": "M4C1_retained_refinement",
+      "owner": "v3",
+      "claim": "A correctly coupled retained reference can supply non-redundant discriminating information, but reference presence alone is insufficient.",
+      "primary_evidence": {
+        "repository": "zuizui0223/v3",
+        "source_file": "results/synthetic_evidence_summary.json",
+        "source_blob_sha1": "5d54b3fe29715d313dfba2644fd8509b9b9b6780"
+      },
+      "anchors": {
+        "matched_balanced_utility": 0.8327,
+        "no_reference_balanced_utility": 0.5688,
+        "time_permuted_balanced_utility": 0.7301,
+        "matched_nuisance_false_frame_rate": 0.0272,
+        "no_reference_nuisance_false_frame_rate": 0.2986
+      },
+      "claim_ceiling": "controlled synthetic strict refinement; no universal physical reference-channel benefit"
+    },
+    {
+      "id": "M4C2_record_entry_distortion",
+      "owner": "rec",
+      "claim": "Record-entry selection can alter an ecological composition estimand before downstream classification.",
+      "primary_evidence": [
+        {
+          "repository": "zuizui0223/rec",
+          "source_file": "results/findlay_camera_trap_real_data_v1.json",
+          "source_blob_sha1": "ddde84feaa92fdb9fcc2dd6cf2acaef7c12dbf18"
+        },
+        {
+          "repository": "zuizui0223/rec",
+          "source_file": "results/findlay_position_standardized_distortion_summary_v1.json",
+          "source_blob_sha1": "37a450a653f183e11836ead975ec44ddbc27a2f0"
+        }
+      ],
+      "anchors": {
+        "reference_pass_count": 881,
+        "badger_true_pass_proportion": 0.359818,
+        "badger_trigger_proportion": 0.439252,
+        "badger_capture_proportion": 0.482759,
+        "trigger_equal_position_shift": 0.062413,
+        "trigger_reference_weighted_shift": 0.053498,
+        "capture_equal_position_shift": 0.149843,
+        "capture_reference_weighted_shift": 0.139894
+      },
+      "claim_ceiling": "external-data composition distortion within the observation strata; no independent-animal population inference"
+    },
+    {
+      "id": "M4C3_upstream_irreversibility",
+      "owner": "rec",
+      "claim": "Oracle-perfect downstream semantics among retained truth-positive rows cannot recreate a true contrast removed by upstream omission.",
+      "primary_evidence": {
+        "repository": "zuizui0223/rec",
+        "source_file": "results/birdvox_protected_02_05_real_data_v1.json",
+        "source_blob_sha1": "9ebd90fd2416644693483eec5a7578eb4d614ffc"
+      },
+      "anchors": {
+        "truth_late_minus_early": 0.13082037112040884,
+        "oracle_true_entry_late_minus_early": -0.00002542329758148573
+      },
+      "claim_ceiling": "protected acoustic-system irreversibility result"
+    },
+    {
+      "id": "M4C4_transport_limited_recovery",
+      "owner": "rec",
+      "claim": "Entry-aware correction can improve ecological composition in matched or partially held-out contexts but is not transport-invariant across broader joint context shifts.",
+      "primary_evidence": [
+        {
+          "repository": "zuizui0223/rec",
+          "source_file": "results/findlay_h5_transport_boundary_v1.json",
+          "source_blob_sha1": "fa61bf60c2d6a7c67314ba6917a6b0c42e0b6954"
+        },
+        {
+          "repository": "zuizui0223/rec",
+          "source_file": "results/findlay_species_position_recovery_summary_v1.json",
+          "source_blob_sha1": "8b274bb19fe35abc74ba6510f4ae0b9ce274789f"
+        }
+      ],
+      "anchors": {
+        "otter_matched_raw_mae": 0.115982158368522,
+        "otter_matched_corrected_mae": 0.059257618905044,
+        "otter_double_holdout_raw_mae": 0.0682160609984697,
+        "otter_double_holdout_corrected_mae": 0.0812372947449914,
+        "fox_badger_trigger_raw_mae": 0.123093,
+        "fox_badger_trigger_corrected_mae": 0.090510,
+        "fox_badger_capture_raw_mae": 0.210807,
+        "fox_badger_capture_corrected_mae": 0.167972
+      },
+      "claim_ceiling": "partial retrospective recovery with explicit adverse transport; no universal correction transport"
+    }
+  ],
+  "paper_firewall": {
+    "owns": [
+      "retained side-information before record-entry loss",
+      "independent opportunity/reference auditing",
+      "record-entry estimand distortion",
+      "upstream omission irreversibility",
+      "transport-limited entry correction"
+    ],
+    "does_not_own": [
+      "TNOA semantic restraint or unresolved-evidence vocabulary",
+      "Boundary structural identification-axis theorem",
+      "MROD next-observation optimization",
+      "CED target-safe licensing/reportability"
+    ]
+  },
+  "external_blocker": "Findlay linked-data reuse/licence clarification before final reviewer/data package"
+}
