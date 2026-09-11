@@ -1,0 +1,52 @@
+name: M4 text-overlap audit
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "manuscript/M4_V3_REC_DRAFT_V1.md"
+      - "manuscript/OBSERVATION_DRAFT_V1.md"
+      - "manuscript/source_abstracts/v3_layer1_abstract.txt"
+      - "scripts/audit_m4_text_overlap.py"
+      - ".github/workflows/m4_text_overlap.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout V3/M4
+        uses: actions/checkout@v4
+        with:
+          path: v3
+
+      - name: Checkout pinned REC manuscript lineage
+        uses: actions/checkout@v4
+        with:
+          repository: zuizui0223/rec
+          ref: 6e0511c31dd72d1a7a3f7264109d451e104ab91d
+          path: rec
+          persist-credentials: false
+
+      - name: Run descriptive overlap audit
+        working-directory: v3
+        run: |
+          python scripts/audit_m4_text_overlap.py \
+            --rec-root ../rec \
+            --output-json outputs/m4_overlap/M4_TEXT_OVERLAP_AUDIT.json \
+            --output-md outputs/m4_overlap/M4_TEXT_OVERLAP_AUDIT.md
+          test -s outputs/m4_overlap/M4_TEXT_OVERLAP_AUDIT.json
+          test -s outputs/m4_overlap/M4_TEXT_OVERLAP_AUDIT.md
+          cat outputs/m4_overlap/M4_TEXT_OVERLAP_AUDIT.md
+
+      - name: Upload overlap audit
+        uses: actions/upload-artifact@v4
+        with:
+          name: m4-text-overlap-audit-${{ github.sha }}
+          path: v3/outputs/m4_overlap/
+          if-no-files-found: error
+          retention-days: 90
