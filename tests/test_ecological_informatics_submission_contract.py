@@ -10,6 +10,8 @@ ROUTE = ROOT / "manuscript" / "PUBLICATION_ROUTE_2026-09-11.md"
 CHECKLIST = ROOT / "submission" / "ECOLOGICAL_INFORMATICS_SUBMISSION_CHECKLIST.md"
 HIGHLIGHTS = ROOT / "submission" / "ECOLOGICAL_INFORMATICS_HIGHLIGHTS.md"
 REVIEW_POLICY = ROOT / "submission" / "M4_REVIEWER_PACKAGE_POLICY.md"
+COVER = ROOT / "submission" / "ECOLOGICAL_INFORMATICS_COVER_LETTER_DRAFT.md"
+DATA_CODE = ROOT / "submission" / "ECOLOGICAL_INFORMATICS_DATA_CODE_STATEMENT.md"
 
 
 def _claim_manifest() -> dict:
@@ -25,12 +27,8 @@ def _highlight_bullets() -> list[str]:
 
 
 def test_m4_submission_surface_exists_and_targets_ecological_informatics() -> None:
-    assert MANUSCRIPT.exists()
-    assert CLAIMS.exists()
-    assert ROUTE.exists()
-    assert CHECKLIST.exists()
-    assert HIGHLIGHTS.exists()
-    assert REVIEW_POLICY.exists()
+    for path in (MANUSCRIPT, CLAIMS, ROUTE, CHECKLIST, HIGHLIGHTS, REVIEW_POLICY, COVER, DATA_CODE):
+        assert path.exists()
     route = ROUTE.read_text(encoding="utf-8")
     checklist = CHECKLIST.read_text(encoding="utf-8")
     assert "Ecological Informatics" in route
@@ -89,3 +87,14 @@ def test_reviewer_policy_forbids_original_findlay_csv_redistribution() -> None:
     assert "Do **not** include copies" in policy
     assert "abc72f535bb59ebed202fb7acca852fc1647e97a" in policy
     assert "derived numerical summary" in policy
+
+
+def test_cover_and_data_statement_preserve_validation_and_rights_boundaries() -> None:
+    cover = COVER.read_text(encoding="utf-8")
+    data = DATA_CODE.read_text(encoding="utf-8")
+    assert "observation-opportunity universe" in cover
+    assert "does not claim a universally beneficial reference channel" in cover
+    assert "synthetic/controlled validation" in data
+    assert "CC BY 4.0" in data
+    assert "will **not redistribute copies of the original Findlay CSV files**" in data
+    assert "abc72f535bb59ebed202fb7acca852fc1647e97a" in data
