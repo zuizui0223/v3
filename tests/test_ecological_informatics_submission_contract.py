@@ -9,6 +9,7 @@ CLAIMS = ROOT / "manuscript" / "M4_V3_REC_CLAIM_MANIFEST.json"
 ROUTE = ROOT / "manuscript" / "PUBLICATION_ROUTE_2026-09-11.md"
 CHECKLIST = ROOT / "submission" / "ECOLOGICAL_INFORMATICS_SUBMISSION_CHECKLIST.md"
 HIGHLIGHTS = ROOT / "submission" / "ECOLOGICAL_INFORMATICS_HIGHLIGHTS.md"
+REVIEW_POLICY = ROOT / "submission" / "M4_REVIEWER_PACKAGE_POLICY.md"
 
 
 def _claim_manifest() -> dict:
@@ -29,6 +30,7 @@ def test_m4_submission_surface_exists_and_targets_ecological_informatics() -> No
     assert ROUTE.exists()
     assert CHECKLIST.exists()
     assert HIGHLIGHTS.exists()
+    assert REVIEW_POLICY.exists()
     route = ROUTE.read_text(encoding="utf-8")
     checklist = CHECKLIST.read_text(encoding="utf-8")
     assert "Ecological Informatics" in route
@@ -78,3 +80,12 @@ def test_findlay_rights_is_narrowed_to_redistribution_governance() -> None:
     assert rights["scientific_analysis_blocker"] is False
     assert rights["raw_source_redistribution_blocker"] is True
     assert rights["findlay_article_license"] == "CC BY 4.0"
+
+
+def test_reviewer_policy_forbids_original_findlay_csv_redistribution() -> None:
+    policy = REVIEW_POLICY.read_text(encoding="utf-8")
+    assert "REGISTRATION_FOX_BADGER.csv" in policy
+    assert "TRIGGER_OTTER_WET.DRY.csv" in policy
+    assert "Do **not** include copies" in policy
+    assert "abc72f535bb59ebed202fb7acca852fc1647e97a" in policy
+    assert "derived numerical summary" in policy
