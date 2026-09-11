@@ -1,0 +1,72 @@
+{
+  "schema": "m4-reviewer-package-manifest-v1",
+  "paper": "M4_V3_REC",
+  "status": "prebuild-contract",
+  "canonical_manuscript": "manuscript/M4_V3_REC_DRAFT_V1.md",
+  "claim_manifest": "manuscript/M4_V3_REC_CLAIM_MANIFEST.json",
+  "figure_plan": "manuscript/M4_FIGURE_PLAN.md",
+  "policy": "submission/M4_REVIEWER_PACKAGE_POLICY.md",
+  "local_include": [
+    "manuscript/M4_V3_REC_DRAFT_V1.md",
+    "manuscript/M4_V3_REC_CLAIM_MANIFEST.json",
+    "manuscript/M4_FIGURE_PLAN.md",
+    "submission/ECOLOGICAL_INFORMATICS_SUBMISSION_CHECKLIST.md",
+    "submission/ECOLOGICAL_INFORMATICS_HIGHLIGHTS.md",
+    "submission/ECOLOGICAL_INFORMATICS_DATA_CODE_STATEMENT.md",
+    "submission/M4_REVIEWER_PACKAGE_POLICY.md",
+    "results/synthetic_evidence_summary.json"
+  ],
+  "external_sources": {
+    "findlay_camera_trap": {
+      "repository": "melaniefindlay/CT-Detection",
+      "commit": "abc72f535bb59ebed202fb7acca852fc1647e97a",
+      "files": [
+        "REGISTRATION_FOX_BADGER.csv",
+        "TRIGGER_OTTER_WET.DRY.csv"
+      ],
+      "distribution_policy": "retrieve_from_source_and_verify; do_not_bundle_original_csv",
+      "source_article_license": "CC BY 4.0",
+      "repository_license_state": "no explicit root licence found"
+    },
+    "rec_derived": {
+      "repository": "zuizui0223/rec",
+      "required_derived_artifacts": [
+        {
+          "path": "results/findlay_camera_trap_real_data_v1.json",
+          "blob": "ddde84feaa92fdb9fcc2dd6cf2acaef7c12dbf18"
+        },
+        {
+          "path": "results/findlay_position_standardized_distortion_summary_v1.json",
+          "blob": "37a450a653f183e11836ead975ec44ddbc27a2f0"
+        },
+        {
+          "path": "results/birdvox_protected_02_05_real_data_v1.json",
+          "blob": "9ebd90fd2416644693483eec5a7578eb4d614ffc"
+        },
+        {
+          "path": "results/findlay_h5_transport_boundary_v1.json",
+          "blob": "fa61bf60c2d6a7c67314ba6917a6b0c42e0b6954"
+        },
+        {
+          "path": "results/findlay_species_position_recovery_summary_v1.json",
+          "blob": "8b274bb19fe35abc74ba6510f4ae0b9ce274789f"
+        }
+      ]
+    }
+  },
+  "forbidden_members": [
+    "REGISTRATION_FOX_BADGER.csv",
+    "TRIGGER_OTTER_WET.DRY.csv",
+    "any copied or renamed original Findlay source CSV",
+    "TNOA manuscript/result material as M4 evidence",
+    "unfrozen prospective InsePi/PolliPi results"
+  ],
+  "required_checks_before_release": [
+    "original Findlay CSV filenames absent from archive members",
+    "Findlay source commit and retrieval instructions present",
+    "all manuscript numerical claims bound to pinned derived artifacts",
+    "TNOA excluded from M4 claim ownership",
+    "identity scan applied if journal review is double-anonymous",
+    "archive digest recorded"
+  ]
+}
