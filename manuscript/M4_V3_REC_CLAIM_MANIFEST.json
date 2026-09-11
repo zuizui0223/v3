@@ -111,5 +111,13 @@
       "CED target-safe licensing/reportability"
     ]
   },
-  "external_blocker": "Findlay linked-data reuse/licence clarification before final reviewer/data package"
+  "third_party_rights": {
+    "findlay_article_license": "CC BY 4.0",
+    "findlay_online_resource": "melaniefindlay/CT-Detection is explicitly identified by the source article as the R/data online resource",
+    "repository_license_state": "no explicit root repository licence found",
+    "scientific_analysis_blocker": false,
+    "raw_source_redistribution_blocker": true,
+    "safe_current_policy": "report derived results and provide pinned download/reproduction instructions; do not redistribute original Findlay CSV files pending clarification"
+  },
+  "external_blocker": "Findlay repository-level reuse/licence clarification remains desirable before any redistribution of original CSV files; this is a data-package governance issue rather than a missing scientific-analysis result"
 }
