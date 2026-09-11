@@ -44,6 +44,10 @@ REC owns:
 
 `manuscript/OBSERVATION_DRAFT_V1.md` and its MEE production package remain valuable provenance, theorem-integration and figure assets, but are no longer the canonical journal-facing submission because they absorb TNOA too strongly. Reuse V3/REC sections and pinned evidence without carrying over the TNOA ownership block.
 
-## External blocker
+## Third-party rights status
 
-M4 should not be finalized for submission until Findlay linked-data reuse/licence confirmation is archived. This is an external-rights blocker, not a scientific-analysis blocker.
+The Findlay source article is CC BY 4.0 and the publisher page explicitly identifies `melaniefindlay/CT-Detection` as the online location of the article's R file and datasets. This supports continued methodological reanalysis and preparation of derived manuscript results.
+
+The GitHub repository itself has no explicit root licence, so M4 remains fail-closed on **redistributing the original Findlay CSV files**. The final review package should instead use pinned download/provenance instructions and derived summaries unless written clarification or an explicit data licence is obtained.
+
+A short author confirmation is still being sought because it removes the residual repository-level ambiguity. This is now treated as a **data-package governance issue, not a missing scientific-analysis result**.
