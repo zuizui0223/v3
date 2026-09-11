@@ -1,11 +1,13 @@
 {
-  "schema": "m4-reviewer-package-manifest-v1",
+  "schema": "m4-reviewer-package-manifest-v2",
   "paper": "M4_V3_REC",
-  "status": "prebuild-contract",
+  "status": "validated-safe-reviewer-package",
   "canonical_manuscript": "manuscript/M4_V3_REC_DRAFT_V1.md",
   "claim_manifest": "manuscript/M4_V3_REC_CLAIM_MANIFEST.json",
   "figure_plan": "manuscript/M4_FIGURE_PLAN.md",
   "policy": "submission/M4_REVIEWER_PACKAGE_POLICY.md",
+  "builder": "scripts/build_m4_reviewer_package.py",
+  "workflow": ".github/workflows/m4_reviewer_package.yml",
   "local_include": [
     "manuscript/M4_V3_REC_DRAFT_V1.md",
     "manuscript/M4_V3_REC_CLAIM_MANIFEST.json",
@@ -30,6 +32,7 @@
     },
     "rec_derived": {
       "repository": "zuizui0223/rec",
+      "pinned_checkout_commit": "6e0511c31dd72d1a7a3f7264109d451e104ab91d",
       "required_derived_artifacts": [
         {
           "path": "results/findlay_camera_trap_real_data_v1.json",
@@ -64,9 +67,22 @@
   "required_checks_before_release": [
     "original Findlay CSV filenames absent from archive members",
     "Findlay source commit and retrieval instructions present",
+    "all required REC derived artifact blobs reverified against pinned checkout",
     "all manuscript numerical claims bound to pinned derived artifacts",
     "TNOA excluded from M4 claim ownership",
     "identity scan applied if journal review is double-anonymous",
     "archive digest recorded"
-  ]
+  ],
+  "validation_receipt": {
+    "source_sha": "849ace7729cf6a3b88f4a29466c58fe8c923fd37",
+    "workflow_run_id": 34604483751,
+    "conclusion": "success",
+    "artifact_id": 10264779175,
+    "artifact_name": "m4-ecological-informatics-reviewer-package-849ace7729cf6a3b88f4a29466c58fe8c923fd37",
+    "artifact_digest": "sha256:7d4bbfa6bb817bc5d229b5c7ec0191ab7d2f766c14773ee4f0c335a70a6e7695",
+    "retention_days": 90,
+    "original_findlay_csv_bundled": false,
+    "identity_scan_passed": true,
+    "rec_blob_checks_passed": true
+  }
 }
