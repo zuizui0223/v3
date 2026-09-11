@@ -1,54 +1,30 @@
 {
-  "schema": "observation-submission-status-v1",
-  "status": "theory-closed-production-active",
-  "paper": "OBSERVATION",
-  "submission_home": "zuizui0223/v3",
-  "active_manuscript": "manuscript/OBSERVATION_DRAFT_V1.md",
-  "integration_contract": "manuscript/OBSERVATION_INTEGRATION_PLAN.md",
-  "claim_manifest": "manuscript/OBSERVATION_CLAIM_MANIFEST.json",
-  "theory_closure": "results/theory_closure_manifest.json",
-  "overlap_firewall": "manuscript/OBSERVATION_OVERLAP_FIREWALL.md",
-  "figure_plan": "manuscript/OBSERVATION_FIGURE_PLAN.md",
-  "source_repositories": [
-    "zuizui0223/v3",
-    "zuizui0223/rec",
-    "zuizui0223/tnoa"
+  "schema": "observation-submission-status-v2-historical",
+  "status": "superseded-as-submission-unit",
+  "superseded_on": "2026-09-11",
+  "historical_paper": "OBSERVATION",
+  "historical_active_manuscript": "manuscript/OBSERVATION_DRAFT_V1.md",
+  "historical_sources": ["zuizui0223/v3", "zuizui0223/rec", "zuizui0223/tnoa"],
+  "current_publication_route": "manuscript/PUBLICATION_ROUTE_2026-09-11.md",
+  "current_canonical_draft": "manuscript/M4_V3_REC_DRAFT_V1.md",
+  "current_claim_manifest": "manuscript/M4_V3_REC_CLAIM_MANIFEST.json",
+  "current_portfolio_registry": "zuizui0223/theouni/universe/PUBLICATION_PROGRAMME_2026-09-11.json",
+  "current_submission_identity": "M4 V3+REC -> Ecological Informatics",
+  "reason": [
+    "TNOA regains an independent methods-paper identity centered on semantic restraint and unresolved evidence",
+    "V3 and REC retain a coherent earlier-stage question about information retention and record-entry loss",
+    "the cross-programme conceptual synthesis moves to C2 rather than being carried by one integrated Observation paper"
   ],
-  "completed": [
-    "two-paper architecture fixed in theouni",
-    "Observation scientific question fixed",
-    "structural theory closed at T1-T23 under declared assumptions",
-    "U1-U3 retained as exact common geometry",
-    "U4-U5 removed from Observation headline novelty",
-    "V3 synthetic strict-refinement block integrated",
-    "REC external empirical selection block integrated",
-    "REC irreversibility and transport-adverse result integrated",
-    "TNOA semantic-coarsening block integrated",
-    "claim ownership and numerical anchors pinned at manuscript level",
-    "cross-manuscript overlap firewall written",
-    "Figure 1-5 architecture fixed",
-    "imported quantitative panel values pinned to source blobs",
-    "machine-readable figure data and regression validators added",
-    "deterministic Figure 2-5 SVG/CSV generators added",
-    "v3-ci passed on commit 31dc26fda6fa32aeb116f1eaec322527b16ba748, run 34235609625"
+  "retained_historical_assets": [
+    "manuscript/OBSERVATION_DRAFT_V1.md",
+    "manuscript/OBSERVATION_CLAIM_MANIFEST.json",
+    "manuscript/OBSERVATION_FIGURE_PLAN.md",
+    "results/observation_figure_data_v1.json",
+    "submission/MEE_FRONT_MATTER.md",
+    "submission/MEE_COVER_LETTER_DRAFT.md"
   ],
-  "remaining_before_submission_package": [
-    "merge and deduplicate bibliographies from V3 REC and TNOA",
-    "run source-text overlap audit against archived standalone drafts",
-    "assemble final Figure 1 plus generated Figure 2-5 into journal layout",
-    "select journal and apply journal-specific structure/word-count rules",
-    "build anonymous reviewer archive from pinned source snapshots"
-  ],
-  "remaining_scientific_questions": [
-    "strict physical-domain refinement",
-    "physical validity of reference and intervention channels",
-    "held-out physical boundary contraction",
-    "transport across natural systems"
-  ],
-  "superseded_as_independent_submission_targets": [
-    "standalone V3 manuscript",
-    "REC H1-H5 standalone manuscript",
-    "TNOA standalone MEE manuscript"
-  ],
-  "next_mainline": "Observation bibliography merge, source-text overlap audit, and journal package"
+  "retained_asset_role": "provenance, source text, theorem integration, quantitative panels and production tooling; not the current journal-facing submission",
+  "tnoa_policy": "excluded from M4 and restored to its independent M1 submission",
+  "external_blocker": "Findlay linked-data reuse/licence clarification before final M4 reviewer/data package",
+  "science_blocker": false
 }
