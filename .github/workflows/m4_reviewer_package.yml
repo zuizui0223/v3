@@ -1,0 +1,70 @@
+name: M4 reviewer package
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "manuscript/M4_V3_REC_DRAFT_V1.md"
+      - "manuscript/M4_V3_REC_CLAIM_MANIFEST.json"
+      - "manuscript/M4_FIGURE_PLAN.md"
+      - "submission/M4_REVIEWER_PACKAGE_MANIFEST.json"
+      - "submission/M4_REVIEWER_PACKAGE_POLICY.md"
+      - "submission/ECOLOGICAL_INFORMATICS_SUBMISSION_CHECKLIST.md"
+      - "submission/ECOLOGICAL_INFORMATICS_HIGHLIGHTS.md"
+      - "submission/ECOLOGICAL_INFORMATICS_DATA_CODE_STATEMENT.md"
+      - "submission/THIRD_PARTY_DATA_RIGHTS.md"
+      - "results/synthetic_evidence_summary.json"
+      - "scripts/make_m4_quantitative_figures.py"
+      - "scripts/build_m4_reviewer_package.py"
+      - ".github/workflows/m4_reviewer_package.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout V3/M4
+        uses: actions/checkout@v4
+        with:
+          path: v3
+
+      - name: Checkout pinned REC source
+        uses: actions/checkout@v4
+        with:
+          repository: zuizui0223/rec
+          ref: 6e0511c31dd72d1a7a3f7264109d451e104ab91d
+          path: rec
+          persist-credentials: false
+
+      - name: Build fail-closed reviewer package
+        working-directory: v3
+        run: |
+          python scripts/build_m4_reviewer_package.py \
+            --rec-root ../rec \
+            --output-dir outputs/m4_reviewer
+          test -s outputs/m4_reviewer/M4_REVIEWER_PACKAGE.zip
+          test -s outputs/m4_reviewer/M4_REVIEWER_PACKAGE/M4_REVIEWER_PACKAGE.receipt.json
+
+      - name: Inspect archive policy
+        working-directory: v3
+        run: |
+          unzip -l outputs/m4_reviewer/M4_REVIEWER_PACKAGE.zip | tee outputs/m4_reviewer/archive_members.txt
+          ! grep -E '(^|/)(REGISTRATION_FOX_BADGER|TRIGGER_OTTER_WET\.DRY)\.csv$' outputs/m4_reviewer/archive_members.txt
+          grep -q 'FINDLAY_SOURCE_RETRIEVAL.md' outputs/m4_reviewer/archive_members.txt
+          grep -q 'rec/results/findlay_camera_trap_real_data_v1.json' outputs/m4_reviewer/archive_members.txt
+          grep -q 'v3/manuscript/M4_V3_REC_CLAIM_MANIFEST.json' outputs/m4_reviewer/archive_members.txt
+
+      - name: Upload reviewer package artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: m4-ecological-informatics-reviewer-package-${{ github.sha }}
+          path: |
+            v3/outputs/m4_reviewer/M4_REVIEWER_PACKAGE.zip
+            v3/outputs/m4_reviewer/M4_REVIEWER_PACKAGE/M4_REVIEWER_PACKAGE.receipt.json
+            v3/outputs/m4_reviewer/archive_members.txt
+          if-no-files-found: error
+          retention-days: 90
