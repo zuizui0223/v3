@@ -13,18 +13,41 @@
   ],
   "excluded_source_repository": "zuizui0223/tnoa",
   "validated_production": {
-    "validated_source_sha": "bb6aa2589d73dedea980fe5f8fbdbd46ead84808",
-    "workflow": "v3-ci",
-    "workflow_run_id": 34575119019,
+    "validated_scientific_source_sha": "bb6aa2589d73dedea980fe5f8fbdbd46ead84808",
+    "figure_workflow": "v3-ci",
+    "figure_workflow_run_id": 34575119019,
     "python_3_10": "success",
     "python_3_11": "success",
     "figure_generation": "success",
-    "artifact_upload": "success",
-    "artifact_id": 10189408057,
-    "artifact_name": "m4-v3-rec-quantitative-figures",
-    "artifact_digest": "sha256:52998fa71ab5ee46631cab7d187911675530cbb84784cfa86b43d3a577fff1f4",
-    "artifact_retention_expires": "2026-09-25T07:39:35Z",
-    "metadata_note": "This status update records the validated production receipt and does not alter the validated scientific source or numerical claims."
+    "figure_artifact_id": 10189408057,
+    "figure_artifact_name": "m4-v3-rec-quantitative-figures",
+    "figure_artifact_digest": "sha256:52998fa71ab5ee46631cab7d187911675530cbb84784cfa86b43d3a577fff1f4",
+    "reviewer_package_source_sha": "db96ab67a3dd6615130680956f16082272db8b95",
+    "reviewer_package_workflow_run_id": 34604732209,
+    "reviewer_package_status": "success",
+    "reviewer_package_artifact_id": 10265608917,
+    "reviewer_package_artifact_name": "m4-ecological-informatics-reviewer-package-db96ab67a3dd6615130680956f16082272db8b95",
+    "reviewer_package_artifact_digest": "sha256:eb3c2f33a1fc4e1ce1e1160c501180091f718088243a6bc245d2cfa9bcf261df",
+    "reviewer_package_guards": [
+      "REC derived JSON blobs reverified",
+      "original Findlay CSV files absent",
+      "identity scan passed",
+      "TNOA excluded from M4 claim ownership"
+    ],
+    "text_overlap_source_sha": "76bb76fbc71b21478fec5b5b07bf4471f857d0f4",
+    "text_overlap_workflow_run_id": 34604836830,
+    "text_overlap_status": "success",
+    "text_overlap_artifact_id": 10265494094,
+    "text_overlap_artifact_digest": "sha256:b064fdd5f2c4a178fdc65992b389d25f3b319ed0526803de2312da7d5201a068",
+    "text_overlap_summary": {
+      "observation_draft_12gram_overlap_fraction": 0.0009021199819576004,
+      "observation_draft_longest_exact_run_words": 13,
+      "observation_draft_exact_sentences_ge_12_words": 0,
+      "rec_drafts_12gram_overlap_fraction_max": 0.0,
+      "rec_drafts_exact_sentences_ge_12_words_max": 0,
+      "interpretation": "very low residual overlap; the longest inherited phrase is tied to reporting the same frozen numerical result rather than reused prose"
+    },
+    "metadata_note": "Reviewer-package and overlap receipts are publication-production metadata and do not alter the validated scientific claims or frozen numerical anchors."
   },
   "completed": [
     "V3+REC-only manuscript identity fixed",
@@ -42,7 +65,10 @@
     "deterministic M4 Figure 2-5 generator implemented from the claim manifest",
     "figure CLI and exact numerical regression tests passed",
     "v3 production workflow switched from superseded Observation MEE artifacts to M4 figures",
-    "validated M4 figure artifact uploaded by CI"
+    "validated M4 figure artifact uploaded by CI",
+    "safe reviewer ZIP built and validated against pinned REC derived artifacts",
+    "original Findlay source CSV redistribution prevented by archive checks",
+    "final source-text overlap audit against historical Observation/V3/REC drafts completed"
   ],
   "third_party_rights": {
     "birdvox": "clear CC BY 4.0 reuse with attribution",
@@ -50,16 +76,15 @@
     "findlay_repository": "no explicit root repository licence found",
     "scientific_analysis_blocker": false,
     "original_csv_redistribution_blocker": true,
-    "current_safe_policy": "do not redistribute original Findlay CSVs; retrieve from source repository using pinned commit/blob identities and distribute derived summaries/code only"
+    "current_safe_policy": "do not redistribute original Findlay CSVs; retrieve from source repository using pinned commit/blob identities and distribute derived summaries/code only",
+    "current_reviewer_package_compliance": "validated package contains derived REC artifacts and provenance/retrieval instructions but no original Findlay CSV"
   },
   "remaining_before_submission": [
     "obtain or archive Findlay repository-level reuse clarification if possible before any original-source redistribution",
     "recheck live Ecological Informatics Guide for Authors immediately before upload",
     "confirm final article type, abstract, keywords, Highlights and graphical-abstract rules",
     "perform final human visual assembly/inspection of M4 Figure 1-5",
-    "build the final M4 review package under the validated fail-closed third-party-data manifest",
     "complete author/affiliation/CRediT/funding/acknowledgement/competing-interest metadata",
-    "run final source-text overlap audit against historical Observation/V3/REC drafts",
     "freeze final submitted source and permanent archive receipt"
   ],
   "open_scientific_extensions_not_submission_blockers": [
@@ -67,5 +92,6 @@
     "natural-system transport beyond the audited external datasets"
   ],
   "science_blocker": false,
-  "next_mainline": "human visual Figure 1-5 assembly and final safe reviewer-package build; no new scientific analysis"
+  "machine_production_blocker": false,
+  "next_mainline": "human journal-metadata completion and final Figure 1-5 visual inspection; no new scientific or machine-production analysis"
 }
