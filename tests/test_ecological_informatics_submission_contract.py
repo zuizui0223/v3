@@ -15,6 +15,7 @@ REVIEW_POLICY = ROOT / "submission" / "M4_REVIEWER_PACKAGE_POLICY.md"
 REVIEW_MANIFEST = ROOT / "submission" / "M4_REVIEWER_PACKAGE_MANIFEST.json"
 COVER = ROOT / "submission" / "ECOLOGICAL_INFORMATICS_COVER_LETTER_DRAFT.md"
 DATA_CODE = ROOT / "submission" / "ECOLOGICAL_INFORMATICS_DATA_CODE_STATEMENT.md"
+AI_DECLARATION = ROOT / "submission" / "ECOLOGICAL_INFORMATICS_AI_DECLARATION_TEMPLATE.md"
 
 
 def _load(path: Path) -> dict:
@@ -42,6 +43,7 @@ def test_m4_submission_surface_exists_and_targets_ecological_informatics() -> No
         REVIEW_MANIFEST,
         COVER,
         DATA_CODE,
+        AI_DECLARATION,
     ):
         assert path.exists()
     route = ROUTE.read_text(encoding="utf-8")
@@ -129,3 +131,12 @@ def test_cover_and_data_statement_preserve_validation_and_rights_boundaries() ->
     assert "CC BY 4.0" in data
     assert "will **not redistribute copies of the original Findlay CSV files**" in data
     assert "abc72f535bb59ebed202fb7acca852fc1647e97a" in data
+
+
+def test_elsevier_ai_declaration_is_explicit_human_gate() -> None:
+    text = AI_DECLARATION.read_text(encoding="utf-8")
+    assert "OpenAI ChatGPT [confirm exact application/model version(s)]" in text
+    assert "take(s) full responsibility" in text
+    assert "immediately before the References" in text
+    assert "publication metadata only" in text
+    assert "does not change the M4 scientific claim boundary" in text
